@@ -1,6 +1,6 @@
 export default function HowItWorks() {
   return (
-    <div className="rounded-lg border shadow-sm p-6">
+    <div className="rounded-lg border shadow-xs p-6">
       <h2 className="text-2xl font-semibold mb-4">How it works</h2>
       <div className="grid gap-4 md:grid-cols-3">
         <div className="flex flex-col items-center text-center p-4">
