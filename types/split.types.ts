@@ -16,5 +16,5 @@ export interface ISplit {
   id: string;
   name: string;
   participants: IParticipant[];
-  expenses: any[];
+  expenses: IExpense[];
 }

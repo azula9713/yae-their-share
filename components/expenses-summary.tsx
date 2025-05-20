@@ -1,10 +1,10 @@
-import type { Expense, Participant } from "@/app/split/[id]/page";
 import { Card, CardContent } from "@/components/ui/card";
+import { IExpense, IParticipant } from "@/types/split.types";
 import { ArrowRight } from "lucide-react";
 
 interface SummaryProps {
-  expenses: Expense[];
-  participants: Participant[];
+  expenses: IExpense[];
+  participants: IParticipant[];
 }
 
 interface Debt {
@@ -13,7 +13,7 @@ interface Debt {
   amount: number;
 }
 
-export default function Summary({ expenses, participants }: SummaryProps) {
+export default function ExpensesSummary({ expenses, participants }: Readonly<SummaryProps>) {
   if (participants.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
@@ -42,12 +42,12 @@ export default function Summary({ expenses, participants }: SummaryProps) {
   expenses.forEach((expense) => {
     // Add the full amount to the person who paid
     const paidBy = expense.paidBy;
-    balances.set(paidBy, (balances.get(paidBy) || 0) + expense.amount);
+    balances.set(paidBy, (balances.get(paidBy) ?? 0) + expense.amount);
 
     // Subtract the split amount from each person who owes
     const splitAmount = expense.amount / expense.splitBetween.length;
     expense.splitBetween.forEach((personId) => {
-      balances.set(personId, (balances.get(personId) || 0) - splitAmount);
+      balances.set(personId, (balances.get(personId) ?? 0) - splitAmount);
     });
   });
 
@@ -115,7 +115,7 @@ export default function Summary({ expenses, participants }: SummaryProps) {
         </div>
       ) : (
         debts.map((debt, index) => (
-          <Card key={index}>
+          <Card key={debt.from + debt.to + index} className="shadow-md">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="font-medium">

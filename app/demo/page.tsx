@@ -8,7 +8,7 @@ export default function DemoPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Create a demo event with sample data
+    // Create a demo split with sample data
     const demoEvent = {
       id: `demo-${Date.now()}`,
       name: "Weekend Trip to the Beach",
@@ -59,13 +59,13 @@ export default function DemoPage() {
     }
 
     // Get existing events or initialize empty array
-    const existingEvents = JSON.parse(localStorage.getItem("theirShareEvents") || "[]")
+    const existingEvents = JSON.parse(localStorage.getItem("theirShareEvents") ?? "[]")
 
-    // Add demo event
+    // Add demo split
     localStorage.setItem("theirShareEvents", JSON.stringify([...existingEvents, demoEvent]))
 
-    // Navigate to the event page
-    router.push(`/event/${demoEvent.id}`)
+    // Navigate to the split page
+    router.push(`/split/${demoEvent.id}`)
   }, [router])
 
   return (
@@ -73,7 +73,7 @@ export default function DemoPage() {
       <Card className="p-6">
         <div className="flex flex-col items-center justify-center">
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mb-4"></div>
-          <h2 className="text-xl font-semibold mb-2">Creating Demo Event</h2>
+          <h2 className="text-xl font-semibold mb-2">Creating Demo Split</h2>
           <p className="text-center text-muted-foreground">
             Setting up a sample weekend trip with participants and expenses...
           </p>

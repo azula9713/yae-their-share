@@ -8,7 +8,7 @@ type Props = {
 
 export default function SplitItem({ split }: Props) {
   return (
-    <Link key={split.id} href={`/event/${split.id}`} className="block">
+    <Link key={split.id} href={`/split/${split.id}`} className="block">
       <div className="border rounded-lg p-4 hover:border-primary transition-colors">
         <h3 className="font-medium">{split.name}</h3>
         {split.date && (

@@ -11,8 +11,8 @@ export default function ErrorMessage() {
   if (!error) return null;
 
   const errorMessages = {
-    "event-not-found": "The event you were looking for could not be found.",
-    "loading-error": "There was an error loading the event data.",
+    "split-not-found": "The split you were looking for could not be found.",
+    "loading-error": "There was an error loading the split data.",
     default: "An error occurred. Please try again.",
   };
 
