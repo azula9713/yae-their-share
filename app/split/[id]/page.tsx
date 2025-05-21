@@ -4,7 +4,7 @@ import { useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddParticipantDialog from "@/components/add-participant-dialog";
 import AddExpenseDialog from "@/components/add-expense-dialog";
 import { ISplit } from "@/types/split.types";
@@ -33,8 +33,10 @@ export default function EventPage({
     isAddExpenseOpen,
     setIsAddExpenseOpen,
     addExpense,
+    editExpense,
     removeExpense,
     addParticipant,
+    editParticipant,
     removeParticipant,
   } = useSplit();
 
@@ -42,7 +44,7 @@ export default function EventPage({
     // Load split data from localStorage
     try {
       const events = JSON.parse(
-        localStorage.getItem("theirShareEvents") || "[]"
+        localStorage.getItem("theirShareEvents") || "[]",
       );
       const currentSplit = events.find((e: ISplit) => e.id === eventId);
 
@@ -62,7 +64,7 @@ export default function EventPage({
   if (!split) {
     return (
       <div className="container max-w-4xl mx-auto px-4 py-8">
-       <SubHeader />
+        <SubHeader />
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -77,8 +79,8 @@ export default function EventPage({
   }
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-8">
-     <SubHeader />
+    <div className="container max-w-4xl mx-auto px-2 md:px-4 py-8">
+      <SubHeader />
       <div className="mb-8">
         <h1 className="text-3xl font-bold">{split.name}</h1>
         {split.date && (
@@ -96,15 +98,21 @@ export default function EventPage({
         </TabsList>
 
         <TabsContent value="participants" className="mt-6">
-          <Participants {...{split, addExpense, removeParticipant, setIsAddParticipantOpen}} />
+          <Participants
+            {...{
+              split,
+              addExpense,
+              removeParticipant,
+              editParticipant,
+              setIsAddParticipantOpen,
+            }}
+          />
         </TabsContent>
-
         <TabsContent value="expenses" className="mt-6">
-         <Expenses {...{split, removeExpense, setIsAddExpenseOpen}} />
+          <Expenses {...{ split, removeExpense, setIsAddExpenseOpen }} />
         </TabsContent>
-
         <TabsContent value="summary" className="mt-6">
-          <Summary {...{split}} />
+          <Summary {...{ split }} />
         </TabsContent>
       </Tabs>
 

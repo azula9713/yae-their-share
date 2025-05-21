@@ -14,7 +14,7 @@ interface AddParticipantDialogProps {
   onAdd: (name: string) => void
 }
 
-export default function AddParticipantDialog({ open, onOpenChange, onAdd }: AddParticipantDialogProps) {
+export default function AddParticipantDialog({ open, onOpenChange, onAdd }: Readonly<AddParticipantDialogProps>) {
   const [name, setName] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -32,7 +32,7 @@ export default function AddParticipantDialog({ open, onOpenChange, onAdd }: AddP
           <DialogHeader>
             <DialogTitle>Add Participant</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-2 py-4">
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
               <Input
@@ -44,7 +44,7 @@ export default function AddParticipantDialog({ open, onOpenChange, onAdd }: AddP
               />
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="gap-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>

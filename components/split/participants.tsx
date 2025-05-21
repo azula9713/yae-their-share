@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import ParticipantsList from "../participants-list";
@@ -9,6 +10,7 @@ type Props = {
   split: ISplit;
   addExpense: (expense: Omit<IExpense, "id">) => void;
   removeParticipant: (id: string) => void;
+  editParticipant: (id: string, name:string) => void;
   setIsAddParticipantOpen: (open: boolean) => void;
 };
 
@@ -16,6 +18,7 @@ export default function Participants({
   split,
   addExpense,
   removeParticipant,
+  editParticipant,
   setIsAddParticipantOpen,
 }: Readonly<Props>) {
   return (
@@ -28,16 +31,19 @@ export default function Participants({
           className="ml-auto"
           onClick={() => setIsAddParticipantOpen(true)}
         >
-          <Plus className="h-4 w-4 mr-1" />
+          <Plus className="size-4 mr-1" />
           Add
         </Button>
       </CardHeader>
       <CardContent>
         <ParticipantsList
-          participants={split.participants}
-          expenses={split.expenses}
-          onRemove={removeParticipant}
-          onAddExpense={addExpense}
+          {...{
+            participants: split.participants,
+            expenses: split.expenses,
+            removeParticipant,
+            editParticipant,
+            addExpense,
+          }}
         />
       </CardContent>
     </Card>

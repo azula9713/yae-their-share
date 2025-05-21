@@ -1,40 +1,64 @@
 "use client";
 
-import type { Participant, Expense } from "@/app/split/[id]/page";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Trash2, Receipt } from "lucide-react";
+import { Trash2, Receipt, PencilIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import AddExpenseDialog from "@/components/add-expense-dialog";
+import { IExpense, IParticipant } from "@/types/split.types";
+import { Input } from "./ui/input";
 
 interface ParticipantsListProps {
-  participants: Participant[];
-  expenses: Expense[];
-  onRemove: (id: string) => void;
-  onAddExpense: (expense: Omit<Expense, "id">) => void;
+  participants: IParticipant[];
+  expenses: IExpense[];
+  removeParticipant: (id: string) => void;
+  editParticipant: (id: string, name: string) => void;
+  addExpense: (expense: Omit<IExpense, "id">) => void;
 }
 
 export default function ParticipantsList({
   participants,
   expenses,
-  onRemove,
-  onAddExpense,
-}: ParticipantsListProps) {
+  removeParticipant,
+  editParticipant,
+  addExpense,
+}: Readonly<ParticipantsListProps>) {
   const [selectedParticipant, setSelectedParticipant] = useState<string | null>(
     null
   );
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
   const handleAddExpense = (participantId: string) => {
     setSelectedParticipant(participantId);
     setIsAddExpenseOpen(true);
   };
 
-  const handleExpenseAdded = (expense: Omit<Expense, "id">) => {
-    onAddExpense(expense);
+  const handleExpenseAdded = (expense: Omit<IExpense, "id">) => {
+    addExpense(expense);
     setIsAddExpenseOpen(false);
     setSelectedParticipant(null);
+  };
+
+  const getBadgeVariant = (balance: number) => {
+    if (balance > 0) {
+      return "default";
+    } else if (balance < 0) {
+      return "destructive";
+    } else {
+      return "outline";
+    }
+  };
+
+  const getBalanceText = (balance: number) => {
+    if (balance > 0) {
+      return `Gets back $${balance.toFixed(2)}`;
+    } else if (balance < 0) {
+      return `Owes $${Math.abs(balance).toFixed(2)}`;
+    } else {
+      return "All settled";
+    }
   };
 
   // Calculate total paid and owed for each participant
@@ -77,31 +101,44 @@ export default function ParticipantsList({
 
         return (
           <Card key={participant.id} className="overflow-hidden">
-            <div className="p-4 flex items-center justify-between border-b">
-              <div>
-                <h3 className="font-medium">{participant.name}</h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <Badge
-                    variant={
-                      balance > 0
-                        ? "default"
-                        : balance < 0
-                        ? "destructive"
-                        : "outline"
-                    }
+            <div className="p-2 md:p-4 border-b">
+              <div className="flex items-center justify-between gap-2 w-full">
+                <div className="flex items-center justify-start space-x-0.5">
+                  {isEditParticipantOpen ? (
+                    <Input
+                      type="text"
+                      defaultValue={participant.name}
+                      onBlur={(e) => {
+                        editParticipant(participant.id, e.target.value);
+                        setIsEditParticipantOpen(false);
+                      }}
+                      className="w-max"
+                    />
+                  ) : (
+                    <h3 className="font-medium">{participant.name}</h3>
+                  )}
+
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setIsEditParticipantOpen(true);
+                    }}
+                    className="size-8 p-0"
                   >
-                    {balance > 0
-                      ? `Gets back $${balance.toFixed(2)}`
-                      : balance < 0
-                      ? `Owes $${Math.abs(balance).toFixed(2)}`
-                      : "All settled"}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    Paid: ${totalPaid.toFixed(2)}
-                  </span>
+                    <PencilIcon className="size-4 text-muted-foreground" />
+                    <span className="sr-only">Edit</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeParticipant(participant.id)}
+                    className="size-8 p-0"
+                  >
+                    <Trash2 className="size-4 text-red-700" />
+                    <span className="sr-only">Remove</span>
+                  </Button>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -111,15 +148,14 @@ export default function ParticipantsList({
                   <Receipt className="h-3.5 w-3.5" />
                   <span>Add Expense</span>
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onRemove(participant.id)}
-                  className="h-8 w-8 p-0"
-                >
-                  <Trash2 className="h-4 w-4 text-muted-foreground" />
-                  <span className="sr-only">Remove</span>
-                </Button>
+              </div>
+              <div className="flex items-center w-full justify-between mt-2">
+                <Badge className="" variant={getBadgeVariant(balance)}>
+                  {getBalanceText(balance)}
+                </Badge>
+                <span className="text-xs text-muted-foreground w-max">
+                  Paid: ${totalPaid.toFixed(2)}
+                </span>
               </div>
             </div>
 
@@ -137,9 +173,20 @@ export default function ParticipantsList({
                             Split between {expense.splitBetween.length} people
                           </p>
                         </div>
-                        <p className="font-medium">
-                          ${expense.amount.toFixed(2)}
-                        </p>
+                        <div className="flex items-center space-x-2">
+                          <p className="font-medium">
+                            ${expense.amount.toFixed(2)}
+                          </p>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => removeParticipant(participant.id)}
+                            className="size-8 p-0 bg-red-500"
+                          >
+                            <Trash2 className="size-4" />
+                            <span className="sr-only">Remove</span>
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -155,7 +202,7 @@ export default function ParticipantsList({
         onOpenChange={setIsAddExpenseOpen}
         onAdd={handleExpenseAdded}
         participants={participants}
-        defaultPaidBy={selectedParticipant || undefined}
+        defaultPaidBy={selectedParticipant ?? undefined}
       />
     </div>
   );

@@ -21,13 +21,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Expense, Participant } from "@/app/split/[id]/page";
+import { IExpense, IParticipant } from "@/types/split.types";
 
 interface AddExpenseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onAdd: (expense: Omit<Expense, "id">) => void;
-  participants: Participant[];
+  onAdd: (expense: Omit<IExpense, "id">) => void;
+  participants: IParticipant[];
   defaultPaidBy?: string;
 }
 
@@ -37,7 +37,7 @@ export default function AddExpenseDialog({
   onAdd,
   participants,
   defaultPaidBy,
-}: AddExpenseDialogProps) {
+}: Readonly<AddExpenseDialogProps>) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [paidBy, setPaidBy] = useState("");

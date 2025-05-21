@@ -26,7 +26,7 @@ export default function SplitsList() {
     <div className="mb-8">
       <h2 className="text-xl font-semibold mb-4">Your Splits</h2>
       <div className="grid gap-4 md:grid-cols-2">
-        {splits.slice(0, 4).map((split) => (
+        {splits.map((split) => (
           <SplitItem {...{ split }} key={split.id} />
         ))}
 
