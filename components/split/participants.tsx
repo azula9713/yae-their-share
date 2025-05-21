@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
-import ParticipantsList from "../participants-list";
+import ParticipantsList from "./participants-list";
 import { IExpense, ISplit } from "@/types/split.types";
 import { Plus } from "lucide-react";
 

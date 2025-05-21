@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeToggle } from "../theme-toggle";
+import { ThemeToggle } from "./theme-toggle";
 import Link from "next/link";
 
 import LightLogo from "@/assets/theirsharelogo.png";
