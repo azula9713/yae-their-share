@@ -23,26 +23,36 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { IExpense, IParticipant } from "@/types/split.types";
 
-interface AddExpenseDialogProps {
+interface ExpenseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onAdd: (expense: Omit<IExpense, "id">) => void;
   participants: IParticipant[];
   defaultPaidBy?: string;
+  isEdit?: boolean;
+  expenseToEdit?: IExpense;
 }
 
-export default function AddExpenseDialog({
+export default function ExpenseDialog({
   open,
   onOpenChange,
   onAdd,
   participants,
   defaultPaidBy,
-}: Readonly<AddExpenseDialogProps>) {
+  isEdit = false,
+  expenseToEdit = {
+    id: "",
+    description: "",
+    amount: 0,
+    paidBy: "",
+    splitBetween: [],
+  },
+}: Readonly<ExpenseDialogProps>) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [paidBy, setPaidBy] = useState("");
   const [splitBetween, setSplitBetween] = useState<string[]>([]);
-
+  
   // Set default paidBy when dialog opens or defaultPaidBy changes
   useEffect(() => {
     if (open && defaultPaidBy) {
@@ -64,6 +74,15 @@ export default function AddExpenseDialog({
       setSplitBetween([]);
     }
   }, [open]);
+
+  useEffect(() => {
+    if (isEdit && expenseToEdit) {
+      setDescription(expenseToEdit.description);
+      setAmount(expenseToEdit.amount.toString());
+      setPaidBy(expenseToEdit.paidBy);
+      setSplitBetween(expenseToEdit.splitBetween);
+    }
+  }, [isEdit, expenseToEdit, open]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,12 +109,12 @@ export default function AddExpenseDialog({
     });
   };
 
-  const handleSplitToggle = (participantId: string, checked: boolean) => {
-    if (checked) {
-      setSplitBetween([...splitBetween, participantId]);
-    } else {
-      setSplitBetween(splitBetween.filter((id) => id !== participantId));
-    }
+  const addParticipantToSplit = (participantId: string) => {
+    setSplitBetween([...splitBetween, participantId]);
+  };
+
+  const removeParticipantFromSplit = (participantId: string) => {
+    setSplitBetween(splitBetween.filter((id) => id !== participantId));
   };
 
   const handleSplitAll = () => {
@@ -111,7 +130,7 @@ export default function AddExpenseDialog({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add Expense</DialogTitle>
+            <DialogTitle>{isEdit ? "Edit Expense" : "Add Expense"}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
@@ -186,7 +205,9 @@ export default function AddExpenseDialog({
                       id={`participant-${participant.id}`}
                       checked={splitBetween.includes(participant.id)}
                       onCheckedChange={(checked) =>
-                        handleSplitToggle(participant.id, checked as boolean)
+                        checked
+                          ? addParticipantToSplit(participant.id)
+                          : removeParticipantFromSplit(participant.id)
                       }
                     />
                     <Label
@@ -200,7 +221,7 @@ export default function AddExpenseDialog({
               </div>
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="gap-2">
             <Button
               type="button"
               variant="outline"
@@ -217,7 +238,7 @@ export default function AddExpenseDialog({
                 splitBetween.length === 0
               }
             >
-              Add Expense
+              {isEdit ? "Save Changes" : "Add Expense"}
             </Button>
           </DialogFooter>
         </form>

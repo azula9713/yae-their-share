@@ -1,35 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import AddExpenseDialog from "@/components/add-expense-dialog";
+import ExpenseDialog from "@/components/expense-dialog";
 import { IExpense, IParticipant } from "@/types/split.types";
 import Participant from "./participant";
+import useSplit from "@/hooks/use-split";
 
 interface ParticipantsListProps {
   participants: IParticipant[];
   expenses: IExpense[];
-  removeParticipant: (id: string) => void;
-  editParticipant: (id: string, name: string) => void;
-  addExpense: (expense: Omit<IExpense, "id">) => void;
+  eventId: string;
 }
 
 export default function ParticipantsList({
   participants,
   expenses,
-  addExpense,
-}: Readonly<ParticipantsListProps>) {
+  eventId,
+}: 
+Readonly<ParticipantsListProps>) {
   const [selectedParticipant, setSelectedParticipant] = useState<string | null>(
     null
   );
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+
+  const { addExpense } = useSplit({eventId});
 
   const handleExpenseAdded = (expense: Omit<IExpense, "id">) => {
     addExpense(expense);
     setIsAddExpenseOpen(false);
     setSelectedParticipant(null);
   };
-
-  
 
   return (
     <div className="space-y-4">
@@ -41,13 +41,14 @@ export default function ParticipantsList({
               expenses,
               setIsAddExpenseOpen,
               setSelectedParticipant,
+              eventId,
             }}
             key={participant.id}
           />
         );
       })}
 
-      <AddExpenseDialog
+      <ExpenseDialog
         open={isAddExpenseOpen}
         onOpenChange={setIsAddExpenseOpen}
         onAdd={handleExpenseAdded}

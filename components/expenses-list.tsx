@@ -1,13 +1,13 @@
 "use client";
 
-import type { Expense, Participant } from "@/app/split/[id]/page";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { IExpense, IParticipant } from "@/types/split.types";
 import { Trash2 } from "lucide-react";
 
 interface ExpensesListProps {
-  expenses: Expense[];
-  participants: Participant[];
+  expenses: IExpense[];
+  participants: IParticipant[];
   onRemove: (id: string) => void;
 }
 
@@ -15,7 +15,7 @@ export default function ExpensesList({
   expenses,
   participants,
   onRemove,
-}: ExpensesListProps) {
+}: Readonly<ExpensesListProps>) {
   if (participants.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">

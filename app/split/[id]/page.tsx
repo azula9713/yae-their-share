@@ -1,18 +1,14 @@
 "use client";
-
-import { useEffect, use } from "react";
-import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddParticipantDialog from "@/components/add-participant-dialog";
-import AddExpenseDialog from "@/components/add-expense-dialog";
-import { ISplit } from "@/types/split.types";
+import ExpenseDialog from "@/components/expense-dialog";
 import useSplit from "@/hooks/use-split";
 import SubHeader from "@/components/common/sub-header";
 import Participants from "@/components/split/participants";
-import Expenses from "@/components/split/expenses";
 import Summary from "@/components/split/summary";
+import { use, useEffect } from "react";
 
 export default function EventPage({
   params,
@@ -23,43 +19,23 @@ export default function EventPage({
   const unwrappedParams = params instanceof Promise ? use(params) : params;
   const eventId = unwrappedParams.id;
 
-  const router = useRouter();
 
   const {
     split,
-    setSplit,
     isAddParticipantOpen,
     setIsAddParticipantOpen,
     isAddExpenseOpen,
     setIsAddExpenseOpen,
     addExpense,
-    editExpense,
-    removeExpense,
     addParticipant,
     editParticipant,
     removeParticipant,
-  } = useSplit();
+  } = useSplit({eventId});
 
   useEffect(() => {
-    // Load split data from localStorage
-    try {
-      const events = JSON.parse(
-        localStorage.getItem("theirShareEvents") || "[]",
-      );
-      const currentSplit = events.find((e: ISplit) => e.id === eventId);
-
-      if (!currentSplit) {
-        console.error("ISplit not found:", eventId);
-        router.push("/?error=split-not-found");
-        return;
-      }
-
-      setSplit(currentSplit);
-    } catch (error) {
-      console.error("Error loading split:", error);
-      router.push("/?error=loading-error");
-    }
-  }, [eventId, router]);
+    console.log("split", split);
+  }
+  , [split]);
 
   if (!split) {
     return (
@@ -91,9 +67,9 @@ export default function EventPage({
       </div>
 
       <Tabs defaultValue="participants">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="participants">Participants</TabsTrigger>
-          <TabsTrigger value="expenses">Expenses</TabsTrigger>
+          {/* <TabsTrigger value="expenses">Expenses</TabsTrigger> */}
           <TabsTrigger value="summary">Summary</TabsTrigger>
         </TabsList>
 
@@ -108,9 +84,9 @@ export default function EventPage({
             }}
           />
         </TabsContent>
-        <TabsContent value="expenses" className="mt-6">
+        {/* <TabsContent value="expenses" className="mt-6">
           <Expenses {...{ split, removeExpense, setIsAddExpenseOpen }} />
-        </TabsContent>
+        </TabsContent> */}
         <TabsContent value="summary" className="mt-6">
           <Summary {...{ split }} />
         </TabsContent>
@@ -122,7 +98,7 @@ export default function EventPage({
         onAdd={addParticipant}
       />
 
-      <AddExpenseDialog
+      <ExpenseDialog
         open={isAddExpenseOpen}
         onOpenChange={setIsAddExpenseOpen}
         onAdd={addExpense}

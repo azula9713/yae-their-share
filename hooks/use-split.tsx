@@ -1,16 +1,43 @@
 import { IExpense, IParticipant, ISplit } from "@/types/split.types";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function useSplit() {
+type Props = {
+  eventId: string;
+};
+
+export default function useSplit({ eventId }: Readonly<Props>) {
   const [split, setSplit] = useState<ISplit | null>(null);
   const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    // Load split data from localStorage
+    try {
+      const events = JSON.parse(
+        localStorage.getItem("theirShareEvents") ?? "[]"
+      );
+      const currentSplit = events.find((e: ISplit) => e.id === eventId);
+
+      if (!currentSplit) {
+        console.error("ISplit not found:", eventId);
+        router.push("/?error=split-not-found");
+        return;
+      }
+      setSplit(currentSplit);
+    } catch (error) {
+      console.error("Error loading split:", error);
+      router.push("/?error=loading-error");
+    }
+  }, [eventId, router]);
 
   const saveSplit = (updatedSplit: ISplit) => {
     // Update split in localStorage
     const events = JSON.parse(localStorage.getItem("theirShareEvents") ?? "[]");
     const updatedEvents = events.map((e: ISplit) =>
-      e.id === updatedSplit.id ? updatedSplit : e,
+      e.id === updatedSplit.id ? updatedSplit : e
     );
 
     localStorage.setItem("theirShareEvents", JSON.stringify(updatedEvents));
@@ -38,7 +65,7 @@ export default function useSplit() {
     if (!split) return;
 
     const updatedExpenses = split.expenses.map((e) =>
-      e.id === id ? { ...e, ...updatedExpense } : e,
+      e.id === id ? { ...e, ...updatedExpense } : e
     );
 
     const updatedEvent = {
@@ -83,7 +110,7 @@ export default function useSplit() {
     if (!split) return;
 
     const updatedParticipants = split.participants.map((p) =>
-      p.id === id ? { ...p, name } : p,
+      p.id === id ? { ...p, name } : p
     );
 
     const updatedEvent = {

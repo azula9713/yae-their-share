@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { IExpense, IParticipant } from "@/types/split.types";
 import { Input } from "../ui/input";
@@ -6,12 +6,14 @@ import { Button } from "../ui/button";
 import { PencilIcon, Receipt, Trash2 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import useSplit from "@/hooks/use-split";
+import ParticipantExpense from "./participant-expense";
 
 type Props = {
   participant: IParticipant;
   expenses: IExpense[];
   setSelectedParticipant: (id: string) => void;
   setIsAddExpenseOpen: (open: boolean) => void;
+  eventId: string;
 };
 
 export default function Participant({
@@ -19,9 +21,9 @@ export default function Participant({
   expenses,
   setSelectedParticipant,
   setIsAddExpenseOpen,
+  eventId,
 }: Readonly<Props>) {
-  const { removeParticipant, editParticipant } = useSplit();
-
+  const { removeParticipant, editParticipant } = useSplit({eventId});
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
   const handleAddExpense = (participantId: string) => {
@@ -75,8 +77,6 @@ export default function Participant({
       return "All settled";
     }
   };
-
-  // Calculate total paid and owed for each participant
 
   return (
     <Card key={participant.id} className="overflow-hidden">
@@ -142,28 +142,10 @@ export default function Participant({
         <CardContent className="p-0">
           <div className="divide-y">
             {participantExpenses.map((expense) => (
-              <div key={expense.id} className="p-3 bg-muted/30">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm font-medium">{expense.description}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      Split between {expense.splitBetween.length} people
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <p className="font-medium">${expense.amount.toFixed(2)}</p>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => removeParticipant(participant.id)}
-                      className="size-8 p-0 bg-red-500"
-                    >
-                      <Trash2 className="size-4" />
-                      <span className="sr-only">Remove</span>
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <ParticipantExpense
+                {...{ expense, participant, eventId}}
+                key={expense.id}
+              />
             ))}
           </div>
         </CardContent>
