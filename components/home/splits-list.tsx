@@ -1,26 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { ISplit } from "@/types/split.types";
 import SplitItem from "./split-item";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function SplitsList() {
-  const [splits, setSplits] = useState<ISplit[]>([]);
+  const splits = useQuery(api.splits.get) ;
 
-  useEffect(() => {
-    try {
-      const storedEvents: ISplit[] = JSON.parse(
-        localStorage.getItem("theirShareEvents") || "[]"
-      );
-      setSplits(storedEvents);
-    } catch (error) {
-      console.error("Error loading events:", error);
-    }
-  }, []);
-
-  if (splits.length === 0) return null;
+  if (!splits || splits.length === 0) return null;
 
   return (
     <div className="mb-8">
@@ -30,7 +19,7 @@ export default function SplitsList() {
           <SplitItem {...{ split }} key={split.id} />
         ))}
 
-        {splits.length > 4 && (
+        {splits.length! > 4 && (
           <Link href="/splits" className="block">
             <Button variant="link" className="text-center" size="sm">
               View All Splits
