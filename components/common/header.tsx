@@ -8,6 +8,7 @@ import DarkLogo from "@/assets/theirsharelogodark.png";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { UserMenu } from "./user-menu";
 
 export default function Header() {
   const { theme } = useTheme();
@@ -36,6 +37,7 @@ export default function Header() {
             className="h-8 w-auto"
           />
         </Link>
+        <UserMenu />
         <ThemeToggle />
       </div>
     </header>
