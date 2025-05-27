@@ -2,6 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useAuthActions } from "@convex-dev/auth/react";
+import { User, LogOut, Settings } from "lucide-react";
+import { useQuery } from "convex/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,21 +12,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar } from "@/components/ui/avatar";
-import { User, LogOut, Settings } from "lucide-react";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { api } from "@/convex/_generated/api";
-import { useAuthActions } from "@convex-dev/auth/react";
-import { useQuery } from "convex/react";
-import Image from "next/image";
 
-interface UserData {
-  id: string;
-  email: string;
-  name: string;
-  picture?: string;
-  loginTime: string;
-  provider?: string;
-}
 
 export function UserMenu() {
   const router = useRouter();
@@ -44,7 +35,7 @@ export function UserMenu() {
   if (!user) {
     return (
       <Button variant="outline" size="sm" onClick={handleLogin}>
-        <User className="h-4 w-4 mr-2" />
+        <User className="size-4 mr-2" />
         Login
       </Button>
     );
@@ -55,16 +46,9 @@ export function UserMenu() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative size-8 rounded-full">
           <Avatar className="size-8">
-            {/* <AvatarImage
+            <AvatarImage
               src={user.image}
               alt={user.name}
-            /> */}
-            <Image
-                src={user.image as string}
-                alt={user.name as string}
-                width={32}
-                height={32}
-                className="h-full w-full rounded-full"
             />
           </Avatar>
         </Button>
