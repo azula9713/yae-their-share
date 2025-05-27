@@ -18,7 +18,6 @@ export default function Header() {
   const handleThemeChange = (newTheme: string) => {
     setLogo(newTheme === "dark" ? DarkLogo : LightLogo);
   };
-  
 
   useEffect(() => {
     if (theme) {
@@ -26,19 +25,16 @@ export default function Header() {
     }
   }, [theme]);
 
-
   return (
     <header className="border-b">
       <div className="container flex items-center justify-between h-14">
         <Link href="/" className="flex items-center">
-          <Image
-            src={logo}
-            alt="Their Share Logo"
-            className="h-8 w-auto"
-          />
+          <Image src={logo} alt="Their Share Logo" className="h-8 w-auto" />
         </Link>
-        <UserMenu />
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <UserMenu />
+        </div>
       </div>
     </header>
   );

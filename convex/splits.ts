@@ -17,7 +17,7 @@ export const splits =  defineTable({
     paidBy: v.string(), // participant id
     splitBetween: v.array(v.string()), // array of participant ids
   })),  
-
+  createdBy: v.id("users")
 })
 
 export const get = query({
