@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddParticipantDialog from "@/components/add-participant-dialog";
 import ExpenseDialog from "@/components/expense-dialog";
-import useSplit from "@/hooks/use-split";
+import useSplit from "@/hooks/split/use-split";
 import SubHeader from "@/components/common/sub-header";
 import Participants from "@/components/split/participants";
 import Summary from "@/components/split/summary";

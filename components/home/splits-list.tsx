@@ -13,17 +13,56 @@ import {
 } from "../ui/card";
 import { Heart } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { useSplitsCacheManager } from "@/hooks/split/use-split-cache-manager";
+import { useCachedSplits } from "@/hooks/split/use-cached-splits";
 
 export default function SplitsList() {
   const user = useQuery(api.authFunctions.currentUser);
 
-  const fetchedSplits = useQuery(api.splits.getSplitsByUserId, {
-    userId: user?.id as string,
+  const userId = user?.id;
+
+  useSplitsCacheManager();
+
+  const {
+    data: splits = [],
+    isLoading,
+    error,
+    refetch,
+  } = useCachedSplits({
+    userId: userId!,
+    includeDeleted: false,
+    maxAge: 5 * 60 * 1000, // 5 minutes
+    staleWhileRevalidate: true,
   });
 
-  if (!user) return null;
+  if (isLoading) {
+    return (
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Your Splits</h2>
+        <p className="text-muted-foreground">Loading your adventures...</p>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Your Splits</h2>
+        <p className="text-red-500">
+          Error loading your adventures. Please try again later.
+        </p>
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-4"
+          onClick={() => refetch()}
+        >
+          Retry
+        </Button>
+      </div>
+    );
+  }
 
-  if (!fetchedSplits || fetchedSplits.length === 0) {
+  if (!splits || splits.length === 0) {
     return (
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Your Splits</h2>
@@ -49,25 +88,25 @@ export default function SplitsList() {
             variant="outline"
             className="text-sm bg-orange-50 border-orange-200 text-orange-700 dark:bg-orange-900/30 dark:border-orange-800 dark:text-orange-300"
           >
-            {fetchedSplits.length} adventure
-            {fetchedSplits.length !== 1 ? "s" : ""}
+            {splits.length} adventure
+            {splits.length !== 1 ? "s" : ""}
           </Badge>
         </CardHeader>
         <CardContent>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {fetchedSplits.slice(0, 6).map((split) => {
+            {splits.slice(0, 6).map((split) => {
               return <SplitItem key={split.id} split={split} />;
             })}
           </div>
 
-          {fetchedSplits.length > 6 && (
+          {splits.length > 6 && (
             <div className="mt-8 text-center">
               <Button
                 variant="outline"
                 size="sm"
                 className="border-orange-200 text-orange-700 hover:bg-orange-50 dark:border-orange-800 dark:text-orange-300"
               >
-                View All Adventures ({fetchedSplits.length})
+                View All Adventures ({splits.length})
               </Button>
             </div>
           )}

@@ -17,4 +17,11 @@ export interface ISplit {
   name: string;
   participants: IParticipant[];
   expenses: IExpense[];
+  _id: string; // Unique identifier for the split by convex
+  createdBy: string; // User ID of the creator
+  isDeleted?: boolean; // Optional field to mark as deleted
+  deletedAt?: string; // Optional field to store deletion timestamp
+  updatedAt?: string; // Optional field to store last update timestamp
+  createdAt?: string; // Optional field to store creation timestamp
+  updatedBy?: string; // Optional field to store the user who last updated the split
 }

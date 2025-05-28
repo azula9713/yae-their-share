@@ -5,7 +5,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { PencilIcon, Receipt, Trash2 } from "lucide-react";
 import { Badge } from "../ui/badge";
-import useSplit from "@/hooks/use-split";
+import useSplit from "@/hooks/split/use-split";
 import ParticipantExpense from "./participant-expense";
 
 type Props = {

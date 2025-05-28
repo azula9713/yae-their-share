@@ -1,4 +1,4 @@
-import useSplit from "@/hooks/use-split";
+import useSplit from "@/hooks/split/use-split";
 import { IExpense, IParticipant } from "@/types/split.types";
 import { PencilIcon, Trash2 } from "lucide-react";
 import React, { useState } from "react";
