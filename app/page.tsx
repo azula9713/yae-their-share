@@ -5,6 +5,7 @@ import HowItWorks from "@/components/home/how-it-works";
 import CTASection from "@/components/home/cta-section";
 import ErrorMessage from "@/components/common/error-message";
 import SplitsList from "@/components/home/splits-list";
+import { Authenticated } from "convex/react";
 
 export default function HomePage() {
   return (
@@ -12,7 +13,9 @@ export default function HomePage() {
       <div className="container max-w-6xl mx-auto px-4 py-8">
         <ErrorMessage />
         <Hero />
-        <SplitsList />
+        <Authenticated>
+          <SplitsList />
+        </Authenticated>
         <Features />
         <HowItWorks />
         <CTASection />

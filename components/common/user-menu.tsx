@@ -47,7 +47,7 @@ export function UserMenu() {
         <Button variant="ghost" className="relative size-8 rounded-full">
           <Avatar className="size-8">
             <AvatarImage
-              src={user.image}
+              src={`/api/image-cache?url=${encodeURIComponent(user.image!)}`}
               alt={user.name}
             />
           </Avatar>
