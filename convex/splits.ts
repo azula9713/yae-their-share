@@ -167,6 +167,7 @@ export const getSplitsByUserId = query({
   },
   handler: async (ctx, args) => {
     const { userId } = args;
+    console.log("Fetching splits for user:", userId);
 
     const splits = await ctx.db
       .query("splits")
