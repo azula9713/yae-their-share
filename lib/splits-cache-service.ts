@@ -1,14 +1,17 @@
 // lib/splits-cache-service.ts
-import { api } from '@/convex/_generated/api';
-import { splitsCacheDB } from '@/lib/splits-cache-layer';
-import { ISplit } from '@/types/split.types';
+import { api } from "@/convex/_generated/api";
+import { splitsCacheDB } from "@/lib/splits-cache-layer";
+import { ISplit } from "@/types/split.types";
 
 export class SplitsCacheService {
   static async getCacheAge(userId: string): Promise<number | null> {
     return splitsCacheDB.getCacheAge(userId);
   }
 
-  static async getCachedSplits(userId: string, includeDeleted: boolean): Promise<ISplit[]> {
+  static async getCachedSplits(
+    userId: string,
+    includeDeleted: boolean
+  ): Promise<ISplit[]> {
     return splitsCacheDB.getCachedSplits(userId, includeDeleted);
   }
 
@@ -26,17 +29,27 @@ export class SplitsCacheService {
 }
 
 export class ConvexSplitsService {
-  static async fetchSplits(convex: any, userId: string, includeDeleted: boolean): Promise<ISplit[]> {
-    const query = includeDeleted 
-      ? convex.query(api.splits.getDeletedSplits, { userId, isDeleted: true })
-      : convex.query(api.splits.getSplitsByUserId, { userId });
-    
+  static async fetchSplits(
+    convex: any,
+    userId: string,
+    includeDeleted: boolean
+  ): Promise<ISplit[]> {
+    //if includeDeleted is true, we fetch both deleted and non-deleted splits and combine them
+    const query = convex.query(api.splits.getSplitsByUserId, { userId });
+    if (includeDeleted) {
+      const deletedSplits = await convex.query(api.splits.getDeletedSplits, {
+        userId,
+      });
+      const allSplits = await query;
+      return [...allSplits, ...deletedSplits];
+    }
+
     return await query;
   }
 
   static async fetchAndCache(
-    convex: any, 
-    userId: string, 
+    convex: any,
+    userId: string,
     includeDeleted: boolean
   ): Promise<ISplit[]> {
     const data = await this.fetchSplits(convex, userId, includeDeleted);

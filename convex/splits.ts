@@ -171,7 +171,9 @@ export const getSplitsByUserId = query({
 
     const splits = await ctx.db
       .query("splits")
-      .withIndex("createdBy", (q) => q.eq("createdBy", userId))
+      .withIndex("by_createdBy_isDeleted", (q) =>
+        q.eq("createdBy", userId).eq("isDeleted", false)
+      )
       .collect();
     return splits;
   },
@@ -180,18 +182,17 @@ export const getSplitsByUserId = query({
 export const getDeletedSplits = query({
   args: {
     userId: v.string(),
-    isDeleted: v.boolean(),
   },
   handler: async (ctx, args) => {
-    const { userId, isDeleted } = args;
+    const { userId } = args;
 
     const splits = await ctx.db
       .query("splits")
-      .withIndex("by_createdBy_isDeleted", q =>
-        q.eq("createdBy", userId).eq("isDeleted", isDeleted)
+      .withIndex("by_createdBy_isDeleted", (q) =>
+        q.eq("createdBy", userId).eq("isDeleted", true)
       )
       .collect();
-      
+
     return splits;
   },
 });
