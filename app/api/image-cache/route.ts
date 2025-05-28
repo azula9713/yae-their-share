@@ -30,12 +30,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Validate that it's a Google profile image URL for security
-    if (!imageUrl.includes("googleusercontent.com") && 
-        !imageUrl.includes("googleapis.com")) {
-      return NextResponse.json(
-        { error: "Invalid image URL" },
-        { status: 400 }
-      );
+    if (
+      !imageUrl.includes("googleusercontent.com") &&
+      !imageUrl.includes("googleapis.com")
+    ) {
+      return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
     }
 
     // Check cache first
@@ -73,27 +72,24 @@ export async function GET(request: NextRequest) {
             },
           });
         }
-        
+
         return NextResponse.json(
           { error: "Rate limited by Google, please try again later" },
           { status: 429 }
         );
       }
-      
+
       throw new Error(`Failed to fetch image: ${response.status}`);
     }
 
-    const contentType = response.headers.get("content-type") || "image/jpeg";
+    const contentType = response.headers.get("content-type") ?? "image/jpeg";
     const arrayBuffer = await response.arrayBuffer();
     const imageBuffer = Buffer.from(arrayBuffer);
 
     // Validate image size (optional - prevent extremely large images)
     const maxImageSize = 5 * 1024 * 1024; // 5MB
     if (imageBuffer.length > maxImageSize) {
-      return NextResponse.json(
-        { error: "Image too large" },
-        { status: 413 }
-      );
+      return NextResponse.json({ error: "Image too large" }, { status: 413 });
     }
 
     // Cache the image
@@ -111,10 +107,9 @@ export async function GET(request: NextRequest) {
         "X-Cache-Size": imageCache.size.toString(),
       },
     });
-
   } catch (error) {
     console.error("Error proxying profile image:", error);
-    
+
     return NextResponse.json(
       { error: "Failed to fetch profile image" },
       { status: 500 }
@@ -141,8 +136,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Cache cleared" });
   }
 
-  return NextResponse.json(
-    { error: "Invalid action" },
-    { status: 400 }
-  );
+  return NextResponse.json({ error: "Invalid action" }, { status: 400 });
 }

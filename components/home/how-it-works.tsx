@@ -18,7 +18,7 @@ export default function HowItWorks() {
                   <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                     <span className="text-3xl font-bold text-white">1</span>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-slate-800 dark:text-white">Create your event</h3>
+                  <h3 className="text-xl font-semibold mb-3 text-slate-800 dark:text-white">Create your split</h3>
                   <p className="text-slate-600 dark:text-slate-300">
                     Give it a name that brings back memories - "Weekend in Paris" or "Sarah's Birthday Dinner"
                   </p>

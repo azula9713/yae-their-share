@@ -13,13 +13,13 @@ export default function CTASection() {
             Join friends everywhere who keep their relationships
             money-drama-free
           </p>
-          <Link href="/create-event">
+          <Link href="/create-split">
             <Button
               size="lg"
               variant="secondary"
               className="px-8 py-3 shadow-lg"
             >
-              Start Your First Event
+              Create Your First Split
             </Button>
           </Link>
         </CardContent>

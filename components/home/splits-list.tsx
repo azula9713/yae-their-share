@@ -55,8 +55,8 @@ export default function SplitsList() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {fetchedSplits.slice(0, 6).map((event) => {
-              return <SplitItem key={event.id} split={event} />;
+            {fetchedSplits.slice(0, 6).map((split) => {
+              return <SplitItem key={split.id} split={split} />;
             })}
           </div>
 

@@ -1,6 +1,5 @@
 import { ISplit } from "@/types/split.types";
 import Link from "next/link";
-import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ArrowRight, DollarSign, MapPin, Users } from "lucide-react";
 import { format } from "date-fns";
@@ -16,7 +15,7 @@ export default function SplitItem({ split }: Readonly<Props>) {
     0
   );
 
-  // Get event status
+  // Get split status
   const hasExpenses = split.expenses.length > 0;
   const isComplete = split.participants.length > 0 && hasExpenses;
 
@@ -126,16 +125,24 @@ export default function SplitItem({ split }: Readonly<Props>) {
             )}
 
             {/* Quick Action */}
-            <div className="flex items-center justify-between pt-3 border-t border-orange-100 dark:border-orange-900/30">
-              <span className="text-sm text-slate-600 dark:text-slate-400">
-                {split.participants.length === 0
-                  ? "Add friends to get started"
-                  : hasExpenses
-                    ? "See who owes what"
-                    : "Start adding expenses"}
-              </span>
-              <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-orange-500 transition-colors group-hover:translate-x-1" />
-            </div>
+            {(() => {
+              let quickActionText = "";
+              if (split.participants.length === 0) {
+                quickActionText = "Add friends to get started";
+              } else if (hasExpenses) {
+                quickActionText = "See who owes what";
+              } else {
+                quickActionText = "Start adding expenses";
+              }
+              return (
+                <div className="flex items-center justify-between pt-3 border-t border-orange-100 dark:border-orange-900/30">
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                    {quickActionText}
+                  </span>
+                  <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-orange-500 transition-colors group-hover:translate-x-1" />
+                </div>
+              );
+            })()}
           </div>
         </CardContent>
       </Card>
