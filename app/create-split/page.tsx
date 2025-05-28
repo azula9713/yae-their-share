@@ -5,8 +5,28 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 import CreateForm from "@/components/create-split/create-form";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useAuthActions } from "@convex-dev/auth/react";
+import { useEffect } from "react";
 
 export default function CreateEventPage() {
+  const { signIn } = useAuthActions();
+
+  const user = useQuery(api.authFunctions.currentUser);
+
+  const userEmail = user?.email;
+
+  const anonymousSignIn = () => {
+    void signIn("anonymous");
+  };
+
+  useEffect(() => {
+    if (!userEmail) {
+      anonymousSignIn();
+    }
+  }, [userEmail]);
+
   return (
     <div className="container max-w-md mx-auto px-4 py-8">
       <Link href="/" className="flex items-center text-sm mb-6 hover:underline">

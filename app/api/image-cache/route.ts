@@ -30,12 +30,12 @@ export async function GET(request: NextRequest) {
     }
 
     // Validate that it's a Google profile image URL for security
-    if (
+    /**if (
       !imageUrl.includes("googleusercontent.com") &&
       !imageUrl.includes("googleapis.com")
     ) {
       return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
-    }
+    }**/
 
     // Check cache first
     const cached = imageCache.get(imageUrl);

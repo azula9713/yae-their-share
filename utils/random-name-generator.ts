@@ -4,7 +4,7 @@ interface NameComponents {
   suffixes: string[];
 }
 
-function getRandomSciFiMythicalName(): string {
+export default function getRandomSciFiMythicalName(): string {
   const components: NameComponents = {
     prefixes: [
       "Astro", "Cyber", "Quantum", "Neo", "Hyper", "Ultra", "Meta",
@@ -32,6 +32,7 @@ function getRandomSciFiMythicalName(): string {
   ];
 
   return `${prefix} ${core} ${suffix}`;
+  // https://wallpapers.com/images/hd/confused-patrick-random-pfp-x63wp9vs43cem64s.jpg
 }
 
 // Examples: "AstroPhoenixX", "QuantumDragonCore", "VoidSphinxSync"

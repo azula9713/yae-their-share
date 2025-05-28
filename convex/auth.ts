@@ -1,11 +1,13 @@
 import { convexAuth } from "@convex-dev/auth/server";
 import { MutationCtx } from "./_generated/server";
 import Google from "@auth/core/providers/google";
+import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
 import { v4 as uuidV4 } from "uuid";
 import { findUserByEmail } from "./users";
+import getRandomSciFiMythicalName from "@/utils/random-name-generator";
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
-  providers: [Google],
+  providers: [Google, Anonymous],
   callbacks: {
     // `args.type` is one of "oauth" | "email" | "phone" | "credentials" | "verification"
     // `args.provider` is the currently used provider config
@@ -24,13 +26,13 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
       // Implementing own user creation with custom id:
       return ctx.db.insert("users", {
         id: uuidV4(),
-        name: args.profile.name as string | undefined,
+        name: args.profile.name as string ?? getRandomSciFiMythicalName(),
         email: args.profile.email,
-        image: args.profile.image as string | undefined,
+        image: (args.profile.image as string) ?? "https://wallpapers.com/images/hd/confused-patrick-random-pfp-x63wp9vs43cem64s.jpg",
         emailVerificationTime: Date.now(),
         phone: args.profile.phone,
         phoneVerificationTime: Date.now(),
-        isAnonymous: false,
+        isAnonymous : args.provider.id === "anonymous",
       });
     },
   },

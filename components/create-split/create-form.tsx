@@ -83,7 +83,6 @@ export default function CreateForm() {
                 mode="single"
                 selected={date}
                 onSelect={setDate}
-                initialFocus
               />
             </PopoverContent>
           </Popover>
