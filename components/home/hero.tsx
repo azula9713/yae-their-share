@@ -1,19 +1,19 @@
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { Heart, LayoutDashboard, PlusCircle, Sparkles } from "lucide-react";
+import Image from "next/image";
 import { Authenticated, Unauthenticated } from "convex/react";
+import { Button } from "../ui/button";
+import { LayoutDashboard, PlusCircle, Sparkles } from "lucide-react";
+
+import Logo from "@/assets/noBgColor.png";
 
 export default function Hero() {
   return (
     <div className="text-center mb-16">
-      <div className="mb-6">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-100 to-pink-100 dark:from-orange-900 dark:to-pink-900 rounded-2xl mb-4 shadow-lg">
-          <Heart className="size-8 text-orange-600" />
-        </div>
-      </div>
-      <h1 className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent mb-4">
-        Their Share
-      </h1>
+      <Image
+        src={Logo}
+        alt="Their Share Logo"
+        className="h-24 w-auto mx-auto mb-4"
+      />
       <p className="text-xl text-slate-700 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
         Share moments, split costs, stay friends. The warmest way to handle
         group expenses with the people you care about.
