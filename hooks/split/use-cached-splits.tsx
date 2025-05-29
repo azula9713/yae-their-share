@@ -1,4 +1,3 @@
-// hooks/useCachedSplits.ts (simplified version)
 import { useQuery } from "@tanstack/react-query";
 import { useConvex } from "convex/react";
 import {

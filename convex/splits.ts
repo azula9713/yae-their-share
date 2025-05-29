@@ -141,7 +141,6 @@ export const deleteSplit = mutation({
       .query("splits")
       .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
       .first();
-    console.log("Deleting split:", splitId);
 
     if (!split) {
       throw new Error("Split not found");
@@ -162,13 +161,11 @@ export const getSplitById = query({
   handler: async (ctx, args) => {
     const { splitId, convexId } = args;
 
-    // console.log("Fetching split by ID:", splitId);
     if (splitId) {
       const split = await ctx.db
         .query("splits")
         .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
         .first();
-      console.log("Split found:", split);
       if (!split) {
         throw new Error(`Split with ID ${splitId} not found`);
       }
@@ -177,7 +174,6 @@ export const getSplitById = query({
 
     if (convexId) {
       const split = await ctx.db.get(convexId);
-      console.log("Split found by convex ID:", split);
       if (!split) {
         throw new Error(`Split with convex ID ${convexId} not found`);
       }
@@ -193,7 +189,6 @@ export const getSplitsByUserId = query({
   },
   handler: async (ctx, args) => {
     const { userId } = args;
-    console.log("Fetching splits for user:", userId);
 
     const splits = await ctx.db
       .query("splits")
@@ -202,7 +197,6 @@ export const getSplitsByUserId = query({
       )
       .collect();
 
-    console.log("splits found:", splits);
     return splits;
   },
 });

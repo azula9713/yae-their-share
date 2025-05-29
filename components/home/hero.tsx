@@ -12,7 +12,7 @@ export default function Hero() {
       <Image
         src={Logo}
         alt="Their Share Logo"
-        className="h-24 w-auto mx-auto mb-4"
+        className="h-16 md:h-24 w-auto mx-auto mb-4"
       />
       <p className="text-xl text-slate-700 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
         Share moments, split costs, stay friends. The warmest way to handle
@@ -23,7 +23,7 @@ export default function Hero() {
         <Link href="/create-split" className="inline-block">
           <Button
             size="lg"
-            className="gap-2 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 px-8 py-3 shadow-lg"
+            className="gap-2 w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 px-8 py-3 shadow-lg"
           >
             <PlusCircle className="h-5 w-5" />
             Start Sharing
@@ -34,7 +34,7 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="gap-2 px-8 py-3 border-orange-200 text-orange-700 hover:bg-orange-50 dark:border-orange-800 dark:text-orange-300"
+              className="gap-2 w-full px-8 py-3 border-orange-200 text-orange-700 hover:bg-orange-50 dark:border-orange-800 dark:text-orange-300"
             >
               <Sparkles className="size-5" />
               See It in Action
@@ -46,7 +46,7 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="gap-2 px-8 py-3 border-orange-200 text-orange-700 hover:bg-orange-500 dark:border-orange-800 dark:text-orange-50"
+              className="gap-2 w-full px-8 py-3 border-orange-200 text-orange-700 hover:bg-orange-500 dark:border-orange-800 dark:text-orange-50"
             >
               <LayoutDashboard className="size-5" />
               View Dashboard

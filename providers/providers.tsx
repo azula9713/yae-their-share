@@ -18,7 +18,6 @@ export default function Providers({
           {children}
         </ThemeProvider>
       </TanStackProviders>
-      ;
     </ConvexClientProvider>
   );
 }

@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Heart } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { useSplitsCacheManager } from "@/hooks/split/use-split-cache-manager";
 import { useCachedSplits } from "@/hooks/split/use-cached-splits";
@@ -75,23 +74,26 @@ export default function SplitsList() {
     <div className="mb-16">
       <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-orange-50 dark:from-slate-800 dark:to-orange-900/20">
         <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-              <Heart className="h-6 w-6 text-orange-500" />
-              Your Shared Moments
-            </CardTitle>
+          <div className="flex-1 min-w-0 space-y-1">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                Recent Splits
+              </CardTitle>
+              <Badge
+                variant="outline"
+                className="text-sm bg-orange-50 border-orange-200 text-orange-700 dark:bg-orange-900/30 dark:border-orange-800 dark:text-orange-300"
+              >
+                {splits.length} split
+                {splits.length !== 1 ? "s" : ""}
+              </Badge>
+            </div>
             <CardDescription className="text-slate-600 dark:text-slate-300">
-              Continue the memories you&apos;re making together
+              Access your latest adventures and see how you shared the costs
+              with friends.
             </CardDescription>
           </div>
-          <Badge
-            variant="outline"
-            className="text-sm bg-orange-50 border-orange-200 text-orange-700 dark:bg-orange-900/30 dark:border-orange-800 dark:text-orange-300"
-          >
-            {splits.length} adventure
-            {splits.length !== 1 ? "s" : ""}
-          </Badge>
         </CardHeader>
+
         <CardContent>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {splits.slice(0, 6).map((split) => {

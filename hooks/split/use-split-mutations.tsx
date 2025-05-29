@@ -58,7 +58,6 @@ export function useCreateSplit(userId: string) {
 
     onSuccess: async (convexId) => {
       // Get the actual created split and update cache
-      console.log("created split with convexId:", convexId);
       const actualSplit = await convex.query(api.splits.getSplitById, {
         convexId,
       });
