@@ -16,7 +16,9 @@ export default function ParticipantExpense({
   participant,
   eventId,
 }: Readonly<Props>) {
-  const { removeParticipant, editExpense, split } = useSplit({eventId});
+  const { removeParticipant, editExpense, split } = useSplit({
+    splitId: eventId,
+  });
 
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
@@ -36,11 +38,13 @@ export default function ParticipantExpense({
         </div>
         <div className="flex items-center space-x-2">
           <p className="font-medium">${expense.amount.toFixed(2)}</p>
-          <Button variant="ghost" size="sm" className="size-8 p-0"
+          <Button
+            variant="ghost"
+            size="sm"
+            className="size-8 p-0"
             onClick={() => {
               setIsEditParticipantOpen(true);
-            }
-            }
+            }}
           >
             <PencilIcon className="size-4 text-muted-foreground" />
           </Button>

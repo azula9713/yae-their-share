@@ -23,7 +23,7 @@ export default function Participant({
   setIsAddExpenseOpen,
   eventId,
 }: Readonly<Props>) {
-  const { removeParticipant, editParticipant } = useSplit({eventId});
+  const { removeParticipant, editParticipant } = useSplit({ splitId: eventId });
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
   const handleAddExpense = (participantId: string) => {
@@ -143,7 +143,7 @@ export default function Participant({
           <div className="divide-y">
             {participantExpenses.map((expense) => (
               <ParticipantExpense
-                {...{ expense, participant, eventId}}
+                {...{ expense, participant, eventId }}
                 key={expense.id}
               />
             ))}

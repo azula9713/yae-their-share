@@ -14,14 +14,18 @@ export default function CreateEventPage() {
   const { signIn } = useAuthActions();
 
   const user = useQuery(api.authFunctions.currentUser);
+  const isAnonymous = user?.isAnonymous;
+  const userEmail = user?.email;
 
   useEffect(() => {
-    console.log("user", user);
     const anonymousSignIn = () => {
       void signIn("anonymous");
     };
 
-    if (!user) {
+    if (user !== undefined && !isAnonymous && !userEmail) {
+      console.log(
+        "User is not anonymous and has no email, signing in anonymously."
+      );
       anonymousSignIn();
     }
   }, [user]);

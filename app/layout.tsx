@@ -26,9 +26,11 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <Providers>
-            <div className="min-h-screen flex flex-col">
+            <div className="flex flex-col">
               <Header />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1 max-h-[calc(100svh-calc(var(--spacing)*16))]">
+                {children}
+              </main>
             </div>
           </Providers>
         </body>

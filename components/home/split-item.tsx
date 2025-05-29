@@ -34,7 +34,11 @@ export default function SplitItem({ split }: Readonly<Props>) {
   };
 
   return (
-    <Link key={split.id} href={`/split/${split.id}`} className="block group">
+    <Link
+      key={split.splitId}
+      href={`/split/${split.splitId}`}
+      className="block group"
+    >
       <Card className="h-full border-0 shadow-lg bg-gradient-to-br from-white to-pink-50 dark:from-slate-800 dark:to-pink-900/20 group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
         <CardHeader className="pb-4">
           <div className="flex items-start justify-between mb-3">

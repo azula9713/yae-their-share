@@ -1,4 +1,5 @@
 "use client";
+
 import { format } from "date-fns";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,8 +18,7 @@ export default function EventPage({
 }) {
   // Unwrap params using React.use()
   const unwrappedParams = params instanceof Promise ? use(params) : params;
-  const eventId = unwrappedParams.id;
-
+  const splitId = unwrappedParams.id;
 
   const {
     split,
@@ -30,12 +30,11 @@ export default function EventPage({
     addParticipant,
     editParticipant,
     removeParticipant,
-  } = useSplit({eventId});
+  } = useSplit({ splitId });
 
   useEffect(() => {
     console.log("split", split);
-  }
-  , [split]);
+  }, [split]);
 
   if (!split) {
     return (
@@ -46,7 +45,7 @@ export default function EventPage({
             <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
             <p>Loading split data...</p>
             <p className="text-sm text-muted-foreground mt-2">
-              ISplit ID: {eventId}
+              ISplit ID: {splitId}
             </p>
           </div>
         </div>

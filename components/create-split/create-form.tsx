@@ -11,39 +11,32 @@ import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
+import { useCreateSplit } from "@/hooks/split/use-split-mutations";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function CreateForm() {
   const router = useRouter();
+  const user = useQuery(api.authFunctions.currentUser);
   const [eventName, setEventName] = useState("");
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
+
+  const createSplit = useCreateSplit(user?.id!);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!eventName.trim()) return;
-
-    // Get existing events
-    const existingEvents = JSON.parse(
-      localStorage.getItem("theirShareEvents") ?? "[]"
-    );
-
     // Create a unique ID
     const newId = uuidv4();
 
-    // Create a new split and store it in localStorage
-    const newEvent = {
-      id: newId,
+    createSplit.mutate({
       name: eventName,
-      date: date ? date.toISOString() : null,
-      participants: [],
+      splitId: newId,
+      date: date?.toString() ?? "",
       expenses: [],
-    };
-
-    // Add new split
-    localStorage.setItem(
-      "theirShareEvents",
-      JSON.stringify([...existingEvents, newEvent])
-    );
+      participants: [],
+    });
 
     // Navigate to the split page
     router.push(`/split/${newId}`);
@@ -65,7 +58,7 @@ export default function CreateForm() {
 
         <div className="space-y-2">
           <Label htmlFor="split-date">Split Date (Optional)</Label>
-          <Popover>
+          <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -79,7 +72,16 @@ export default function CreateForm() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Calendar mode="single" selected={date} onSelect={setDate} />
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={(selectedDate) => {
+                  setDate(selectedDate);
+                  setDatePickerOpen(false);
+                }}
+                initialFocus
+                className="w-auto"
+              />
             </PopoverContent>
           </Popover>
         </div>

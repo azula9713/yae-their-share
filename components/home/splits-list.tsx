@@ -95,7 +95,7 @@ export default function SplitsList() {
         <CardContent>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {splits.slice(0, 6).map((split) => {
-              return <SplitItem key={split.id} split={split} />;
+              return <SplitItem key={split.splitId} split={split} />;
             })}
           </div>
 

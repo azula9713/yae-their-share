@@ -1,28 +1,30 @@
+import { api } from "@/convex/_generated/api";
 import { IExpense, IParticipant, ISplit } from "@/types/split.types";
+import { useConvex } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Props = {
-  eventId: string;
+  splitId: string;
 };
 
-export default function useSplit({ eventId }: Readonly<Props>) {
+export default function useSplit({ splitId }: Readonly<Props>) {
   const [split, setSplit] = useState<ISplit | null>(null);
   const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
   const router = useRouter();
+  const convex = useConvex();
 
-  useEffect(() => {
-    // Load split data from localStorage
+  const getCurrentSplit = async () => {
     try {
-      const events = JSON.parse(
-        localStorage.getItem("theirShareEvents") ?? "[]"
-      );
-      const currentSplit = events.find((e: ISplit) => e.id === eventId);
+      // Fetch split data from Convex
+      const currentSplit = await convex.query(api.splits.getSplitById, {
+        splitId: splitId,
+      });
 
       if (!currentSplit) {
-        console.error("ISplit not found:", eventId);
+        console.error("ISplit not found:", splitId);
         router.push("/?error=split-not-found");
         return;
       }
@@ -31,13 +33,19 @@ export default function useSplit({ eventId }: Readonly<Props>) {
       console.error("Error loading split:", error);
       router.push("/?error=loading-error");
     }
-  }, [eventId, router]);
+  };
+
+  useEffect(() => {
+    // Load split data when component mounts
+    // getCurrentSplit();
+    if (splitId) getCurrentSplit();
+  }, [splitId, router]);
 
   const saveSplit = (updatedSplit: ISplit) => {
     // Update split in localStorage
     const events = JSON.parse(localStorage.getItem("theirShareEvents") ?? "[]");
     const updatedEvents = events.map((e: ISplit) =>
-      e.id === updatedSplit.id ? updatedSplit : e
+      e.splitId === updatedSplit.splitId ? updatedSplit : e
     );
 
     localStorage.setItem("theirShareEvents", JSON.stringify(updatedEvents));
@@ -49,7 +57,7 @@ export default function useSplit({ eventId }: Readonly<Props>) {
 
     const newExpense: IExpense = {
       ...expense,
-      id: Date.now().toString(),
+      expenseId: Date.now().toString(),
     };
 
     const updatedEvent = {
@@ -65,7 +73,7 @@ export default function useSplit({ eventId }: Readonly<Props>) {
     if (!split) return;
 
     const updatedExpenses = split.expenses.map((e) =>
-      e.id === id ? { ...e, ...updatedExpense } : e
+      e.expenseId === id ? { ...e, ...updatedExpense } : e
     );
 
     const updatedEvent = {
@@ -79,7 +87,7 @@ export default function useSplit({ eventId }: Readonly<Props>) {
   const removeExpense = (id: string) => {
     if (!split) return;
 
-    const updatedExpenses = split.expenses.filter((e) => e.id !== id);
+    const updatedExpenses = split.expenses.filter((e) => e.expenseId !== id);
 
     const updatedEvent = {
       ...split,
@@ -93,7 +101,7 @@ export default function useSplit({ eventId }: Readonly<Props>) {
     if (!split) return;
 
     const newParticipant: IParticipant = {
-      id: Date.now().toString(),
+      participantId: Date.now().toString(),
       name,
     };
 
@@ -110,7 +118,7 @@ export default function useSplit({ eventId }: Readonly<Props>) {
     if (!split) return;
 
     const updatedParticipants = split.participants.map((p) =>
-      p.id === id ? { ...p, name } : p
+      p.participantId === id ? { ...p, name } : p
     );
 
     const updatedEvent = {
@@ -125,7 +133,9 @@ export default function useSplit({ eventId }: Readonly<Props>) {
     if (!split) return;
 
     // Remove participant
-    const updatedParticipants = split.participants.filter((p) => p.id !== id);
+    const updatedParticipants = split.participants.filter(
+      (p) => p.participantId !== id
+    );
 
     // Remove expenses paid by this participant
     const updatedExpenses = split.expenses.filter((e) => e.paidBy !== id);

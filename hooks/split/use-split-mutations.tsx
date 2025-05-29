@@ -11,10 +11,12 @@ export function useCreateSplit(userId: string) {
 
   return useMutation({
     mutationFn: async (splitData: {
+      splitId: string;
       name: string;
-      participants: Array<{ id: string; name: string }>;
+      date: string | undefined; // Optional date, can be undefined
+      participants: Array<{ participantId: string; name: string }>;
       expenses: Array<{
-        id: string;
+        expenseId: string;
         amount: number;
         description: string;
         paidBy: string;
@@ -23,7 +25,7 @@ export function useCreateSplit(userId: string) {
     }) => {
       return await convex.mutation(api.splits.createSplit, {
         ...splitData,
-        createdBy: userId as any,
+        createdBy: userId,
       });
     },
 
@@ -37,8 +39,8 @@ export function useCreateSplit(userId: string) {
       // Optimistically add new split
       const optimisticSplit: ISplit = {
         _id: `temp_${Date.now()}`,
-        date: new Date().toISOString(),
-        id: crypto.randomUUID(),
+        date: variables.date ?? "",
+        splitId: variables.splitId,
         name: variables.name,
         participants: variables.participants,
         expenses: variables.expenses,
@@ -56,8 +58,9 @@ export function useCreateSplit(userId: string) {
 
     onSuccess: async (convexId) => {
       // Get the actual created split and update cache
+      console.log("created split with convexId:", convexId);
       const actualSplit = await convex.query(api.splits.getSplitById, {
-        id: convexId,
+        convexId,
       });
       await splitsCacheDB.cacheSplit(userId, actualSplit);
 
@@ -83,11 +86,11 @@ export function useUpdateSplit(userId: string) {
 
   return useMutation({
     mutationFn: async (variables: {
-      id: string;
+      splitId: string;
       name: string;
-      participants: Array<{ id: string; name: string }>;
+      participants: Array<{ participantId: string; name: string }>;
       expenses: Array<{
-        id: string;
+        expenseId: string;
         amount: number;
         description: string;
         paidBy: string;
@@ -96,10 +99,10 @@ export function useUpdateSplit(userId: string) {
     }) => {
       await convex.mutation(api.splits.updateSplit, {
         ...variables,
-        id: variables.id as any,
-        updatedBy: userId as any,
+        splitId: variables.splitId,
+        updatedBy: userId,
       });
-      return variables.id;
+      return variables.splitId;
     },
 
     onMutate: async (variables) => {
@@ -116,7 +119,7 @@ export function useUpdateSplit(userId: string) {
         ["splits", userId, false],
         (old: ISplit[] = []) =>
           old.map((split) =>
-            split._id === variables.id
+            split._id === variables.splitId
               ? { ...split, ...variables, updatedAt: new Date().toISOString() }
               : split
           )
@@ -128,7 +131,7 @@ export function useUpdateSplit(userId: string) {
     onSuccess: async (splitId) => {
       // Update cache with fresh data
       const updatedSplit = await convex.query(api.splits.getSplitById, {
-        id: splitId as any,
+        splitId,
       });
       await splitsCacheDB.cacheSplit(userId, updatedSplit);
 
@@ -152,7 +155,7 @@ export function useDeleteSplit(userId: string) {
 
   return useMutation({
     mutationFn: async (splitId: string) => {
-      await convex.mutation(api.splits.deleteSplit, { id: splitId as any });
+      await convex.mutation(api.splits.deleteSplit, { splitId });
       return splitId;
     },
 

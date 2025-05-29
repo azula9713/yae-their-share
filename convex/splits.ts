@@ -4,17 +4,17 @@ import { v } from "convex/values";
 
 export const splits = defineTable({
   date: v.string(),
-  id: v.string(),
+  splitId: v.string(),
   name: v.string(),
   participants: v.array(
     v.object({
-      id: v.string(),
+      participantId: v.string(),
       name: v.string(),
     })
   ),
   expenses: v.array(
     v.object({
-      id: v.string(),
+      expenseId: v.string(),
       amount: v.number(),
       description: v.string(),
       paidBy: v.string(), // participant id
@@ -26,13 +26,14 @@ export const splits = defineTable({
   deletedAt: v.optional(v.string()), // Optional field to store deletion timestamp
   updatedAt: v.optional(v.string()), // Optional field to store last update timestamp
   createdAt: v.optional(v.string()), // Optional field to store creation timestamp
-  updatedBy: v.optional(v.id("users")), // Optional field to store the user who last updated the split
+  updatedBy: v.optional(v.string()), // Optional field to store the user who last updated the split
 })
+  .index("by_splitId", ["splitId"])
   .index("date", ["date"])
   .index("name", ["name"])
   .index("createdBy", ["createdBy"])
   .index("isDeleted", ["isDeleted"])
-  .index("by_createdBy_isDeleted", ["createdBy", "isDeleted"])
+  .index("by_createdBy_isDeleted", ["createdBy", "isDeleted"]);
 
 export const get = query({
   args: {},
@@ -43,36 +44,38 @@ export const get = query({
 
 export const createSplit = mutation({
   args: {
+    splitId: v.string(), // Unique ID for the split
     name: v.string(),
+    date: v.optional(v.string()), // Optional date, can be undefined
     participants: v.array(
       v.object({
-        id: v.string(),
+        participantId: v.string(),
         name: v.string(),
       })
     ),
     expenses: v.array(
       v.object({
-        id: v.string(),
+        expenseId: v.string(),
         amount: v.number(),
         description: v.string(),
         paidBy: v.string(), // participant id
         splitBetween: v.array(v.string()), // array of participant ids
       })
     ),
-    createdBy: v.id("users"),
-    updatedBy: v.optional(v.id("users")), // Optional field to store the user who last updated the split
-    createdAt: v.optional(v.string()), // Optional field to store creation timestamp
-    updatedAt: v.optional(v.string()), // Optional field to store last update timestamp
-    isDeleted: v.optional(v.boolean()), // Optional field to mark as deleted
+    createdBy: v.string(),
   },
   handler: async (ctx, args) => {
     const split = {
-      date: new Date().toISOString(),
-      id: crypto.randomUUID(),
+      date: args.date || "", // Use current date if not provided
+      splitId: args.splitId,
       name: args.name,
       participants: args.participants,
       expenses: args.expenses,
       createdBy: args.createdBy,
+      createdAt: new Date().toISOString(),
+      updatedBy: args.createdBy, // Optional field for last updated user
+      updatedAt: new Date().toISOString(), // Optional field for last update timestamp
+      isDeleted: false, // Default to not deleted
     };
 
     return await ctx.db.insert("splits", split);
@@ -81,38 +84,41 @@ export const createSplit = mutation({
 
 export const updateSplit = mutation({
   args: {
-    id: v.id("splits"),
+    splitId: v.string(),
     name: v.string(),
     participants: v.array(
       v.object({
-        id: v.string(),
+        participantId: v.string(),
         name: v.string(),
       })
     ),
     expenses: v.array(
       v.object({
-        id: v.string(),
+        expenseId: v.string(),
         amount: v.number(),
         description: v.string(),
         paidBy: v.string(), // participant id
         splitBetween: v.array(v.string()), // array of participant ids
       })
     ),
-    updatedBy: v.optional(v.id("users")), // Optional field to store the user who last updated the split
+    updatedBy: v.optional(v.string()), // Optional field to store the user who last updated the split
     updatedAt: v.optional(v.string()), // Optional field to store last update timestamp
     isDeleted: v.optional(v.boolean()), // Optional field to mark as deleted
     deletedAt: v.optional(v.string()), // Optional field to store deletion timestamp
   },
   handler: async (ctx, args) => {
-    const { id } = args;
+    const { splitId } = args;
 
-    const split = await ctx.db.get(id);
+    const split = await ctx.db
+      .query("splits")
+      .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
+      .first();
 
     if (!split) {
       throw new Error("Split not found");
     }
 
-    await ctx.db.patch(id, {
+    await ctx.db.patch(split._id, {
       name: args.name,
       participants: args.participants,
       expenses: args.expenses,
@@ -126,18 +132,22 @@ export const updateSplit = mutation({
 
 export const deleteSplit = mutation({
   args: {
-    id: v.id("splits"),
+    splitId: v.string(), // ID of the split to delete
   },
   handler: async (ctx, args) => {
-    const { id } = args;
+    const { splitId } = args;
 
-    const split = await ctx.db.get(id);
+    const split = await ctx.db
+      .query("splits")
+      .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
+      .first();
+    console.log("Deleting split:", splitId);
 
     if (!split) {
       throw new Error("Split not found");
     }
 
-    await ctx.db.patch(id, {
+    await ctx.db.patch(split._id, {
       isDeleted: true,
       deletedAt: new Date().toISOString(),
     });
@@ -146,18 +156,34 @@ export const deleteSplit = mutation({
 
 export const getSplitById = query({
   args: {
-    id: v.id("splits"),
+    convexId: v.optional(v.id("splits")),
+    splitId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const { id } = args;
+    const { splitId, convexId } = args;
 
-    const split = await ctx.db.get(id);
-
-    if (!split) {
-      throw new Error("Split not found");
+    // console.log("Fetching split by ID:", splitId);
+    if (splitId) {
+      const split = await ctx.db
+        .query("splits")
+        .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
+        .first();
+      console.log("Split found:", split);
+      if (!split) {
+        throw new Error(`Split with ID ${splitId} not found`);
+      }
+      return split;
     }
 
-    return split;
+    if (convexId) {
+      const split = await ctx.db.get(convexId);
+      console.log("Split found by convex ID:", split);
+      if (!split) {
+        throw new Error(`Split with convex ID ${convexId} not found`);
+      }
+      return split;
+    }
+    throw new Error("Either splitId or convexId must be provided");
   },
 });
 
@@ -175,6 +201,8 @@ export const getSplitsByUserId = query({
         q.eq("createdBy", userId).eq("isDeleted", false)
       )
       .collect();
+
+    console.log("splits found:", splits);
     return splits;
   },
 });

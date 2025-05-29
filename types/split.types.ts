@@ -1,10 +1,10 @@
 export interface IParticipant {
-  id: string;
+  participantId: string;
   name: string;
 }
 
 export interface IExpense {
-  id: string;
+  expenseId: string;
   amount: number;
   description: string;
   paidBy: string; // participant id
@@ -13,7 +13,7 @@ export interface IExpense {
 
 export interface ISplit {
   date: string;
-  id: string;
+  splitId: string;
   name: string;
   participants: IParticipant[];
   expenses: IExpense[];

@@ -16,14 +16,13 @@ export default function ParticipantsList({
   participants,
   expenses,
   eventId,
-}: 
-Readonly<ParticipantsListProps>) {
+}: Readonly<ParticipantsListProps>) {
   const [selectedParticipant, setSelectedParticipant] = useState<string | null>(
     null
   );
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
-  const { addExpense } = useSplit({eventId});
+  const { addExpense } = useSplit({ splitId: eventId });
 
   const handleExpenseAdded = (expense: Omit<IExpense, "id">) => {
     addExpense(expense);
