@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { User, LogOut, Settings } from "lucide-react";
+import { User, LogOut, Settings, LogIn, FolderSync } from "lucide-react";
 import { Authenticated, Unauthenticated, useQuery } from "convex/react";
 import {
   DropdownMenu,
@@ -17,7 +17,7 @@ import { api } from "@/convex/_generated/api";
 
 export function UserMenu() {
   const router = useRouter();
-  const { signOut } = useAuthActions();
+  const { signOut, signIn } = useAuthActions();
 
   const user = useQuery(api.authFunctions.currentUser);
 
@@ -50,7 +50,9 @@ export function UserMenu() {
               <div className="flex flex-col space-y-1 leading-none">
                 <p className="font-medium">{user?.name}</p>
                 <p className="w-[200px] truncate text-sm text-muted-foreground">
-                  {user?.email}
+                  {user?.isAnonymous
+                    ? "Anonymous User"
+                    : user?.email || "No email provided"}
                 </p>
               </div>
             </div>
@@ -60,10 +62,17 @@ export function UserMenu() {
               <span>Settings</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-            </DropdownMenuItem>
+            {user?.isAnonymous ? (
+              <DropdownMenuItem onClick={handleLogout}>
+                <FolderSync className="mr-2 size-4" />
+                <span>Login and sync</span>
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 size-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </Authenticated>

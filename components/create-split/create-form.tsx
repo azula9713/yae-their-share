@@ -24,7 +24,7 @@ export default function CreateForm() {
 
     // Get existing events
     const existingEvents = JSON.parse(
-      localStorage.getItem("theirShareEvents") ?? "[]",
+      localStorage.getItem("theirShareEvents") ?? "[]"
     );
 
     // Create a unique ID
@@ -42,7 +42,7 @@ export default function CreateForm() {
     // Add new split
     localStorage.setItem(
       "theirShareEvents",
-      JSON.stringify([...existingEvents, newEvent]),
+      JSON.stringify([...existingEvents, newEvent])
     );
 
     // Navigate to the split page
@@ -71,7 +71,7 @@ export default function CreateForm() {
                 variant="outline"
                 className={cn(
                   "w-full justify-start text-left font-normal",
-                  !date && "text-muted-foreground",
+                  !date && "text-muted-foreground"
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -79,11 +79,7 @@ export default function CreateForm() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-              />
+              <Calendar mode="single" selected={date} onSelect={setDate} />
             </PopoverContent>
           </Popover>
         </div>
