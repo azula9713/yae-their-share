@@ -1,15 +1,16 @@
 "use client";
 
 import { format } from "date-fns";
+import { use } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddParticipantDialog from "@/components/add-participant-dialog";
 import ExpenseDialog from "@/components/expense-dialog";
-import useSplit from "@/hooks/split/use-split";
 import SubHeader from "@/components/common/sub-header";
 import Participants from "@/components/split/participants";
 import Summary from "@/components/split/summary";
-import { use, useEffect } from "react";
+import useSplit from "@/hooks/split/use-split";
+import { useCachedSplit } from "@/hooks/split/use-cached-splits";
 
 export default function EventPage({
   params,
@@ -20,8 +21,9 @@ export default function EventPage({
   const unwrappedParams = params instanceof Promise ? use(params) : params;
   const splitId = unwrappedParams.id;
 
+  const { data: split, error, isLoading } = useCachedSplit(splitId);
+
   const {
-    split,
     isAddParticipantOpen,
     setIsAddParticipantOpen,
     isAddExpenseOpen,
@@ -32,11 +34,7 @@ export default function EventPage({
     removeParticipant,
   } = useSplit({ splitId });
 
-  useEffect(() => {
-    console.log("split", split);
-  }, [split]);
-
-  if (!split) {
+  if (isLoading) {
     return (
       <div className="container max-w-4xl mx-auto px-4 py-8">
         <SubHeader />
@@ -47,6 +45,36 @@ export default function EventPage({
             <p className="text-sm text-muted-foreground mt-2">
               ISplit ID: {splitId}
             </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container max-w-4xl mx-auto px-4 py-8">
+        <SubHeader />
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <p className="text-red-500">Error loading split data.</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              ISplit ID: {splitId}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!split) {
+    return (
+      <div className="container max-w-4xl mx-auto px-4 py-8">
+        <SubHeader />
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p className="text-red-500">Split not found.</p>
           </div>
         </div>
       </div>

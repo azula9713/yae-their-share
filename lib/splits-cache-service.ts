@@ -15,6 +15,10 @@ export class SplitsCacheService {
     return splitsCacheDB.getCachedSplits(userId, includeDeleted);
   }
 
+  static async getCachedSplitById(splitId: string): Promise<ISplit | null> {
+    return splitsCacheDB.getCachedSplit(splitId);
+  }
+
   static async updateCache(userId: string, splits: ISplit[]): Promise<void> {
     await splitsCacheDB.clearUserSplits(userId);
     for (const split of splits) {
