@@ -1,4 +1,4 @@
-import { ISplit } from "@/types/split.types";
+import { IExpense, ISplit } from "@/types/split.types";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ArrowRight, DollarSign, MapPin, Users } from "lucide-react";
@@ -11,7 +11,7 @@ type Props = {
 
 export default function SplitItem({ split }: Readonly<Props>) {
   const totalAmount = split.expenses.reduce(
-    (sum: number, expense: any) => sum + expense.amount,
+    (sum: number, expense: IExpense) => sum + expense.amount,
     0
   );
 

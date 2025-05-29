@@ -6,10 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
-    "@auth/core": "0.39.1",
     "@convex-dev/auth": "^0.0.86",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-accordion": "1.2.11",
@@ -72,6 +72,8 @@
     "@types/node": "^22.15.23",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
+    "eslint": "9.27.0",
+    "eslint-config-next": "15.3.2",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3"

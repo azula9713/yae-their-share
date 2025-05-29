@@ -81,7 +81,7 @@ export default function SplitsList() {
               Your Shared Moments
             </CardTitle>
             <CardDescription className="text-slate-600 dark:text-slate-300">
-              Continue the memories you're making together
+              Continue the memories you&apos;re making together
             </CardDescription>
           </div>
           <Badge

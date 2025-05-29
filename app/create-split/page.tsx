@@ -15,17 +15,15 @@ export default function CreateEventPage() {
 
   const user = useQuery(api.authFunctions.currentUser);
 
-  const userEmail = user?.email;
-
-  const anonymousSignIn = () => {
-    void signIn("anonymous");
-  };
-
   useEffect(() => {
-    if (!userEmail) {
+    const anonymousSignIn = () => {
+      void signIn("anonymous");
+    };
+
+    if (!user) {
       anonymousSignIn();
     }
-  }, [userEmail]);
+  }, [user]);
 
   return (
     <div className="container max-w-md mx-auto px-4 py-8">
