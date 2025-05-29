@@ -16,6 +16,7 @@ export default function CreateEventPage() {
   const user = useQuery(api.authFunctions.currentUser);
 
   useEffect(() => {
+    console.log("user", user);
     const anonymousSignIn = () => {
       void signIn("anonymous");
     };
