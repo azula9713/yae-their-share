@@ -5,7 +5,7 @@ import HowItWorks from "@/components/home/how-it-works";
 import CTASection from "@/components/home/cta-section";
 import ErrorMessage from "@/components/common/error-message";
 import SplitsList from "@/components/home/splits-list";
-import { Authenticated } from "convex/react";
+import { Authenticated, Unauthenticated } from "convex/react";
 
 export default function HomePage() {
   return (
@@ -18,7 +18,9 @@ export default function HomePage() {
         </Authenticated>
         <Features />
         <HowItWorks />
-        <CTASection />
+        <Unauthenticated>
+          <CTASection />
+        </Unauthenticated>
       </div>
     </div>
   );
