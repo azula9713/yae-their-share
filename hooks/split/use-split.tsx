@@ -13,6 +13,8 @@ type Props = {
 export default function useSplit({ splitId }: Readonly<Props>) {
   const user = useQuery(api.authFunctions.currentUser);
   const updateSplitMutation = useUpdateSplit(user?.id!);
+  const { isPending: updatePending, isError: updateError } =
+    updateSplitMutation;
 
   const { data: split, error, isLoading } = useCachedSplit(splitId);
   const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false);
@@ -171,6 +173,8 @@ export default function useSplit({ splitId }: Readonly<Props>) {
   return {
     split,
     isLoading,
+    updatePending,
+    updateError,
     error,
     addParticipant,
     editParticipant,

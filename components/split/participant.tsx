@@ -3,7 +3,7 @@ import { Card, CardContent } from "../ui/card";
 import { IExpense, IParticipant } from "@/types/split.types";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { PencilIcon, Receipt, Trash2 } from "lucide-react";
+import { PencilIcon, Receipt, RefreshCcw, Trash2 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import useSplit from "@/hooks/split/use-split";
 import ParticipantExpense from "./participant-expense";
@@ -23,7 +23,10 @@ export default function Participant({
   setIsAddExpenseOpen,
   eventId,
 }: Readonly<Props>) {
-  const { removeParticipant, editParticipant } = useSplit({ splitId: eventId });
+  const { removeParticipant, editParticipant, updateError, updatePending } =
+    useSplit({
+      splitId: eventId,
+    });
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
   const handleAddExpense = (participantId: string) => {
@@ -52,10 +55,12 @@ export default function Participant({
     return { totalPaid, totalOwed, balance };
   };
 
-  const { totalPaid, balance } = getParticipantSummary(participant.id);
+  const { totalPaid, balance } = getParticipantSummary(
+    participant.participantId
+  );
 
   const participantExpenses = expenses.filter(
-    (e) => e.paidBy === participant.id
+    (e) => e.paidBy === participant.participantId
   );
 
   const getBadgeVariant = (balance: number) => {
@@ -79,7 +84,7 @@ export default function Participant({
   };
 
   return (
-    <Card key={participant.id} className="overflow-hidden">
+    <Card key={participant.participantId} className="overflow-hidden">
       <div className="p-2 md:p-4 border-b">
         <div className="flex items-center justify-between gap-2 w-full">
           <div className="flex items-center justify-start space-x-0.5">
@@ -88,7 +93,7 @@ export default function Participant({
                 type="text"
                 defaultValue={participant.name}
                 onBlur={(e) => {
-                  editParticipant(participant.id, e.target.value);
+                  editParticipant(participant.participantId, e.target.value);
                   setIsEditParticipantOpen(false);
                 }}
                 className="w-max"
@@ -97,6 +102,10 @@ export default function Participant({
               <h3 className="font-medium">{participant.name}</h3>
             )}
 
+            {updatePending && (
+              // animated sync icon
+              <RefreshCcw className="size-4 animate-spin text-green-500 ml-2" />
+            )}
             <Button
               variant="ghost"
               size="sm"
@@ -111,7 +120,7 @@ export default function Participant({
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => removeParticipant(participant.id)}
+              onClick={() => removeParticipant(participant.participantId)}
               className="size-8 p-0"
             >
               <Trash2 className="size-4 text-red-700" />
@@ -121,7 +130,7 @@ export default function Participant({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handleAddExpense(participant.id)}
+            onClick={() => handleAddExpense(participant.participantId)}
             className="h-8 gap-1"
           >
             <Receipt className="h-3.5 w-3.5" />
@@ -144,7 +153,7 @@ export default function Participant({
             {participantExpenses.map((expense) => (
               <ParticipantExpense
                 {...{ expense, participant, eventId }}
-                key={expense.id}
+                key={expense.expenseId}
               />
             ))}
           </div>

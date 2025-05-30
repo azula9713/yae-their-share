@@ -1,4 +1,3 @@
-// hooks/useSplitsMutations.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -104,7 +103,6 @@ export function useUpdateSplit(userId: string) {
       });
       return variables.splitId;
     },
-
     onMutate: async (variables) => {
       await queryClient.cancelQueries({ queryKey: ["splits", userId] });
 
