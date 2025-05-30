@@ -4,6 +4,7 @@ import { useConvex, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUpdateSplit } from "./use-split-mutations";
+import { useCachedSplit } from "./use-cached-splits";
 
 type Props = {
   splitId: string;
@@ -12,9 +13,8 @@ type Props = {
 export default function useSplit({ splitId }: Readonly<Props>) {
   const user = useQuery(api.authFunctions.currentUser);
   const updateSplitMutation = useUpdateSplit(user?.id!);
-  const split = useQuery(api.splits.getSplitById, {
-    splitId: splitId,
-  });
+
+  const { data: split, error, isLoading } = useCachedSplit(splitId);
   const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
@@ -169,6 +169,9 @@ export default function useSplit({ splitId }: Readonly<Props>) {
   };
 
   return {
+    split,
+    isLoading,
+    error,
     addParticipant,
     editParticipant,
     removeParticipant,

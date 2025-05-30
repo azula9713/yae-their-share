@@ -10,7 +10,6 @@ import SubHeader from "@/components/common/sub-header";
 import Participants from "@/components/split/participants";
 import Summary from "@/components/split/summary";
 import useSplit from "@/hooks/split/use-split";
-import { useCachedSplit } from "@/hooks/split/use-cached-splits";
 
 export default function EventPage({
   params,
@@ -21,9 +20,10 @@ export default function EventPage({
   const unwrappedParams = params instanceof Promise ? use(params) : params;
   const splitId = unwrappedParams.id;
 
-  const { data: split, error, isLoading } = useCachedSplit(splitId);
-
   const {
+    split,
+    isLoading,
+    error,
     isAddParticipantOpen,
     setIsAddParticipantOpen,
     isAddExpenseOpen,

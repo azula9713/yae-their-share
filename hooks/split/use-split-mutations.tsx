@@ -135,6 +135,7 @@ export function useUpdateSplit(userId: string) {
       });
       await splitsCacheDB.cacheSplit(userId, updatedSplit);
 
+      queryClient.invalidateQueries({ queryKey: ["split", splitId] });
       queryClient.invalidateQueries({ queryKey: ["splits", userId] });
     },
 
