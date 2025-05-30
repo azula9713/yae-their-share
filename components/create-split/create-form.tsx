@@ -3,22 +3,23 @@ import { useRouter } from "next/navigation";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
+import { useQuery } from "convex/react";
 
+import { api } from "@/convex/_generated/api";
+import { useCreateSplit } from "@/hooks/split/use-split-mutations";
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { CardContent, CardFooter } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
-import { cn } from "@/lib/utils";
-import { useCreateSplit } from "@/hooks/split/use-split-mutations";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
 export default function CreateForm() {
   const router = useRouter();
   const user = useQuery(api.authFunctions.currentUser);
   const [eventName, setEventName] = useState("");
+  const [noOfMembers, setNoOfMembers] = useState("");
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
 
@@ -35,7 +36,13 @@ export default function CreateForm() {
       splitId: newId,
       date: date?.toString() ?? "",
       expenses: [],
-      participants: [],
+      participants: Array.from(
+        { length: parseInt(noOfMembers, 10) },
+        (_, i) => ({
+          participantId: crypto.randomUUID(),
+          name: `Name ${i + 1}`,
+        })
+      ),
     });
 
     // Navigate to the split page
@@ -55,7 +62,20 @@ export default function CreateForm() {
             required
           />
         </div>
-
+        <div className="space-y-2">
+          <Label htmlFor="no-of-members">
+            How many people are splitting this?
+          </Label>
+          <Input
+            id="no-of-members"
+            value={noOfMembers}
+            placeholder="2, 3, 4, etc."
+            onChange={(e) => setNoOfMembers(e.target.value)}
+            required
+            type="number"
+            min={2}
+          />
+        </div>
         <div className="space-y-2">
           <Label htmlFor="split-date">Split Date (Optional)</Label>
           <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
