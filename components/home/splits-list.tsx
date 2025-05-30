@@ -61,15 +61,6 @@ export default function SplitsList() {
     );
   }
 
-  if (!splits || splits.length === 0) {
-    return (
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Your Splits</h2>
-        <p className="text-muted-foreground">You have no splits yet.</p>
-      </div>
-    );
-  }
-
   return (
     <div className="mb-16">
       <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-orange-50 dark:from-slate-800 dark:to-orange-900/20">

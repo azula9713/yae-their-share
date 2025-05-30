@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { User, LogOut, Settings, LogIn, FolderSync } from "lucide-react";
+import { User, LogOut, Settings, FolderSync } from "lucide-react";
 import { Authenticated, Unauthenticated, useQuery } from "convex/react";
 import {
   DropdownMenu,
@@ -17,7 +17,7 @@ import { api } from "@/convex/_generated/api";
 
 export function UserMenu() {
   const router = useRouter();
-  const { signOut, signIn } = useAuthActions();
+  const { signOut } = useAuthActions();
 
   const user = useQuery(api.authFunctions.currentUser);
 
@@ -52,7 +52,7 @@ export function UserMenu() {
                 <p className="w-[200px] truncate text-sm text-muted-foreground">
                   {user?.isAnonymous
                     ? "Anonymous User"
-                    : user?.email || "No email provided"}
+                    : user?.email ?? "No email provided"}
                 </p>
               </div>
             </div>

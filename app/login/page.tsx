@@ -33,7 +33,6 @@ export default function LoginPage() {
 
     try {
       await signIn("google");
-      router.push("/");
     } catch (err) {
       setError("Login failed. Please try again.");
       console.error("Login error:", err);
