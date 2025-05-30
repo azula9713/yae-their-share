@@ -12,26 +12,20 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { useSplitsCacheManager } from "@/hooks/split/use-split-cache-manager";
-import { useCachedSplits } from "@/hooks/split/use-cached-splits";
+import { useFetchAllSplits } from "@/hooks/split/use-split-query";
 
 export default function SplitsList() {
   const user = useQuery(api.authFunctions.currentUser);
 
   const userId = user?.id;
 
-  useSplitsCacheManager();
-
   const {
     data: splits = [],
     isLoading,
     error,
     refetch,
-  } = useCachedSplits({
+  } = useFetchAllSplits({
     userId: userId!,
-    includeDeleted: false,
-    maxAge: 5 * 60 * 1000, // 5 minutes
-    staleWhileRevalidate: true,
   });
 
   if (isLoading) {

@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { splitsCacheDB } from "@/lib/splits-cache-layer";
 import { ISplit } from "@/types/split.types";
 
 export function useCreateSplit(userId: string) {
@@ -55,13 +54,7 @@ export function useCreateSplit(userId: string) {
       return { previousSplits, optimisticSplit };
     },
 
-    onSuccess: async (convexId) => {
-      // Get the actual created split and update cache
-      const actualSplit = await convex.query(api.splits.getSplitById, {
-        convexId,
-      });
-      await splitsCacheDB.cacheSplit(userId, actualSplit);
-
+    onSuccess: async () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["splits", userId] });
     },
@@ -127,12 +120,6 @@ export function useUpdateSplit(userId: string) {
     },
 
     onSuccess: async (splitId) => {
-      // Update cache with fresh data
-      const updatedSplit = await convex.query(api.splits.getSplitById, {
-        splitId,
-      });
-      await splitsCacheDB.cacheSplit(userId, updatedSplit);
-
       queryClient.invalidateQueries({ queryKey: ["split", splitId] });
       queryClient.invalidateQueries({ queryKey: ["splits", userId] });
     },
@@ -176,9 +163,7 @@ export function useDeleteSplit(userId: string) {
       return { previousSplits };
     },
 
-    onSuccess: async (splitId) => {
-      // Update cache
-      await splitsCacheDB.markSplitDeleted(splitId);
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["splits", userId] });
     },
 

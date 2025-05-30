@@ -1,10 +1,10 @@
 import { api } from "@/convex/_generated/api";
 import { IExpense, IParticipant, ISplit } from "@/types/split.types";
-import { useConvex, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUpdateSplit } from "./use-split-mutations";
-import { useCachedSplit } from "./use-cached-splits";
+import { useFetchSplit } from "./use-split-query";
 
 type Props = {
   splitId: string;
@@ -16,21 +16,17 @@ export default function useSplit({ splitId }: Readonly<Props>) {
   const { isPending: updatePending, isError: updateError } =
     updateSplitMutation;
 
-  const { data: split, error, isLoading } = useCachedSplit(splitId);
+  const { data: split, isLoading, error } = useFetchSplit(splitId);
   const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
   const router = useRouter();
-  const convex = useConvex();
 
   const getCurrentSplit = async () => {
     try {
       // Fetch split data from Convex
-      const currentSplit = await convex.query(api.splits.getSplitById, {
-        splitId: splitId,
-      });
 
-      if (!currentSplit) {
+      if (!split) {
         console.error("ISplit not found:", splitId);
         router.push("/?error=split-not-found");
         return;
