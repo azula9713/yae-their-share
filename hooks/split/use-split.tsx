@@ -1,15 +1,20 @@
 import { api } from "@/convex/_generated/api";
 import { IExpense, IParticipant, ISplit } from "@/types/split.types";
-import { useConvex } from "convex/react";
+import { useConvex, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUpdateSplit } from "./use-split-mutations";
 
 type Props = {
   splitId: string;
 };
 
 export default function useSplit({ splitId }: Readonly<Props>) {
-  const [split, setSplit] = useState<ISplit | null>(null);
+  const user = useQuery(api.authFunctions.currentUser);
+  const updateSplitMutation = useUpdateSplit(user?.id!);
+  const split = useQuery(api.splits.getSplitById, {
+    splitId: splitId,
+  });
   const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
@@ -28,7 +33,6 @@ export default function useSplit({ splitId }: Readonly<Props>) {
         router.push("/?error=split-not-found");
         return;
       }
-      setSplit(currentSplit);
     } catch (error) {
       console.error("Error loading split:", error);
       router.push("/?error=loading-error");
@@ -36,20 +40,29 @@ export default function useSplit({ splitId }: Readonly<Props>) {
   };
 
   useEffect(() => {
-    // Load split data when component mounts
-    // getCurrentSplit();
     if (splitId) getCurrentSplit();
   }, [splitId, router]);
 
   const saveSplit = (updatedSplit: ISplit) => {
-    // Update split in localStorage
-    const events = JSON.parse(localStorage.getItem("theirShareEvents") ?? "[]");
-    const updatedEvents = events.map((e: ISplit) =>
-      e.splitId === updatedSplit.splitId ? updatedSplit : e
+    //remove _creationTime field from updatedSplit
+    const {
+      _creationTime,
+      _id,
+      createdBy,
+      createdAt,
+      ...sanitizedUpdatedSplit
+    } = updatedSplit;
+    updateSplitMutation.mutate(
+      { ...sanitizedUpdatedSplit },
+      {
+        onSuccess: () => {
+          console.log("Split updated successfully:", updatedSplit);
+        },
+        onError: (error) => {
+          console.error("Error updating split:", error);
+        },
+      }
     );
-
-    localStorage.setItem("theirShareEvents", JSON.stringify(updatedEvents));
-    setSplit(updatedSplit);
   };
 
   const addExpense = (expense: Omit<IExpense, "id">) => {
@@ -101,16 +114,16 @@ export default function useSplit({ splitId }: Readonly<Props>) {
     if (!split) return;
 
     const newParticipant: IParticipant = {
-      participantId: Date.now().toString(),
+      participantId: crypto.randomUUID(),
       name,
     };
 
-    const updatedEvent = {
+    const updatedSplit = {
       ...split,
       participants: [...split.participants, newParticipant],
     };
 
-    saveSplit(updatedEvent);
+    saveSplit(updatedSplit);
     setIsAddParticipantOpen(false);
   };
 
@@ -167,7 +180,5 @@ export default function useSplit({ splitId }: Readonly<Props>) {
     setIsAddExpenseOpen,
     isAddParticipantOpen,
     isAddExpenseOpen,
-    split,
-    setSplit,
   };
 }

@@ -34,7 +34,7 @@ export default function Participants({
           {...{
             participants: split.participants,
             expenses: split.expenses,
-            eventId: split.id,
+            splitId: split.splitId,
           }}
         />
       </CardContent>

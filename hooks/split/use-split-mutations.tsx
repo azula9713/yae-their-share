@@ -87,6 +87,7 @@ export function useUpdateSplit(userId: string) {
     mutationFn: async (variables: {
       splitId: string;
       name: string;
+      date: string; // Optional date, can be undefined
       participants: Array<{ participantId: string; name: string }>;
       expenses: Array<{
         expenseId: string;

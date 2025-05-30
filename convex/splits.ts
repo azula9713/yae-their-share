@@ -2,7 +2,7 @@ import { mutation, query } from "./_generated/server";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
-export const splits = defineTable({
+const splitSchema = {
   date: v.string(),
   splitId: v.string(),
   name: v.string(),
@@ -27,7 +27,9 @@ export const splits = defineTable({
   updatedAt: v.optional(v.string()), // Optional field to store last update timestamp
   createdAt: v.optional(v.string()), // Optional field to store creation timestamp
   updatedBy: v.optional(v.string()), // Optional field to store the user who last updated the split
-})
+};
+
+export const splits = defineTable(splitSchema)
   .index("by_splitId", ["splitId"])
   .index("date", ["date"])
   .index("name", ["name"])
@@ -44,38 +46,25 @@ export const get = query({
 
 export const createSplit = mutation({
   args: {
-    splitId: v.string(), // Unique ID for the split
-    name: v.string(),
-    date: v.optional(v.string()), // Optional date, can be undefined
-    participants: v.array(
-      v.object({
-        participantId: v.string(),
-        name: v.string(),
-      })
-    ),
-    expenses: v.array(
-      v.object({
-        expenseId: v.string(),
-        amount: v.number(),
-        description: v.string(),
-        paidBy: v.string(), // participant id
-        splitBetween: v.array(v.string()), // array of participant ids
-      })
-    ),
-    createdBy: v.string(),
+    splitId: splitSchema.splitId, // Using the schema definition directly
+    name: splitSchema.name,
+    date: v.optional(splitSchema.date), // Make date optional for creation
+    participants: splitSchema.participants,
+    expenses: splitSchema.expenses,
+    createdBy: splitSchema.createdBy,
   },
   handler: async (ctx, args) => {
     const split = {
-      date: args.date || "", // Use current date if not provided
+      date: args.date ?? new Date().toISOString(), // Use current date if not provided
       splitId: args.splitId,
       name: args.name,
       participants: args.participants,
       expenses: args.expenses,
       createdBy: args.createdBy,
       createdAt: new Date().toISOString(),
-      updatedBy: args.createdBy, // Optional field for last updated user
-      updatedAt: new Date().toISOString(), // Optional field for last update timestamp
-      isDeleted: false, // Default to not deleted
+      updatedBy: args.createdBy,
+      updatedAt: new Date().toISOString(),
+      isDeleted: false,
     };
 
     return await ctx.db.insert("splits", split);
@@ -84,30 +73,18 @@ export const createSplit = mutation({
 
 export const updateSplit = mutation({
   args: {
-    splitId: v.string(),
-    name: v.string(),
-    participants: v.array(
-      v.object({
-        participantId: v.string(),
-        name: v.string(),
-      })
-    ),
-    expenses: v.array(
-      v.object({
-        expenseId: v.string(),
-        amount: v.number(),
-        description: v.string(),
-        paidBy: v.string(), // participant id
-        splitBetween: v.array(v.string()), // array of participant ids
-      })
-    ),
-    updatedBy: v.optional(v.string()), // Optional field to store the user who last updated the split
-    updatedAt: v.optional(v.string()), // Optional field to store last update timestamp
-    isDeleted: v.optional(v.boolean()), // Optional field to mark as deleted
-    deletedAt: v.optional(v.string()), // Optional field to store deletion timestamp
+    splitId: splitSchema.splitId,
+    name: splitSchema.name,
+    date: splitSchema.date,
+    participants: splitSchema.participants,
+    expenses: splitSchema.expenses,
+    updatedBy: splitSchema.updatedBy,
+    updatedAt: splitSchema.updatedAt,
+    isDeleted: v.optional(splitSchema.isDeleted),
+    deletedAt: v.optional(splitSchema.deletedAt),
   },
   handler: async (ctx, args) => {
-    const { splitId } = args;
+    const { splitId, ...updates } = args;
 
     const split = await ctx.db
       .query("splits")
@@ -118,21 +95,25 @@ export const updateSplit = mutation({
       throw new Error("Split not found");
     }
 
-    await ctx.db.patch(split._id, {
-      name: args.name,
-      participants: args.participants,
-      expenses: args.expenses,
-      updatedBy: args.updatedBy,
-      updatedAt: new Date().toISOString(),
-      isDeleted: args.isDeleted,
-      deletedAt: args.isDeleted ? new Date().toISOString() : undefined,
-    });
+    // Prepare updates, overriding updatedAt and deletedAt if isDeleted is set
+    const patchData: Record<string, any> = {
+      ...updates,
+      updatedAt: new Date().toISOString(), // Always update updatedAt
+    };
+
+    if (updates.isDeleted !== undefined) {
+      patchData.deletedAt = updates.isDeleted
+        ? new Date().toISOString()
+        : undefined;
+    }
+
+    await ctx.db.patch(split._id, patchData);
   },
 });
 
 export const deleteSplit = mutation({
   args: {
-    splitId: v.string(), // ID of the split to delete
+    splitId: splitSchema.splitId,
   },
   handler: async (ctx, args) => {
     const { splitId } = args;
@@ -156,7 +137,7 @@ export const deleteSplit = mutation({
 export const getSplitById = query({
   args: {
     convexId: v.optional(v.id("splits")),
-    splitId: v.optional(v.string()),
+    splitId: v.optional(splitSchema.splitId),
   },
   handler: async (ctx, args) => {
     const { splitId, convexId } = args;
@@ -185,7 +166,7 @@ export const getSplitById = query({
 
 export const getSplitsByUserId = query({
   args: {
-    userId: v.string(),
+    userId: splitSchema.createdBy, // Use createdBy as userId
   },
   handler: async (ctx, args) => {
     const { userId } = args;
@@ -203,7 +184,7 @@ export const getSplitsByUserId = query({
 
 export const getDeletedSplits = query({
   args: {
-    userId: v.string(),
+    userId: splitSchema.createdBy, // Use createdBy as userId
   },
   handler: async (ctx, args) => {
     const { userId } = args;

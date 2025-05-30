@@ -24,4 +24,5 @@ export interface ISplit {
   updatedAt?: string; // Optional field to store last update timestamp
   createdAt?: string; // Optional field to store creation timestamp
   updatedBy?: string; // Optional field to store the user who last updated the split
+  _creationTime?: number; // Timestamp of creation by dexie
 }

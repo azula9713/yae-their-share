@@ -9,20 +9,20 @@ import useSplit from "@/hooks/split/use-split";
 interface ParticipantsListProps {
   participants: IParticipant[];
   expenses: IExpense[];
-  eventId: string;
+  splitId: string;
 }
 
 export default function ParticipantsList({
   participants,
   expenses,
-  eventId,
+  splitId,
 }: Readonly<ParticipantsListProps>) {
   const [selectedParticipant, setSelectedParticipant] = useState<string | null>(
     null
   );
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
-  const { addExpense } = useSplit({ splitId: eventId });
+  const { addExpense } = useSplit({ splitId: splitId });
 
   const handleExpenseAdded = (expense: Omit<IExpense, "id">) => {
     addExpense(expense);
@@ -40,9 +40,9 @@ export default function ParticipantsList({
               expenses,
               setIsAddExpenseOpen,
               setSelectedParticipant,
-              eventId,
+              eventId: splitId,
             }}
-            key={participant.id}
+            key={participant.participantId}
           />
         );
       })}
