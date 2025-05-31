@@ -23,7 +23,7 @@ export default function Participant({
   setIsAddExpenseOpen,
   eventId,
 }: Readonly<Props>) {
-  const { removeParticipant, editParticipant, updateError, updatePending } =
+  const { removeParticipant, editParticipant, updatePending } =
     useSplit({
       splitId: eventId,
     });
@@ -93,7 +93,7 @@ export default function Participant({
                 type="text"
                 defaultValue={participant.name}
                 onBlur={(e) => {
-                  editParticipant(participant.participantId, e.target.value);
+                  editParticipant(participant.participantId, e.target.value.trim());
                   setIsEditParticipantOpen(false);
                 }}
                 className="w-max"

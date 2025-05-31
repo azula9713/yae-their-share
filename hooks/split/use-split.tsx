@@ -1,8 +1,8 @@
-import { api } from "@/convex/_generated/api";
-import { IExpense, IParticipant, ISplit } from "@/types/split.types";
 import { useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { api } from "@/convex/_generated/api";
+import { IExpense, IParticipant, ISplit } from "@/types/split.types";
 import { useUpdateSplit } from "./use-split-mutations";
 import { useFetchSplit } from "./use-split-query";
 
@@ -15,8 +15,8 @@ export default function useSplit({ splitId }: Readonly<Props>) {
   const updateSplitMutation = useUpdateSplit(user?.id!);
   const { isPending: updatePending, isError: updateError } =
     updateSplitMutation;
+  const { data: split, isLoading, error, refetch } = useFetchSplit(splitId);
 
-  const { data: split, isLoading, error } = useFetchSplit(splitId);
   const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
@@ -24,9 +24,8 @@ export default function useSplit({ splitId }: Readonly<Props>) {
 
   const getCurrentSplit = async () => {
     try {
-      // Fetch split data from Convex
-
-      if (!split) {
+      const currentSplit = await refetch();
+      if (!currentSplit.data) {
         console.error("ISplit not found:", splitId);
         router.push("/?error=split-not-found");
         return;
@@ -38,11 +37,10 @@ export default function useSplit({ splitId }: Readonly<Props>) {
   };
 
   useEffect(() => {
-    if (splitId) getCurrentSplit();
-  }, [splitId, router]);
+    if (splitId && user) getCurrentSplit();
+  }, [splitId, router, user]);
 
   const saveSplit = (updatedSplit: ISplit) => {
-    //remove _creationTime field from updatedSplit
     const {
       _creationTime,
       _id,
