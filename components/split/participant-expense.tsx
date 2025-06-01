@@ -1,8 +1,8 @@
-import useSplit from "@/hooks/split/use-split";
-import { IExpense, IParticipant } from "@/types/split.types";
+import { useState } from "react";
 import { PencilIcon, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import { IExpense, IParticipant } from "@/types/split.types";
 import { Button } from "../ui/button";
+import useSplit from "@/hooks/split/use-split";
 import ExpenseDialog from "../expense-dialog";
 
 type Props = {
@@ -28,8 +28,8 @@ export default function ParticipantExpense({
   };
 
   return (
-    <div key={expense.expenseId} className="p-3 bg-muted/30">
-      <div className="flex justify-between items-center">
+    <div key={expense.expenseId} className="p-2 md:p-3 bg-muted/30">
+      <div className="flex justify-between items-center w-full">
         <div>
           <p className="text-sm font-medium">{expense.description}</p>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -37,11 +37,11 @@ export default function ParticipantExpense({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <p className="font-medium">${expense.amount.toFixed(2)}</p>
+          <p className="text-sm md:text-base">${expense.amount.toFixed(2)}</p>
           <Button
             variant="ghost"
             size="sm"
-            className="size-8 p-0"
+            className="size-6 p-0"
             onClick={() => {
               setIsEditParticipantOpen(true);
             }}
@@ -49,12 +49,12 @@ export default function ParticipantExpense({
             <PencilIcon className="size-4 text-muted-foreground" />
           </Button>
           <Button
-            variant="destructive"
+            variant="ghost"
             size="sm"
             onClick={() => removeParticipant(participant.participantId)}
-            className="size-8 p-0 bg-red-500"
+            className="size-6 p-0"
           >
-            <Trash2 className="size-4" />
+            <Trash2 className="size-4 text-muted-foreground" />
             <span className="sr-only">Remove</span>
           </Button>
         </div>

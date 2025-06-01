@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { PencilIcon, Receipt, RefreshCcw, Trash2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { IExpense, IParticipant } from "@/types/split.types";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { PencilIcon, Receipt, RefreshCcw, Trash2 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import useSplit from "@/hooks/split/use-split";
 import ParticipantExpense from "./participant-expense";
@@ -83,7 +83,10 @@ export default function Participant({
   };
 
   return (
-    <Card key={participant.participantId} className="overflow-hidden">
+    <Card
+      key={participant.participantId}
+      className="overflow-hidden outline-primary outline-[1.5px]"
+    >
       <div className="p-2 md:p-4 border-b">
         <div className="flex items-center justify-between gap-2 w-full">
           <div className="flex items-center justify-start space-x-0.5">
@@ -101,7 +104,7 @@ export default function Participant({
                 className="w-max"
               />
             ) : (
-              <h3 className="font-medium">{participant.name}</h3>
+              <h3 className="font-semibold text-lg">{participant.name}</h3>
             )}
 
             {updatePending && (
@@ -129,24 +132,14 @@ export default function Participant({
               <span className="sr-only">Remove</span>
             </Button>
           </div>
-          {(!updatePending && !isEditParticipantOpen) && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleAddExpense(participant.participantId)}
-              className="h-8 gap-1"
-            >
-              <Receipt className="h-3.5 w-3.5" />
-              <span>Add Expense</span>
-            </Button>
-          )}
+
+          <Badge className="" variant={getBadgeVariant(balance)}>
+            Paid: ${totalPaid.toFixed(2)}
+          </Badge>
         </div>
         <div className="flex items-center w-full justify-between mt-2">
-          <Badge className="" variant={getBadgeVariant(balance)}>
-            {getBalanceText(balance)}
-          </Badge>
           <span className="text-xs text-muted-foreground w-max">
-            Paid: ${totalPaid.toFixed(2)}
+            {getBalanceText(balance)}
           </span>
         </div>
       </div>
@@ -163,6 +156,19 @@ export default function Participant({
           </div>
         </CardContent>
       )}
+      <div className="flex items-center justify-end p-2 md:p-3 w-full">
+        {!updatePending && !isEditParticipantOpen && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleAddExpense(participant.participantId)}
+            className="h-8 gap-1"
+          >
+            <Receipt className="h-3.5 w-3.5" />
+            <span>Add Expense</span>
+          </Button>
+        )}
+      </div>
     </Card>
   );
 }

@@ -13,7 +13,10 @@ interface Debt {
   amount: number;
 }
 
-export default function ExpensesSummary({ expenses, participants }: Readonly<SummaryProps>) {
+export default function ExpensesSummary({
+  expenses,
+  participants,
+}: Readonly<SummaryProps>) {
   if (participants.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
@@ -35,7 +38,7 @@ export default function ExpensesSummary({ expenses, participants }: Readonly<Sum
 
   // Initialize balances to 0
   participants.forEach((p) => {
-    balances.set(p.id, 0);
+    balances.set(p.participantId, 0);
   });
 
   // Calculate what each person paid and what they owe
@@ -103,7 +106,7 @@ export default function ExpensesSummary({ expenses, participants }: Readonly<Sum
 
   // Helper function to get participant name by id
   const getParticipantName = (id: string) => {
-    const participant = participants.find((p) => p.id === id);
+    const participant = participants.find((p) => p.participantId === id);
     return participant ? participant.name : "Unknown";
   };
 
