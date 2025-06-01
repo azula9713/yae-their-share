@@ -34,14 +34,14 @@ export default function ExpensesList({
 
   // Helper function to get participant name by id
   const getParticipantName = (id: string) => {
-    const participant = participants.find((p) => p.id === id);
+    const participant = participants.find((p) => p.participantId === id);
     return participant ? participant.name : "Unknown";
   };
 
   return (
     <div className="space-y-4">
       {expenses.map((expense) => (
-        <Card key={expense.id}>
+        <Card key={expense.expenseId}>
           <CardContent className="p-4">
             <div className="flex justify-between items-start">
               <div>
@@ -69,7 +69,7 @@ export default function ExpensesList({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => onRemove(expense.id)}
+                onClick={() => onRemove(expense.expenseId)}
                 className="h-8 w-8 p-0"
               >
                 <Trash2 className="h-4 w-4 text-muted-foreground" />
