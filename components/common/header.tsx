@@ -9,7 +9,7 @@ import { ThemeToggle } from "./theme-toggle";
 
 export default function Header() {
   return (
-    <header className="border-b border-orange-200 dark:border-orange-800 bg-gradient-to-r from-orange-50 via-pink-50 to-rose-50 dark:from-slate-900 dark:via-orange-900/20 dark:to-rose-900/20">
+    <header className="border-b border-emerald-200 dark:border-emerald-800 bg-gradient-to-r from-emerald-50 via-pink-50 to-rose-50 dark:from-slate-900 dark:via-emerald-900/20 dark:to-rose-900/20">
       <div className="container flex items-center justify-between h-16">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center">

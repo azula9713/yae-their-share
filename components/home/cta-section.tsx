@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -6,20 +5,18 @@ import Link from "next/link";
 export default function CTASection() {
   return (
     <div className="text-center">
-      <Card className="border-0 shadow-xl bg-gradient-to-r from-orange-500 via-pink-500 to-rose-500 text-white">
-        <CardContent className="p-12">
-          <h3 className="text-3xl font-bold mb-4">Ready to share the love?</h3>
-          <p className="text-xl text-orange-100 mb-8">
-            Join friends everywhere who keep their relationships
-            money-drama-free
+      <Card className="border border-slate-200 dark:border-slate-800 shadow-sm bg-slate-50 dark:bg-slate-900">
+        <CardContent className="pt-6 pb-8 px-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+            Ready to get started?
+          </h3>
+          <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+            Join thousands who trust Their Share for transparent, fair expense
+            management.
           </p>
-          <Link href="/create-split">
-            <Button
-              size="lg"
-              variant="secondary"
-              className="px-8 py-3 shadow-lg"
-            >
-              Create Your First Split
+          <Link href="/create-event">
+            <Button className="bg-emerald-600 hover:bg-emerald-700">
+              Create Your First Group
             </Button>
           </Link>
         </CardContent>

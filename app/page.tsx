@@ -9,7 +9,7 @@ import { Authenticated, Unauthenticated } from "convex/react";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-pink-50 dark:from-slate-900 dark:via-orange-900/20 dark:to-rose-900/20">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-rose-50 to-pink-50 dark:from-slate-900 dark:via-emerald-900/20 dark:to-rose-900/20">
       <div className="container max-w-6xl mx-auto px-4 py-8">
         <ErrorMessage />
         <Hero />

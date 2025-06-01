@@ -68,14 +68,6 @@
   }
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
@@ -95,25 +87,25 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Changed from purple to orange/pink */
-    --primary: 24 100% 50%;
+    /* All green theme - no gold */
+    --primary: 142 76% 36%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 24 30% 95%;
-    --secondary-foreground: 24 50% 30%;
+    --secondary: 142 30% 95%;
+    --secondary-foreground: 142 50% 25%;
 
-    --muted: 24 20% 96%;
+    --muted: 142 20% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 24 30% 95%;
-    --accent-foreground: 24 50% 30%;
+    --accent: 142 60% 45%;
+    --accent-foreground: 142 90% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 24 30% 90%;
-    --input: 24 30% 90%;
-    --ring: 24 100% 50%;
+    --border: 142 30% 88%;
+    --input: 142 30% 88%;
+    --ring: 142 76% 36%;
 
     --radius: 0.5rem;
   }
@@ -126,25 +118,25 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    /* Changed from purple to orange/pink */
-    --primary: 24 100% 50%;
+    /* All green theme for dark mode - no gold */
+    --primary: 142 76% 36%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 24 30% 15%;
+    --secondary: 142 30% 12%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 24 30% 15%;
+    --muted: 142 30% 12%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 24 30% 15%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 142 60% 45%;
+    --accent-foreground: 142 90% 95%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 24 30% 15%;
-    --input: 24 30% 15%;
-    --ring: 24 100% 50%;
+    --border: 142 30% 12%;
+    --input: 142 30% 12%;
+    --ring: 142 76% 36%;
   }
 }
 

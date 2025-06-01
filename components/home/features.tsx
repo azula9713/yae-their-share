@@ -1,89 +1,115 @@
-import { Calculator, Coffee, Shield, Smartphone, TrendingUp, Users } from "lucide-react";
+import {
+  Calculator,
+  CheckCircle,
+  Coffee,
+  Shield,
+  Smartphone,
+  TrendingUp,
+  Users,
+  Zap,
+} from "lucide-react";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 export default function Features() {
   return (
     <div className="grid gap-8 mb-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Made for Real Friendships</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300">
-              Because money shouldn't complicate your relationships
+      <div className="mb-20">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+            Stop the money stress
+          </h2>
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            No more awkward conversations, confusing spreadsheets, or math
+            mistakes. Just fair, transparent expense splitting that everyone can
+            trust.
+          </p>
+        </div>
+
+        <div className="grid gap-12 lg:grid-cols-3">
+          {/* Perk 1 */}
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 mb-6">
+              <Calculator className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Perfect calculations
+            </h3>
+            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+              Automatic splitting that handles tips, taxes, and custom amounts.
+              Never worry about math errors or unfair splits again.
             </p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <span>Handles any split scenario</span>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <span>Precise to the penny</span>
+              </div>
+            </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-orange-50 dark:from-slate-800 dark:to-orange-900/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-pink-100 dark:from-orange-900 dark:to-pink-900 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                  <Users className="h-6 w-6 text-orange-600" />
-                </div>
-                <CardTitle className="text-xl text-slate-800 dark:text-white">Fair & Flexible</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-300">
-                  Not everyone needs to pay for everything. Split expenses exactly how your group wants.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+          {/* Perk 2 */}
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-blue-100 dark:bg-blue-900/30 mb-6">
+              <Zap className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Instant clarity
+            </h3>
+            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+              See who owes what at a glance. No more digging through receipts or
+              spreadsheets. Everything is clear and transparent.
+            </p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <span>Optimized settlement plans</span>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <span>Visualize your expenses easily</span>
+              </div>
+            </div>
+          </div>
 
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-emerald-50 dark:from-slate-800 dark:to-emerald-900/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                  <TrendingUp className="h-6 w-6 text-emerald-600" />
-                </div>
-                <CardTitle className="text-xl text-slate-800 dark:text-white">Crystal Clear</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-300">
-                  No confusion, no arguments. See exactly who owes what with beautiful, easy summaries.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-amber-50 dark:from-slate-800 dark:to-amber-900/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-900 dark:to-yellow-900 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                  <Coffee className="h-6 w-6 text-amber-600" />
-                </div>
-                <CardTitle className="text-xl text-slate-800 dark:text-white">Every Occasion</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-300">
-                  From coffee dates to dream vacations. Keep every shared moment organized and stress-free.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-purple-50 dark:from-slate-800 dark:to-purple-900/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                  <Shield className="h-6 w-6 text-purple-600" />
-                </div>
-                <CardTitle className="text-xl text-slate-800 dark:text-white">Your Choice</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-300">
-                  Jump right in or create an account. Your data stays safe either way you choose.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-blue-900/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                  <Smartphone className="h-6 w-6 text-blue-600" />
-                </div>
-                <CardTitle className="text-xl text-slate-800 dark:text-white">Always With You</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-300">
-                  Add expenses on the spot, settle up anywhere. Works beautifully on every device.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-rose-50 dark:from-slate-800 dark:to-rose-900/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-rose-100 to-pink-100 dark:from-rose-900 dark:to-pink-900 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                  <Calculator className="h-6 w-6 text-rose-600" />
-                </div>
-                <CardTitle className="text-xl text-slate-800 dark:text-white">Smart Math</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-300">
-                  We handle the complex calculations so you can focus on making memories together.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+          {/* Perk 3 */}
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-purple-100 dark:bg-purple-900/30 mb-6">
+              <Shield className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Built for groups
+            </h3>
+            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+              Whether it's roommates, travel buddies, or project teams -
+              designed for any group size with privacy and security first.
+            </p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <span>Sync across all devices</span>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <span>Set your own privacy levels</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Social Proof */}
+        {/* <div className="text-center mt-16">
+          <p className="text-slate-500 dark:text-slate-400 text-lg">
+            Trusted by{" "}
+            <span className="font-semibold text-slate-700 dark:text-slate-300">
+              10,000+ people
+            </span>{" "}
+            worldwide
+          </p>
+        </div> */}
+      </div>
+    </div>
   );
 }

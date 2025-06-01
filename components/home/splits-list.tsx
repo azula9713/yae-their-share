@@ -57,7 +57,7 @@ export default function SplitsList() {
 
   return (
     <div className="mb-16">
-      <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-orange-50 dark:from-slate-800 dark:to-orange-900/20">
+      <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-emerald-50 dark:from-slate-800 dark:to-emerald-900/20">
         <CardHeader className="flex flex-row items-center justify-between">
           <div className="flex-1 min-w-0 space-y-1">
             <div className="flex items-center justify-between">
@@ -66,7 +66,7 @@ export default function SplitsList() {
               </CardTitle>
               <Badge
                 variant="outline"
-                className="text-sm bg-orange-50 border-orange-200 text-orange-700 dark:bg-orange-900/30 dark:border-orange-800 dark:text-orange-300"
+                className="text-sm bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-900/30 dark:border-emerald-800 dark:text-emerald-300"
               >
                 {splits.length} split
                 {splits.length !== 1 ? "s" : ""}
@@ -91,7 +91,7 @@ export default function SplitsList() {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-orange-200 text-orange-700 hover:bg-orange-50 dark:border-orange-800 dark:text-orange-300"
+                className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300"
               >
                 View All Adventures ({splits.length})
               </Button>
