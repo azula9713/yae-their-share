@@ -22,13 +22,13 @@ export default function ParticipantExpense({
 
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
-  const handleExpenseEdited = (editedExpense: Omit<IExpense, "id">) => {
-    editExpense(expense.id, editedExpense);
+  const handleExpenseEdited = (editedExpense: Omit<IExpense, "expenseId">) => {
+    editExpense(expense.expenseId, editedExpense);
     setIsEditParticipantOpen(false);
   };
 
   return (
-    <div key={expense.id} className="p-3 bg-muted/30">
+    <div key={expense.expenseId} className="p-3 bg-muted/30">
       <div className="flex justify-between items-center">
         <div>
           <p className="text-sm font-medium">{expense.description}</p>
@@ -51,7 +51,7 @@ export default function ParticipantExpense({
           <Button
             variant="destructive"
             size="sm"
-            onClick={() => removeParticipant(participant.id)}
+            onClick={() => removeParticipant(participant.participantId)}
             className="size-8 p-0 bg-red-500"
           >
             <Trash2 className="size-4" />

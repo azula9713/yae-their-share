@@ -78,7 +78,10 @@ export default function useSplit({ splitId }: Readonly<Props>) {
     setIsAddExpenseOpen(false);
   };
 
-  const editExpense = (id: string, updatedExpense: Omit<IExpense, "id">) => {
+  const editExpense = (
+    id: string,
+    updatedExpense: Omit<IExpense, "expenseId">
+  ) => {
     if (!split) return;
 
     const updatedExpenses = split.expenses.map((e) =>
