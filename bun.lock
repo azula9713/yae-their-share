@@ -42,6 +42,7 @@
         "convex": "^1.24.3",
         "date-fns": "^4.1.0",
         "embla-carousel-react": "8.6.0",
+        "global-currency-list": "^0.0.2",
         "input-otp": "1.4.2",
         "lru-cache": "^11.1.0",
         "lucide-react": "^0.511.0",
@@ -833,6 +834,8 @@
     "get-tsconfig": ["get-tsconfig@4.10.1", "", { "dependencies": { "resolve-pkg-maps": "^1.0.0" } }, "sha512-auHyJ4AgMz7vgS8Hp3N6HXSmlMdUyhSUrfBF16w153rxtLIEOE+HGqaBppczZvnHLqQJfiHotCYpNhl0lUROFQ=="],
 
     "glob-parent": ["glob-parent@6.0.2", "", { "dependencies": { "is-glob": "^4.0.3" } }, "sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A=="],
+
+    "global-currency-list": ["global-currency-list@0.0.2", "", {}, "sha512-qHuQNyv7P4BWKQmKAIpfDXRy0a14483rrt/Tb0d7UNiP6UQnJ8DSl5mcf8fzxbkPXyq2eAddDcsaLVu7mYhodQ=="],
 
     "globals": ["globals@14.0.0", "", {}, "sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ=="],
 

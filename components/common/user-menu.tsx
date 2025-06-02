@@ -52,12 +52,12 @@ export function UserMenu() {
                 <p className="w-[200px] truncate text-sm text-muted-foreground">
                   {user?.isAnonymous
                     ? "Anonymous User"
-                    : user?.email ?? "No email provided"}
+                    : (user?.email ?? "No email provided")}
                 </p>
               </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/settings")}>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
             </DropdownMenuItem>
