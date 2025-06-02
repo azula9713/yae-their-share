@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,6 @@ import {
   Shield,
   Download,
   Trash2,
-  Save,
   AlertTriangle,
 } from "lucide-react";
 import CurrencySettings from "@/components/settings/currency-settings";
@@ -29,17 +28,13 @@ import {
   useGetCurrentUser,
   useUpdateUserSettings,
 } from "@/hooks/user/use-user";
-import { getCurrencyByCode } from "global-currency-list";
 
 export default function SettingsPage() {
   const theme = useTheme();
 
   const { data: user } = useGetCurrentUser();
-  const {
-    mutate: saveUserSettings,
-    isPending: settingsSaving,
-    error: saveSettingsError,
-  } = useUpdateUserSettings();
+  const { mutate: updateSettings, error: saveSettingsError } =
+    useUpdateUserSettings();
 
   const defaultSettings: IAppSettings = {
     currency: {
@@ -60,37 +55,7 @@ export default function SettingsPage() {
     },
   };
 
-  const [settings, setSettings] = useState<IAppSettings>(defaultSettings);
-
-  const hasChanges =
-    JSON.stringify(settings) !== JSON.stringify(user?.settings);
-
-  const updateCurrency = (code: string) => {
-    const currency = getCurrencyByCode(code);
-    const existingCurrency = settings.currency;
-    if (currency) {
-      updateSetting("currency", {
-        ...existingCurrency,
-        code: currency.code,
-        symbol: currency.symbol,
-        currencyName: currency.currency_name,
-        countryName: currency.country_name,
-        decimalPlaces: Number(currency.decimal_units) || 2,
-      });
-    }
-  };
-
-  const updateSetting = (path: string, value: any) => {
-    const newSettings = { ...settings };
-    const keys = path.split(".");
-    let current: any = newSettings;
-    for (let i = 0; i < keys.length - 1; i++) {
-      current[keys[i]] ??= {};
-      current = current[keys[i]];
-    }
-    current[keys[keys.length - 1]] = value;
-    setSettings(newSettings);
-  };
+  const settings = user?.settings || defaultSettings;
 
   const exportData = () => {
     const events = localStorage.getItem("theirShareEvents") ?? "[]";
@@ -133,14 +98,11 @@ export default function SettingsPage() {
   useEffect(() => {
     if (!user) return;
 
-    if (user.settings) {
-      setSettings(user.settings);
-    } else {
-      saveUserSettings({
+    if (!user.settings) {
+      // Initialize settings if not present
+      updateSettings({
         settings: defaultSettings,
-        userId: user.id,
       });
-      setSettings(defaultSettings);
     }
   }, [user]);
 
@@ -164,32 +126,6 @@ export default function SettingsPage() {
               Customize your expense tracking experience
             </p>
           </div>
-
-          {hasChanges && (
-            <Button
-              onClick={() => {
-                saveUserSettings({
-                  settings,
-                  userId: user?.id!,
-                });
-              }}
-              disabled={!hasChanges || settingsSaving}
-              className="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700"
-            >
-              {settingsSaving && (
-                <>
-                  <div className="h-4 w-4 border-2 border-white border-t-transparent animate-spin rounded-full mr-2" />
-                  Saving...
-                </>
-              )}
-              {!settingsSaving && !saveSettingsError && (
-                <>
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
-                </>
-              )}
-            </Button>
-          )}
         </div>
 
         {saveSettingsError && (
@@ -202,121 +138,7 @@ export default function SettingsPage() {
         )}
 
         <div className="grid gap-6">
-          {/* Currency & Formatting */}
-          {/* <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-emerald-50 dark:from-slate-800 dark:to-emerald-900/20">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5 text-emerald-600" />
-                Currency & Formatting
-              </CardTitle>
-              <CardDescription>
-                Configure how monetary values are displayed
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="currency">Currency</Label>
-                  <Select
-                    value={settings.currency.code}
-                    onValueChange={(value) => updateSetting("currency", value)}
-                  >
-                    <SelectTrigger id="currency">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {currencies.map((currency) => (
-                        <SelectItem
-                          key={`${currency.code + currency.country_name}`}
-                          value={currency.code}
-                        >
-                          <div className="flex items-center gap-2">
-                            <Badge variant="outline" className="text-xs">
-                              {currency.code}
-                            </Badge>
-                           
-                            <span>{currency.currency_name}</span>
-                             <span className="font-mono text-sm">
-                              {currency.symbol}
-                            </span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="decimal-places">Decimal Places</Label>
-                  <Select
-                    value={settings.currency.decimalPlaces.toString()}
-                    onValueChange={(value) =>
-                      updateSetting("decimalPlaces", Number.parseInt(value))
-                    }
-                  >
-                    <SelectTrigger id="decimal-places">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="0">0 (No decimals)</SelectItem>
-                      <SelectItem value="2">2 (Standard)</SelectItem>
-                      <SelectItem value="3">3 (Precise)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Show Cents</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Display decimal places in amounts
-                    </p>
-                  </div>
-                  <Switch
-                    checked={settings.display.showCents}
-                    onCheckedChange={(checked) =>
-                      updateSetting("display.showCents", checked)
-                    }
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="round-to">Round to Nearest</Label>
-                  <Select
-                    value={settings.display.roundToNearest}
-                    onValueChange={(value) =>
-                      updateSetting("display.roundToNearest", value)
-                    }
-                  >
-                    <SelectTrigger id="round-to">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="0.01">0.01 (Penny)</SelectItem>
-                      <SelectItem value="0.05">0.05 (Nickel)</SelectItem>
-                      <SelectItem value="0.10">0.10 (Dime)</SelectItem>
-                      <SelectItem value="0.25">0.25 (Quarter)</SelectItem>
-                      <SelectItem value="1.00">1.00 (Dollar)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                <p className="text-sm font-medium text-emerald-800 dark:text-emerald-200 mb-2">
-                  Preview:
-                </p>
-                <div className="space-y-1 text-sm">
-                  <p>Small amount: {formatCurrencyExample(12.34)}</p>
-                  <p>Large amount: {formatCurrencyExample(1234.56)}</p>
-                  <p>Round number: {formatCurrencyExample(100)}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card> */}
-          <CurrencySettings {...{ settings, updateCurrency, updateSetting }} />
+          <CurrencySettings {...{ settings, updateSettings }} />
 
           {/* Privacy & Security */}
           <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-blue-900/20">
@@ -339,8 +161,9 @@ export default function SettingsPage() {
                 </div>
                 <Switch
                   checked={settings.privacy.shareAnalytics}
-                  onCheckedChange={(checked) =>
-                    updateSetting("privacy.shareAnalytics", checked)
+                  onCheckedChange={
+                    (checked) => {}
+                    // updateSetting("privacy.shareAnalytics", checked)
                   }
                 />
               </div>
@@ -354,8 +177,9 @@ export default function SettingsPage() {
                 </div>
                 <Switch
                   checked={settings.privacy.autoBackup}
-                  onCheckedChange={(checked) =>
-                    updateSetting("privacy.autoBackup", checked)
+                  onCheckedChange={
+                    (checked) => {}
+                    // updateSetting("privacy.autoBackup", checked)
                   }
                 />
               </div>

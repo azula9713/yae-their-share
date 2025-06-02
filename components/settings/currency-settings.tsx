@@ -16,19 +16,23 @@ import {
   SelectValue,
 } from "../ui/select";
 import { IAppSettings } from "@/types/settings.types";
-import { getAllCurrencies } from "global-currency-list";
+import { getAllCurrencies, getCurrencyByCode } from "global-currency-list";
 import { Switch } from "../ui/switch";
+import { UseMutateFunction } from "@tanstack/react-query";
 
 type Props = {
   settings: IAppSettings;
-  updateCurrency: (currency: string) => void;
-  updateSetting: (key: string, value: any) => void;
+  updateSettings: UseMutateFunction<
+    { success: boolean; message: string },
+    Error,
+    { settings: IAppSettings },
+    unknown
+  >;
 };
 
 export default function CurrencySettings({
   settings,
-  updateCurrency,
-  updateSetting,
+  updateSettings,
 }: Readonly<Props>) {
   const currencies = getAllCurrencies().filter(
     (currency, index, self) =>
@@ -69,7 +73,27 @@ export default function CurrencySettings({
             <Label htmlFor="currency">Currency</Label>
             <Select
               value={settings.currency.code}
-              onValueChange={(value) => updateCurrency(value)}
+              onValueChange={(value) => {
+                const currency = getCurrencyByCode(value);
+                if (currency) {
+                  const updatedSettings: IAppSettings = {
+                    ...settings,
+                    currency: {
+                      ...settings.currency,
+                      code: currency.code,
+                      symbol: currency.symbol ?? "",
+                      currencyName: currency.currency_name,
+                      countryName: currency.country_name,
+                      decimalPlaces: settings.currency.decimalPlaces,
+                      displayCents: settings.currency.displayCents,
+                    },
+                  };
+
+                  updateSettings({
+                    settings: updatedSettings,
+                  });
+                }
+              }}
             >
               <SelectTrigger id="currency">
                 <SelectValue />
@@ -100,9 +124,22 @@ export default function CurrencySettings({
             <Label htmlFor="decimal-places">Decimal Places</Label>
             <Select
               value={settings.currency.decimalPlaces.toString()}
-              onValueChange={(value) =>
-                updateSetting("currency.decimalPlaces", parseInt(value))
-              }
+              onValueChange={(value) => {
+                const decimalPlaces = parseInt(value);
+                if (!isNaN(decimalPlaces)) {
+                  const updatedSettings: IAppSettings = {
+                    ...settings,
+                    currency: {
+                      ...settings.currency,
+                      decimalPlaces: decimalPlaces,
+                    },
+                  };
+
+                  updateSettings({
+                    settings: updatedSettings,
+                  });
+                }
+              }}
             >
               <SelectTrigger id="decimal-places">
                 <SelectValue />
@@ -126,9 +163,19 @@ export default function CurrencySettings({
             </div>
             <Switch
               checked={settings.currency.displayCents}
-              onCheckedChange={(checked) =>
-                updateSetting("currency.displayCents", checked)
-              }
+              onCheckedChange={(checked) => {
+                const updatedSettings: IAppSettings = {
+                  ...settings,
+                  currency: {
+                    ...settings.currency,
+                    displayCents: checked,
+                  },
+                };
+
+                updateSettings({
+                  settings: updatedSettings,
+                });
+              }}
             />
           </div>
         </div>

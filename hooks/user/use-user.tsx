@@ -25,11 +25,13 @@ export function useGetCurrentUser() {
 export function useUpdateUserSettings() {
   const convex = useConvex();
   const queryClient = useQueryClient();
+  const { data: user } = useGetCurrentUser();
+  const userId = user?.id;
 
   return useMutation({
-    mutationFn: async ({ settings, userId }: { settings: IAppSettings; userId: string }) => {
+    mutationFn: async ({ settings }: { settings: IAppSettings }) => {
       return await convex.mutation(api.users.updateUserSettings, {
-        userId,
+        userId: userId!,
         settings,
       });
     },
