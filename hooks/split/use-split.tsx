@@ -1,17 +1,16 @@
-import { useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { api } from "@/convex/_generated/api";
 import { IExpense, IParticipant, ISplit } from "@/types/split.types";
 import { useUpdateSplit } from "./use-split-mutations";
 import { useFetchSplit } from "./use-split-query";
+import { useGetCurrentUser } from "../user/use-user";
 
 type Props = {
   splitId: string;
 };
 
 export default function useSplit({ splitId }: Readonly<Props>) {
-  const user = useQuery(api.authFunctions.currentUser);
+  const { data: user } = useGetCurrentUser();
   const updateSplitMutation = useUpdateSplit(user?.id!);
   const { isPending: updatePending, isError: updateError } =
     updateSplitMutation;

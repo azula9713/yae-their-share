@@ -2,8 +2,6 @@
 
 import { Button } from "../ui/button";
 import SplitItem from "./split-item";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import {
   Card,
   CardContent,
@@ -13,9 +11,10 @@ import {
 } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { useFetchAllSplits } from "@/hooks/split/use-split-query";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function SplitsList() {
-  const user = useQuery(api.authFunctions.currentUser);
+  const { data: user } = useGetCurrentUser();
 
   const userId = user?.id;
 

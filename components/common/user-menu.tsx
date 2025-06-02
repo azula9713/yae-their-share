@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { User, LogOut, Settings, FolderSync } from "lucide-react";
-import { Authenticated, Unauthenticated, useQuery } from "convex/react";
+import { Authenticated, Unauthenticated } from "convex/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,13 +13,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { api } from "@/convex/_generated/api";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export function UserMenu() {
   const router = useRouter();
   const { signOut } = useAuthActions();
 
-  const user = useQuery(api.authFunctions.currentUser);
+  const { data: user } = useGetCurrentUser();
 
   const handleLogout = async () => {
     await signOut().finally(() => {

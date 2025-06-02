@@ -40,6 +40,24 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
         phone: args.profile.phone,
         phoneVerificationTime: Date.now(),
         isAnonymous: args.provider.id === "anonymous",
+        settings: {
+          currency: {
+            code: "USD",
+            symbol: "$",
+            currencyName: "US Dollar",
+            countryName: "United States",
+            decimalPlaces: 2,
+            displayCents: true,
+          },
+          privacy: {
+            shareAnalytics: true,
+            autoBackup: true,
+          },
+          display: {
+            compactMode: false,
+            theme: "system",
+          },
+        },
       });
     },
   },

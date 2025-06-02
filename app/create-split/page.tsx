@@ -3,17 +3,16 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-
-import CreateForm from "@/components/create-split/create-form";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useEffect } from "react";
+
+import CreateForm from "@/components/create-split/create-form";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function CreateEventPage() {
   const { signIn } = useAuthActions();
 
-  const user = useQuery(api.authFunctions.currentUser);
+  const { data: user } = useGetCurrentUser();
   const isAnonymous = user?.isAnonymous;
   const userEmail = user?.email;
 

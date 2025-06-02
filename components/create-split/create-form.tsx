@@ -3,9 +3,7 @@ import { useRouter } from "next/navigation";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
-import { useQuery } from "convex/react";
 
-import { api } from "@/convex/_generated/api";
 import { useCreateSplit } from "@/hooks/split/use-split-mutations";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -14,10 +12,11 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function CreateForm() {
   const router = useRouter();
-  const user = useQuery(api.authFunctions.currentUser);
+  const {data:user} = useGetCurrentUser();
   const [eventName, setEventName] = useState("");
   const [noOfMembers, setNoOfMembers] = useState("");
   const [datePickerOpen, setDatePickerOpen] = useState(false);
