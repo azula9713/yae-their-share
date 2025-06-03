@@ -85,7 +85,7 @@ export default function EventPage({
     <div className="container max-w-4xl mx-auto px-2 md:px-4 py-8">
       <SubHeader />
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">{split.name}</h1>
+        <h1 className="text-3xl font-bold text-primary">{split.name}</h1>
         {split.date && (
           <p className="text-muted-foreground">
             {format(new Date(split.date), "MMMM d, yyyy")}

@@ -2,6 +2,7 @@ import { PencilIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import useSplit from "@/hooks/split/use-split";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 import { IExpense, IParticipant } from "@/types/split.types";
 
 import ExpenseDialog from "../expense-dialog";
@@ -22,11 +23,18 @@ export default function ParticipantExpense({
     splitId: eventId,
   });
 
+  const { data: user } = useGetCurrentUser();
+  const settings = user?.settings;
+
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
   const handleExpenseEdited = (editedExpense: Omit<IExpense, "expenseId">) => {
     editExpense(expense.expenseId, editedExpense);
     setIsEditParticipantOpen(false);
+  };
+
+  const getExpenseAmountText = (amount: number) => {
+    return `${settings?.currency.symbol}${amount.toFixed(settings?.currency?.decimalPlaces ?? 2)}`;
   };
 
   return (
@@ -39,7 +47,9 @@ export default function ParticipantExpense({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <p className="text-sm md:text-base">${expense.amount.toFixed(2)}</p>
+          <p className="text-sm md:text-base">
+            {getExpenseAmountText(expense.amount)}
+          </p>
           <Button
             variant="ghost"
             size="sm"

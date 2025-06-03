@@ -26,7 +26,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <Providers>
-            <div className="flex flex-col">
+            <div className="flex flex-col mx-auto">
               <Header />
               <main className="flex-1 max-h-[calc(100svh-calc(var(--spacing)*16))]">
                 {children}

@@ -2,6 +2,7 @@ import { api } from "@/convex/_generated/api";
 import { IAppSettings } from "@/types/settings.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useConvex } from "convex/react";
+import { useTheme } from "next-themes";
 
 export function useGetCurrentUser() {
   const convex = useConvex();
@@ -22,6 +23,52 @@ export function useGetCurrentUser() {
   });
 }
 
+export function useGetUserSettings() {
+  const { data: user } = useGetCurrentUser();
+  const theme = useTheme();
+
+  const defaultSettings: IAppSettings = {
+    currency: {
+      code: "USD",
+      symbol: "$",
+      currencyName: "United States Dollar",
+      countryName: "United States",
+      decimalPlaces: 2,
+      displayCents: true,
+    },
+    privacy: {
+      shareAnalytics: false,
+      autoBackup: true,
+    },
+    display: {
+      compactMode: false,
+      theme: theme.theme ?? "system", // Default to system theme if not set
+    },
+  };
+
+  if (!user?.settings) {
+    return defaultSettings;
+  }
+
+  const settings = user.settings;
+
+  return {
+    ...defaultSettings,
+    ...settings,
+    currency: {
+      ...defaultSettings.currency,
+      ...settings.currency,
+    },
+    privacy: {
+      ...defaultSettings.privacy,
+      ...settings.privacy,
+    },
+    display: {
+      ...defaultSettings.display,
+      ...settings.display,
+    },
+  };
+}
 export function useUpdateUserSettings() {
   const convex = useConvex();
   const queryClient = useQueryClient();

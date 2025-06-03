@@ -2,6 +2,7 @@ import { PencilIcon, Receipt, RefreshCcw, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import useSplit from "@/hooks/split/use-split";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 import { IExpense, IParticipant } from "@/types/split.types";
 
 import { Badge } from "../ui/badge";
@@ -29,6 +30,9 @@ export default function Participant({
   const { removeParticipant, editParticipant, updatePending } = useSplit({
     splitId: eventId,
   });
+  const { data: user } = useGetCurrentUser();
+  const settings = user?.settings;
+
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
   const handleAddExpense = (participantId: string) => {
@@ -77,12 +81,16 @@ export default function Participant({
 
   const getBalanceText = (balance: number) => {
     if (balance > 0) {
-      return `Gets back $${balance.toFixed(2)}`;
+      return `Gets back ${settings?.currency.symbol}${balance.toFixed(settings?.currency.decimalPlaces ?? 2)}`;
     } else if (balance < 0) {
-      return `Owes $${Math.abs(balance).toFixed(2)}`;
+      return `Owes ${settings?.currency.symbol}${Math.abs(balance).toFixed(settings?.currency.decimalPlaces ?? 2)}`;
     } else {
       return "All settled";
     }
+  };
+
+  const getPaidText = (totalPaid: number) => {
+    return `Paid: ${settings?.currency.symbol}${totalPaid.toFixed(settings?.currency.decimalPlaces ?? 2)}`;
   };
 
   return (
@@ -137,7 +145,7 @@ export default function Participant({
           </div>
 
           <Badge className="" variant={getBadgeVariant(balance)}>
-            Paid: ${totalPaid.toFixed(2)}
+            {getPaidText(totalPaid)}
           </Badge>
         </div>
         <div className="flex items-center w-full justify-between mt-2">

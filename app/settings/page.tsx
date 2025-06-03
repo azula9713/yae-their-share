@@ -8,7 +8,6 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
-import { useTheme } from "next-themes";
 import { useEffect } from "react";
 
 import CurrencySettings from "@/components/settings/currency-settings";
@@ -26,37 +25,20 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import {
   useGetCurrentUser,
+  useGetUserSettings,
   useUpdateUserSettings,
 } from "@/hooks/user/use-user";
-import { IAppSettings } from "@/types/settings.types";
 
 export default function SettingsPage() {
-  const theme = useTheme();
-
   const { data: user } = useGetCurrentUser();
   const { mutate: updateSettings, error: saveSettingsError } =
     useUpdateUserSettings();
 
-  const defaultSettings: IAppSettings = {
-    currency: {
-      code: "USD",
-      symbol: "$",
-      currencyName: "United States Dollar",
-      countryName: "United States",
-      decimalPlaces: 2,
-      displayCents: true,
-    },
-    privacy: {
-      shareAnalytics: false,
-      autoBackup: true,
-    },
-    display: {
-      compactMode: false,
-      theme: theme.theme ?? "system", // Default to system theme if not set
-    },
-  };
-
-  const settings = user?.settings || defaultSettings;
+  const {
+    currency: currencySettings,
+    display: displaySettings,
+    privacy: privacySettings,
+  } = useGetUserSettings();
 
   const exportData = () => {
     const events = localStorage.getItem("theirShareEvents") ?? "[]";
@@ -102,7 +84,11 @@ export default function SettingsPage() {
     if (!user.settings) {
       // Initialize settings if not present
       updateSettings({
-        settings: defaultSettings,
+        settings: {
+          currency: currencySettings,
+          display: displaySettings,
+          privacy: privacySettings,
+        },
       });
     }
   }, [user]);
@@ -139,7 +125,7 @@ export default function SettingsPage() {
         )}
 
         <div className="grid gap-6">
-          <CurrencySettings {...{ settings, updateSettings }} />
+          <CurrencySettings {...{ updateSettings }} />
 
           {/* Privacy & Security */}
           <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-blue-900/20">
@@ -161,7 +147,7 @@ export default function SettingsPage() {
                   </p>
                 </div>
                 <Switch
-                  checked={settings.privacy.shareAnalytics}
+                  checked={privacySettings.shareAnalytics}
                   onCheckedChange={
                     (checked) => {}
                     // updateSetting("privacy.shareAnalytics", checked)
@@ -177,7 +163,7 @@ export default function SettingsPage() {
                   </p>
                 </div>
                 <Switch
-                  checked={settings.privacy.autoBackup}
+                  checked={privacySettings.autoBackup}
                   onCheckedChange={
                     (checked) => {}
                     // updateSetting("privacy.autoBackup", checked)

@@ -2,6 +2,7 @@ import { UseMutateFunction } from "@tanstack/react-query";
 import { getAllCurrencies, getCurrencyByCode } from "global-currency-list";
 import { DollarSign } from "lucide-react";
 
+import { useGetUserSettings } from "@/hooks/user/use-user";
 import { IAppSettings } from "@/types/settings.types";
 
 import { Badge } from "../ui/badge";
@@ -23,7 +24,6 @@ import {
 import { Switch } from "../ui/switch";
 
 type Props = {
-  settings: IAppSettings;
   updateSettings: UseMutateFunction<
     { success: boolean; message: string },
     Error,
@@ -32,10 +32,13 @@ type Props = {
   >;
 };
 
-export default function CurrencySettings({
-  settings,
-  updateSettings,
-}: Readonly<Props>) {
+export default function CurrencySettings({ updateSettings }: Readonly<Props>) {
+  const {
+    currency: currencySettings,
+    privacy: privacySettings,
+    display: displaySettings,
+  } = useGetUserSettings();
+
   const currencies = getAllCurrencies().filter(
     (currency, index, self) =>
       index ===
@@ -48,14 +51,14 @@ export default function CurrencySettings({
 
   const formatCurrencyExample = (amount: number) => {
     const formatted = amount.toLocaleString("en-US", {
-      minimumFractionDigits: settings.currency.displayCents
-        ? settings.currency.decimalPlaces
+      minimumFractionDigits: currencySettings.displayCents
+        ? currencySettings.decimalPlaces
         : 0,
-      maximumFractionDigits: settings.currency.displayCents
-        ? settings.currency.decimalPlaces
+      maximumFractionDigits: currencySettings.displayCents
+        ? currencySettings.decimalPlaces
         : 0,
     });
-    return `${settings.currency.symbol}${formatted}`;
+    return `${currencySettings.symbol}${formatted}`;
   };
 
   return (
@@ -74,21 +77,22 @@ export default function CurrencySettings({
           <div className="space-y-2">
             <Label htmlFor="currency">Currency</Label>
             <Select
-              value={settings.currency.code}
+              value={currencySettings.code}
               onValueChange={(value) => {
                 const currency = getCurrencyByCode(value);
                 if (currency) {
                   const updatedSettings: IAppSettings = {
-                    ...settings,
                     currency: {
-                      ...settings.currency,
+                      ...currencySettings,
                       code: currency.code,
                       symbol: currency.symbol ?? "",
                       currencyName: currency.currency_name,
                       countryName: currency.country_name,
-                      decimalPlaces: settings.currency.decimalPlaces,
-                      displayCents: settings.currency.displayCents,
+                      decimalPlaces: currencySettings.decimalPlaces,
+                      displayCents: currencySettings.displayCents,
                     },
+                    privacy: { ...privacySettings },
+                    display: { ...displaySettings },
                   };
 
                   updateSettings({
@@ -125,16 +129,17 @@ export default function CurrencySettings({
           <div className="space-y-2">
             <Label htmlFor="decimal-places">Decimal Places</Label>
             <Select
-              value={settings.currency.decimalPlaces.toString()}
+              value={currencySettings.decimalPlaces.toString()}
               onValueChange={(value) => {
                 const decimalPlaces = parseInt(value);
                 if (!isNaN(decimalPlaces)) {
                   const updatedSettings: IAppSettings = {
-                    ...settings,
                     currency: {
-                      ...settings.currency,
+                      ...currencySettings,
                       decimalPlaces: decimalPlaces,
                     },
+                    privacy: { ...privacySettings },
+                    display: { ...displaySettings },
                   };
 
                   updateSettings({
@@ -164,14 +169,15 @@ export default function CurrencySettings({
               </p>
             </div>
             <Switch
-              checked={settings.currency.displayCents}
+              checked={currencySettings.displayCents}
               onCheckedChange={(checked) => {
                 const updatedSettings: IAppSettings = {
-                  ...settings,
                   currency: {
-                    ...settings.currency,
+                    ...currencySettings,
                     displayCents: checked,
                   },
+                  privacy: { ...privacySettings },
+                  display: { ...displaySettings },
                 };
 
                 updateSettings({
