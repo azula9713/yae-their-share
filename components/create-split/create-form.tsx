@@ -17,13 +17,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export default function CreateForm() {
   const router = useRouter();
-  const {data:user} = useGetCurrentUser();
+  const { data: user } = useGetCurrentUser();
   const [eventName, setEventName] = useState("");
   const [noOfMembers, setNoOfMembers] = useState("");
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
 
-  const createSplit = useCreateSplit(user?.id!);
+  const {
+    mutate: createSplit,
+    isPending: creatingSplit,
+    error: createSplitError,
+  } = useCreateSplit(user?.id!);
+
+  const submitButtonDisabled =
+    !eventName || !noOfMembers || creatingSplit || !user?.id;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +38,7 @@ export default function CreateForm() {
     // Create a unique ID
     const newId = uuidv4();
 
-    createSplit.mutate({
+    createSplit({
       name: eventName,
       splitId: newId,
       date: date?.toString() ?? "",
@@ -107,8 +114,17 @@ export default function CreateForm() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button type="submit" className="w-full">
-          Continue
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={submitButtonDisabled}
+        >
+          {creatingSplit ? "Creating..." : "Create Split"}
+          {createSplitError && (
+            <span className="text-red-500 ml-2">
+              {createSplitError.message}
+            </span>
+          )}
         </Button>
       </CardFooter>
     </form>
