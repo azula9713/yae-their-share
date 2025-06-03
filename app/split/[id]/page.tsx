@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { use } from "react";
 
 import AddParticipantDialog from "@/components/add-participant-dialog";
-import SubHeader from "@/components/common/sub-header";
 import ExpenseDialog from "@/components/expense-dialog";
 import Participants from "@/components/split/participants";
 import Summary from "@/components/split/summary";
@@ -36,16 +35,13 @@ export default function EventPage({
 
   if (isLoading) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <SubHeader />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p>Loading split data...</p>
-            <p className="text-sm text-muted-foreground mt-2">
-              ISplit ID: {splitId}
-            </p>
-          </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p>Loading split data...</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            ISplit ID: {splitId}
+          </p>
         </div>
       </div>
     );
@@ -53,15 +49,12 @@ export default function EventPage({
 
   if (error) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <SubHeader />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <p className="text-red-500">Error loading split data.</p>
-            <p className="text-sm text-muted-foreground mt-2">
-              ISplit ID: {splitId}
-            </p>
-          </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <p className="text-red-500">Error loading split data.</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            ISplit ID: {splitId}
+          </p>
         </div>
       </div>
     );
@@ -69,21 +62,17 @@ export default function EventPage({
 
   if (!split) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <SubHeader />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-red-500">Split not found.</p>
-          </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-red-500">Split not found.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container max-w-4xl mx-auto px-2 md:px-4 py-8">
-      <SubHeader />
+    <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-primary">{split.name}</h1>
         {split.date && (
@@ -131,6 +120,6 @@ export default function EventPage({
         onAdd={addExpense}
         participants={split.participants}
       />
-    </div>
+    </>
   );
 }
