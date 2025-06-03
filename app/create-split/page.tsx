@@ -12,7 +12,7 @@ import { useGetCurrentUser } from "@/hooks/user/use-user";
 export default function CreateEventPage() {
   const { signIn } = useAuthActions();
 
-  const { data: user } = useGetCurrentUser();
+  const { data: user, error } = useGetCurrentUser();
   const isAnonymous = user?.isAnonymous;
   const userEmail = user?.email;
 
@@ -21,7 +21,7 @@ export default function CreateEventPage() {
       void signIn("anonymous");
     };
 
-    if (user !== undefined && !isAnonymous && !userEmail) {
+    if (user !== undefined && !isAnonymous && !userEmail && !error) {
       console.log(
         "User is not anonymous and has no email, signing in anonymously."
       );

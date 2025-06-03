@@ -1,5 +1,5 @@
-import { Authenticated, Unauthenticated } from "convex/react";
-import { LayoutDashboard, PlusCircle, Sparkles } from "lucide-react";
+import { Authenticated } from "convex/react";
+import { LayoutDashboard, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -34,18 +34,6 @@ export default function Hero() {
             Start Splitting
           </Button>
         </Link>
-        <Unauthenticated>
-          <Link href="/demo">
-            <Button
-              variant="outline"
-              size="lg"
-              className="h-11 px-6 border-emerald-200 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-400"
-            >
-              <Sparkles className="h-4 w-4 mr-2" />
-              See It in Action
-            </Button>
-          </Link>
-        </Unauthenticated>
         <Authenticated>
           <Link href="/dashboard">
             <Button
