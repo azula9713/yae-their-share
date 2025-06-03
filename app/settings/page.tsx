@@ -2,12 +2,10 @@
 
 import {
   AlertTriangle,
-  ArrowLeft,
   Download,
   Shield,
   Trash2,
 } from "lucide-react";
-import Link from "next/link";
 import { useEffect } from "react";
 
 import CurrencySettings from "@/components/settings/currency-settings";
@@ -28,6 +26,7 @@ import {
   useGetUserSettings,
   useUpdateUserSettings,
 } from "@/hooks/user/use-user";
+import SubHeader from "@/components/common/sub-header";
 
 export default function SettingsPage() {
   const { data: user } = useGetCurrentUser();
@@ -96,14 +95,7 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-slate-900 dark:via-emerald-900/20 dark:to-teal-900/20">
       <div className="container max-w-4xl mx-auto px-4 py-8">
-        <Link
-          href="/"
-          className="flex items-center text-sm mb-6 hover:underline text-emerald-600 dark:text-white hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
-        >
-          <ArrowLeft className="size-4 mr-1" />
-          Back to home
-        </Link>
-
+        <SubHeader />
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">

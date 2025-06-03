@@ -1,13 +1,12 @@
 "use client";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useEffect } from "react";
 
 import CreateForm from "@/components/create-split/create-form";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetCurrentUser } from "@/hooks/user/use-user";
+import SubHeader from "@/components/common/sub-header";
 
 export default function CreateEventPage() {
   const { signIn } = useAuthActions();
@@ -34,11 +33,7 @@ export default function CreateEventPage() {
 
   return (
     <div className="container max-w-md mx-auto px-4 py-8">
-      <Link href="/" className="flex items-center text-sm mb-6 hover:underline">
-        <ArrowLeft className="size-4 mr-1" />
-        Back to home
-      </Link>
-
+     <SubHeader/>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Create New Split</CardTitle>
