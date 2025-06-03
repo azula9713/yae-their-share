@@ -2,7 +2,7 @@ import { PencilIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import useSplit from "@/hooks/split/use-split";
-import { useGetCurrentUser } from "@/hooks/user/use-user";
+import { useGetUserSettings } from "@/hooks/user/use-user";
 import { IExpense, IParticipant } from "@/types/split.types";
 
 import ExpenseDialog from "../expense-dialog";
@@ -23,8 +23,7 @@ export default function ParticipantExpense({
     splitId: eventId,
   });
 
-  const { data: user } = useGetCurrentUser();
-  const settings = user?.settings;
+  const { currency: currencySettings } = useGetUserSettings();
 
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
@@ -34,7 +33,7 @@ export default function ParticipantExpense({
   };
 
   const getExpenseAmountText = (amount: number) => {
-    return `${settings?.currency.symbol}${amount.toFixed(settings?.currency?.decimalPlaces ?? 2)}`;
+    return `${currencySettings.symbol}${amount.toFixed(currencySettings?.decimalPlaces ?? 2)}`;
   };
 
   return (

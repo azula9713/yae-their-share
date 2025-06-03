@@ -2,7 +2,7 @@ import { PencilIcon, Receipt, RefreshCcw, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import useSplit from "@/hooks/split/use-split";
-import { useGetCurrentUser } from "@/hooks/user/use-user";
+import { useGetUserSettings } from "@/hooks/user/use-user";
 import { IExpense, IParticipant } from "@/types/split.types";
 
 import { Badge } from "../ui/badge";
@@ -30,8 +30,7 @@ export default function Participant({
   const { removeParticipant, editParticipant, updatePending } = useSplit({
     splitId: eventId,
   });
-  const { data: user } = useGetCurrentUser();
-  const settings = user?.settings;
+  const { currency: currencySettings } = useGetUserSettings();
 
   const [isEditParticipantOpen, setIsEditParticipantOpen] = useState(false);
 
@@ -81,16 +80,16 @@ export default function Participant({
 
   const getBalanceText = (balance: number) => {
     if (balance > 0) {
-      return `Gets back ${settings?.currency.symbol}${balance.toFixed(settings?.currency.decimalPlaces ?? 2)}`;
+      return `Gets back ${currencySettings.symbol}${balance.toFixed(currencySettings.decimalPlaces ?? 2)}`;
     } else if (balance < 0) {
-      return `Owes ${settings?.currency.symbol}${Math.abs(balance).toFixed(settings?.currency.decimalPlaces ?? 2)}`;
+      return `Owes ${currencySettings.symbol}${Math.abs(balance).toFixed(currencySettings.decimalPlaces ?? 2)}`;
     } else {
       return "All settled";
     }
   };
 
   const getPaidText = (totalPaid: number) => {
-    return `Paid: ${settings?.currency.symbol}${totalPaid.toFixed(settings?.currency.decimalPlaces ?? 2)}`;
+    return `Paid: ${currencySettings.symbol}${totalPaid.toFixed(currencySettings.decimalPlaces ?? 2)}`;
   };
 
   return (
