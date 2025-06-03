@@ -113,7 +113,8 @@ export default function LoginPage() {
             Continue without login
           </Button>
           <p className="text-xs text-center text-muted-foreground mt-4">
-            If you continue without logging in, we will provide a temporary session. You can log in later to save your data permanently.
+            If you continue without logging in, we will provide a temporary
+            session. You can log in later to save your data permanently.
           </p>
         </CardFooter>
       </Card>

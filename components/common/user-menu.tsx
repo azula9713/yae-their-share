@@ -2,7 +2,7 @@
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Authenticated, Unauthenticated } from "convex/react";
-import { FolderSync,LogOut, Settings, User } from "lucide-react";
+import { FolderSync,LogOut, Settings, Sparkles, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -64,10 +64,17 @@ export function UserMenu() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {user?.isAnonymous ? (
-              <DropdownMenuItem onClick={handleLogout}>
+              <>
+               <DropdownMenuItem onClick={handleLogin}>
                 <FolderSync className="mr-2 size-4" />
                 <span>Login and sync</span>
               </DropdownMenuItem>
+               <DropdownMenuItem onClick={handleLogout}>
+                <Sparkles className="mr-2 size-4" />
+                <span>Start a new session</span>
+              </DropdownMenuItem>
+              </>
+             
             ) : (
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 size-4" />
