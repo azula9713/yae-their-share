@@ -12,13 +12,16 @@ import { useGetCurrentUser } from "@/hooks/user/use-user";
 export default function CreateEventPage() {
   const { signIn } = useAuthActions();
 
-  const { data: user, error } = useGetCurrentUser();
+  const { data: user, error, refetch } = useGetCurrentUser();
   const isAnonymous = user?.isAnonymous;
   const userEmail = user?.email;
 
   useEffect(() => {
     const anonymousSignIn = () => {
-      void signIn("anonymous");
+      void signIn("anonymous").finally(() => {
+        refetch();
+      }
+      );
     };
 
     if (user !== undefined && !isAnonymous && !userEmail && !error) {

@@ -24,7 +24,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { signIn } = useAuthActions();
   const isAuthenticated = useQuery(api.auth.isAuthenticated);
-  const {data:user} = useGetCurrentUser();
+  const { data: user } = useGetCurrentUser();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,7 +34,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      await signIn("google");
+      await signIn("google")
     } catch (err) {
       setError("Login failed. Please try again.");
       console.error("Login error:", err);

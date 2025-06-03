@@ -60,7 +60,5 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
         },
       });
     },
-
-    // async afterUserCreatedOrUpdated(ctx, args) {}
   },
 });
