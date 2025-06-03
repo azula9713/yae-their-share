@@ -24,7 +24,7 @@ export default function Hero() {
       </p>
 
       <div className="flex flex-wrap justify-center gap-4">
-        <Link href="/create-event">
+        <Link href="/create-split">
           <Button
             size="lg"
             className="h-11 px-6 bg-emerald-600 hover:bg-emerald-700"

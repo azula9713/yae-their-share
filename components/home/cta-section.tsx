@@ -14,7 +14,7 @@ export default function CTASection() {
             Join thousands who trust Their Share for transparent, fair expense
             management.
           </p>
-          <Link href="/create-event">
+          <Link href="/create-split">
             <Button className="bg-emerald-600 hover:bg-emerald-700">
               Create Your First Group
             </Button>
