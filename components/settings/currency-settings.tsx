@@ -65,7 +65,7 @@ export default function CurrencySettings({ updateSettings }: Readonly<Props>) {
     <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-emerald-50 dark:from-slate-800 dark:to-emerald-900/20">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <DollarSign className="h-5 w-5 text-emerald-600" />
+          <DollarSign className="size-5 text-emerald-600" />
           Currency & Formatting
         </CardTitle>
         <CardDescription>

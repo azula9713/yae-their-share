@@ -7,7 +7,7 @@ export default function NotificationSettings({}: Props) {
              <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-teal-50 dark:from-slate-800 dark:to-teal-900/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5 text-teal-600" />
+                <Bell className="size-5 text-teal-600" />
                 Notifications
               </CardTitle>
               <CardDescription>

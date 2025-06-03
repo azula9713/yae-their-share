@@ -131,7 +131,7 @@ export default function SettingsPage() {
           <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-blue-900/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-blue-600" />
+                <Shield className="size-5 text-blue-600" />
                 Privacy & Security
               </CardTitle>
               <CardDescription>
@@ -177,7 +177,7 @@ export default function SettingsPage() {
           <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-yellow-50 dark:from-slate-800 dark:to-yellow-900/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Download className="h-5 w-5 text-yellow-600" />
+                <Download className="size-5 text-yellow-600" />
                 Data Management
               </CardTitle>
               <CardDescription>Export or clear your data</CardDescription>

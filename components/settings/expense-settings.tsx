@@ -24,7 +24,7 @@ export default function ExpenseSettings() {
     <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-green-50 dark:from-slate-800 dark:to-green-900/20">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Globe className="h-5 w-5 text-green-600" />
+          <Globe className="size-5 text-green-600" />
           Expense Defaults
         </CardTitle>
         <CardDescription>

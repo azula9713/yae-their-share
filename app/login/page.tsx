@@ -91,7 +91,7 @@ export default function LoginPage() {
               </div>
             ) : (
               <>
-                <GoogleIcon className="h-5 w-5" />
+                <GoogleIcon className="size-5" />
                 <span>Continue with Google</span>
               </>
             )}
