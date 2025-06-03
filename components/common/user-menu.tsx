@@ -1,10 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { User, LogOut, Settings, FolderSync } from "lucide-react";
 import { Authenticated, Unauthenticated } from "convex/react";
+import { FolderSync,LogOut, Settings, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export function UserMenu() {

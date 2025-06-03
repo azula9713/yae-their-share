@@ -1,4 +1,9 @@
+import { UseMutateFunction } from "@tanstack/react-query";
+import { getAllCurrencies, getCurrencyByCode } from "global-currency-list";
 import { DollarSign } from "lucide-react";
+
+import { IAppSettings } from "@/types/settings.types";
+
 import { Badge } from "../ui/badge";
 import {
   Card,
@@ -15,10 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { IAppSettings } from "@/types/settings.types";
-import { getAllCurrencies, getCurrencyByCode } from "global-currency-list";
 import { Switch } from "../ui/switch";
-import { UseMutateFunction } from "@tanstack/react-query";
 
 type Props = {
   settings: IAppSettings;

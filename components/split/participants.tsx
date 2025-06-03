@@ -1,10 +1,13 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-import ParticipantsList from "./participants-list";
-import { ISplit } from "@/types/split.types";
 import { Plus } from "lucide-react";
+
+import { ISplit } from "@/types/split.types";
+
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+
+import ParticipantsList from "./participants-list";
 
 type Props = {
   split: ISplit;

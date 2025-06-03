@@ -1,6 +1,7 @@
-import { Card, CardContent } from "../ui/card";
-import { Button } from "../ui/button";
 import Link from "next/link";
+
+import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
 
 export default function CTASection() {
   return (

@@ -1,9 +1,11 @@
-import { useState } from "react";
 import { PencilIcon, Trash2 } from "lucide-react";
-import { IExpense, IParticipant } from "@/types/split.types";
-import { Button } from "../ui/button";
+import { useState } from "react";
+
 import useSplit from "@/hooks/split/use-split";
+import { IExpense, IParticipant } from "@/types/split.types";
+
 import ExpenseDialog from "../expense-dialog";
+import { Button } from "../ui/button";
 
 type Props = {
   expense: IExpense;

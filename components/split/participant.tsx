@@ -1,11 +1,14 @@
-import { useState } from "react";
 import { PencilIcon, Receipt, RefreshCcw, Trash2 } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
-import { IExpense, IParticipant } from "@/types/split.types";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
+import { useState } from "react";
+
 import useSplit from "@/hooks/split/use-split";
+import { IExpense, IParticipant } from "@/types/split.types";
+
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
+import { Input } from "../ui/input";
+
 import ParticipantExpense from "./participant-expense";
 
 type Props = {

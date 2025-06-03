@@ -1,12 +1,12 @@
 "use client";
 
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { useAuthActions } from "@convex-dev/auth/react";
 import { useEffect } from "react";
 
 import CreateForm from "@/components/create-split/create-form";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function CreateEventPage() {

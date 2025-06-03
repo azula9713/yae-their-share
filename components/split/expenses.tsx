@@ -1,9 +1,11 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-import ExpensesList from "../expenses-list";
-import { ISplit } from "@/types/split.types";
 import { Plus } from "lucide-react";
+import React from "react";
+
+import { ISplit } from "@/types/split.types";
+
+import ExpensesList from "../expenses-list";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type Props = {
     split: ISplit;

@@ -1,7 +1,8 @@
-import { IExpense, ISplit } from "@/types/split.types";
-import Link from "next/link";
-import { Calendar, ChevronRight, DollarSign, Users } from "lucide-react";
 import { format } from "date-fns";
+import { Calendar, ChevronRight, DollarSign, Users } from "lucide-react";
+import Link from "next/link";
+
+import { IExpense, ISplit } from "@/types/split.types";
 
 type Props = {
   split: ISplit;

@@ -1,6 +1,6 @@
 // app/api/proxy-profile-image/route.ts
-import { NextRequest, NextResponse } from "next/server";
 import { LRUCache } from "lru-cache";
+import { NextRequest, NextResponse } from "next/server";
 
 interface CacheEntry {
   data: Buffer;

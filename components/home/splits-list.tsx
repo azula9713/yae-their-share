@@ -1,7 +1,10 @@
 "use client";
 
+import { useFetchAllSplits } from "@/hooks/split/use-split-query";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
+
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import SplitItem from "./split-item";
 import {
   Card,
   CardContent,
@@ -9,9 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { useFetchAllSplits } from "@/hooks/split/use-split-query";
-import { useGetCurrentUser } from "@/hooks/user/use-user";
+
+import SplitItem from "./split-item";
 
 export default function SplitsList() {
   const { data: user } = useGetCurrentUser();

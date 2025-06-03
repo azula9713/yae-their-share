@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+
 import { Card } from "@/components/ui/card"
 
 export default function DemoPage() {

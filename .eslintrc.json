@@ -1,10 +1,37 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "ignorePatterns": [
-    "node_modules/",
-    "dist/",
-    ".next/",
-    "coverage/",
-    "components/ui"
-  ]
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "plugins": ["simple-import-sort", "import"],
+  "rules": {
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // 1. Node.js builtins. You can include 'builtin' here if needed.
+          ["^node:"],
+
+          // 2. Packages. `react`, `next`, `@foo`, etc.
+          ["^@?\\w"],
+
+          // 3. Internal aliases (@/...)
+          ["^@/"],
+
+          // 4. Side effect imports (e.g. styles)
+          ["^\\u0000", "^.+\\.css$"],
+
+          // 5. Relative imports: parent, sibling
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+
+          // 6. Type imports
+          ["^type\\s"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error"
+  }
 }

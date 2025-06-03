@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Logo from "@/assets/noBgColor.png";
-import { UserMenu } from "./user-menu";
+
 import { ThemeToggle } from "./theme-toggle";
+import { UserMenu } from "./user-menu";
 
 export default function Header() {
   return (

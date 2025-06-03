@@ -1,8 +1,9 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 export default function ErrorMessage() {
   const searchParams = useSearchParams();

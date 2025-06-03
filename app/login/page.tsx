@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useRouter } from "next/navigation";
+import { useQuery } from "convex/react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,9 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 export default function LoginPage() {

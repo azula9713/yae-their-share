@@ -1,18 +1,19 @@
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { useCreateSplit } from "@/hooks/split/use-split-mutations";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 import { cn } from "@/lib/utils";
+
 import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
 import { CardContent, CardFooter } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Calendar } from "../ui/calendar";
-import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function CreateForm() {
   const router = useRouter();

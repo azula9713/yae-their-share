@@ -1,4 +1,6 @@
+import { Globe } from "lucide-react";
 import React from "react";
+
 import {
   Card,
   CardContent,
@@ -6,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Globe } from "lucide-react";
 import { Label } from "../ui/label";
 import {
   Select,

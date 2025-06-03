@@ -1,7 +1,7 @@
-import type React from "react";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import type React from "react";
 
 import Header from "@/components/common/header";
 import Providers from "@/providers/providers";

@@ -3,12 +3,12 @@
 import { format } from "date-fns";
 import { use } from "react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddParticipantDialog from "@/components/add-participant-dialog";
-import ExpenseDialog from "@/components/expense-dialog";
 import SubHeader from "@/components/common/sub-header";
+import ExpenseDialog from "@/components/expense-dialog";
 import Participants from "@/components/split/participants";
 import Summary from "@/components/split/summary";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useSplit from "@/hooks/split/use-split";
 
 export default function EventPage({

@@ -8,6 +8,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 export default function Features() {

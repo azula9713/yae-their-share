@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  Download,
+  Shield,
+  Trash2,
+} from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import { useEffect } from "react";
+
+import CurrencySettings from "@/components/settings/currency-settings";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,22 +22,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  ArrowLeft,
-  Shield,
-  Download,
-  Trash2,
-  AlertTriangle,
-} from "lucide-react";
-import CurrencySettings from "@/components/settings/currency-settings";
-import { IAppSettings } from "@/types/settings.types";
+import { Switch } from "@/components/ui/switch";
 import {
   useGetCurrentUser,
   useUpdateUserSettings,
 } from "@/hooks/user/use-user";
+import { IAppSettings } from "@/types/settings.types";
 
 export default function SettingsPage() {
   const theme = useTheme();

@@ -1,11 +1,12 @@
 "use client";
+import { Authenticated, Unauthenticated } from "convex/react";
+
+import ErrorMessage from "@/components/common/error-message";
+import CTASection from "@/components/home/cta-section";
 import Features from "@/components/home/features";
 import Hero from "@/components/home/hero";
 import HowItWorks from "@/components/home/how-it-works";
-import CTASection from "@/components/home/cta-section";
-import ErrorMessage from "@/components/common/error-message";
 import SplitsList from "@/components/home/splits-list";
-import { Authenticated, Unauthenticated } from "convex/react";
 
 export default function HomePage() {
   return (

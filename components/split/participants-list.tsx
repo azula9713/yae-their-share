@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+
 import ExpenseDialog from "@/components/expense-dialog";
-import { IExpense, IParticipant } from "@/types/split.types";
-import Participant from "./participant";
 import useSplit from "@/hooks/split/use-split";
+import { IExpense, IParticipant } from "@/types/split.types";
+
+import Participant from "./participant";
 
 interface ParticipantsListProps {
   participants: IParticipant[];

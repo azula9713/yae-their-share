@@ -1,6 +1,7 @@
+import { ArrowRight } from "lucide-react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { IExpense, IParticipant } from "@/types/split.types";
-import { ArrowRight } from "lucide-react";
 
 interface SummaryProps {
   expenses: IExpense[];

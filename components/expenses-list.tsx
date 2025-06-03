@@ -1,9 +1,10 @@
 "use client";
 
+import { Trash2 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { IExpense, IParticipant } from "@/types/split.types";
-import { Trash2 } from "lucide-react";
 
 interface ExpensesListProps {
   expenses: IExpense[];

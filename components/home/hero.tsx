@@ -1,10 +1,11 @@
-import Link from "next/link";
-import Image from "next/image";
 import { Authenticated, Unauthenticated } from "convex/react";
-import { Button } from "../ui/button";
 import { LayoutDashboard, PlusCircle, Sparkles } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 import Logo from "@/assets/noBgColor.png";
+
+import { Button } from "../ui/button";
 
 export default function Hero() {
   return (
