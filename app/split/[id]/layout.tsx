@@ -1,6 +1,7 @@
-import SubHeader from "@/components/common/sub-header";
 import type { Metadata } from "next";
 import type React from "react";
+
+import SubHeader from "@/components/common/sub-header";
 
 export const metadata: Metadata = {
   title: "Split Details - Their Share",

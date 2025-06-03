@@ -18,6 +18,7 @@ export interface ISplit {
   participants: IParticipant[];
   expenses: IExpense[];
   _id: string; // Unique identifier for the split by convex
+  isPrivate: boolean; // Optional field to indicate if the split is private
   createdBy: string; // User ID of the creator
   isDeleted?: boolean; // Optional field to mark as deleted
   deletedAt?: string; // Optional field to store deletion timestamp

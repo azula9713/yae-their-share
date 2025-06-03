@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { use } from "react";
 
 import AddParticipantDialog from "@/components/add-participant-dialog";
+import ShareMenu from "@/components/common/share-menu";
 import ExpenseDialog from "@/components/expense-dialog";
 import Participants from "@/components/split/participants";
 import Summary from "@/components/split/summary";
@@ -74,7 +75,13 @@ export default function EventPage({
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-primary">{split.name}</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-primary">{split.name}</h1>
+
+          {/* share */}
+          <ShareMenu splitId={splitId} />
+        </div>
+
         {split.date && (
           <p className="text-muted-foreground">
             {format(new Date(split.date), "MMMM d, yyyy")}

@@ -21,6 +21,7 @@ const splitSchema = {
       splitBetween: v.array(v.string()), // array of participant ids
     })
   ),
+  isPrivate: v.boolean(), // Optional field to indicate if the split is private
   createdBy: v.string(), // User ID of the creator
   isDeleted: v.optional(v.boolean()), // Optional field to mark as deleted
   deletedAt: v.optional(v.string()), // Optional field to store deletion timestamp
@@ -65,6 +66,7 @@ export const createSplit = mutation({
       updatedBy: args.createdBy,
       updatedAt: new Date().toISOString(),
       isDeleted: false,
+      isPrivate: false, // Default to public split
     };
 
     return await ctx.db.insert("splits", split);
