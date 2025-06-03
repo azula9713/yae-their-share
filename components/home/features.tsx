@@ -1,15 +1,10 @@
 import {
   Calculator,
   CheckCircle,
-  Coffee,
   Shield,
-  Smartphone,
-  TrendingUp,
-  Users,
   Zap,
 } from "lucide-react";
 
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 export default function Features() {
   return (

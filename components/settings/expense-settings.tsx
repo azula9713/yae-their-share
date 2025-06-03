@@ -18,9 +18,8 @@ import {
 } from "../ui/select";
 import { Switch } from "../ui/switch";
 
-type Props = {};
 
-export default function ExpenseSettings({}: Props) {
+export default function ExpenseSettings() {
   return (
     <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-green-50 dark:from-slate-800 dark:to-green-900/20">
       <CardHeader>

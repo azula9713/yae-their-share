@@ -1,33 +1,29 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript"
-  ],
-  "plugins": ["simple-import-sort", "import"],
+  "parser": "@typescript-eslint/parser",
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["simple-import-sort", "@typescript-eslint", "unused-imports"],
   "rules": {
+    "@typescript-eslint/no-unused-vars": "off", // Turn off to avoid conflicts
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "simple-import-sort/imports": [
       "error",
       {
         "groups": [
-          // 1. Node.js builtins. You can include 'builtin' here if needed.
           ["^node:"],
-
-          // 2. Packages. `react`, `next`, `@foo`, etc.
           ["^@?\\w"],
-
-          // 3. Internal aliases (@/...)
           ["^@/"],
-
-          // 4. Side effect imports (e.g. styles)
           ["^\\u0000", "^.+\\.css$"],
-
-          // 5. Relative imports: parent, sibling
           ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
           ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-
-          // 6. Type imports
           ["^type\\s"]
         ]
       }
