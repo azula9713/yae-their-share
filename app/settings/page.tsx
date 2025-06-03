@@ -117,7 +117,7 @@ export default function SettingsPage() {
 
         {saveSettingsError && (
           <Alert variant="destructive" className="mb-6">
-            <AlertTriangle className="h-4 w-4" />
+            <AlertTriangle className="size-4" />
             <AlertDescription>
               Failed to save settings. Please try again.
             </AlertDescription>
@@ -195,7 +195,7 @@ export default function SettingsPage() {
                   onClick={exportData}
                   className="border-emerald-200 text-emerald-700"
                 >
-                  <Download className="h-4 w-4 mr-2" />
+                  <Download className="size-4 mr-2" />
                   Export
                 </Button>
               </div>
@@ -210,7 +210,7 @@ export default function SettingsPage() {
                   </p>
                 </div>
                 <Button variant="destructive" onClick={clearAllData}>
-                  <Trash2 className="h-4 w-4 mr-2" />
+                  <Trash2 className="size-4 mr-2" />
                   Clear Data
                 </Button>
               </div>

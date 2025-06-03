@@ -18,12 +18,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/convex/_generated/api";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function LoginPage() {
   const router = useRouter();
   const { signIn } = useAuthActions();
-
   const isAuthenticated = useQuery(api.auth.isAuthenticated);
+  const {data:user} = useGetCurrentUser();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -47,15 +48,15 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !user?.isAnonymous) {
       router.push("/");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, user]);
 
   return (
     <div className="container max-w-md mx-auto px-4 py-8">
       <Link href="/" className="flex items-center text-sm mb-6 hover:underline">
-        <ArrowLeft className="h-4 w-4 mr-1" />
+        <ArrowLeft className="size-4 mr-1" />
         Back to home
       </Link>
 
@@ -85,7 +86,7 @@ export default function LoginPage() {
           >
             {isLoading ? (
               <div className="flex items-center gap-2">
-                <div className="h-4 w-4 border-2 border-current border-t-transparent animate-spin rounded-full"></div>
+                <div className="size-4 border-2 border-current border-t-transparent animate-spin rounded-full"></div>
                 <span>Logging in...</span>
               </div>
             ) : (

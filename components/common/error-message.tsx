@@ -22,7 +22,7 @@ export default function ErrorMessage() {
 
   return (
     <Alert variant="destructive" className="mb-6">
-      <AlertCircle className="h-4 w-4" />
+      <AlertCircle className="size-4" />
       <AlertTitle>Error</AlertTitle>
       <AlertDescription>{message}</AlertDescription>
     </Alert>

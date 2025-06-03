@@ -29,7 +29,7 @@ export default function Expenses({
           onClick={() => setIsAddExpenseOpen(true)}
           disabled={split.participants.length < 1}
         >
-          <Plus className="h-4 w-4 mr-1" />
+          <Plus className="size-4 mr-1" />
           Add
         </Button>
       </CardHeader>

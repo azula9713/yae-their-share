@@ -126,7 +126,7 @@ export default function ExpensesSummary({
                   {getParticipantName(debt.from)}
                 </div>
                 <div className="flex items-center text-muted-foreground">
-                  <ArrowRight className="h-4 w-4 mx-2" />
+                  <ArrowRight className="size-4 mx-2" />
                 </div>
                 <div className="font-medium">{getParticipantName(debt.to)}</div>
               </div>

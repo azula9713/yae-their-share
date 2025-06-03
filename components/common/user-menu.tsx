@@ -59,7 +59,7 @@ export function UserMenu() {
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => router.push("/settings")}>
-              <Settings className="mr-2 h-4 w-4" />
+              <Settings className="mr-2 size-4" />
               <span>Settings</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -90,7 +90,7 @@ export function UserMenu() {
           onClick={handleLogin}
           className="flex items-center gap-2"
         >
-          <User className="h-4 w-4" />
+          <User className="size-4" />
           <span>Login</span>
         </Button>
       </Unauthenticated>

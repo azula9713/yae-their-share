@@ -36,11 +36,11 @@ export default function Features() {
             </p>
             <div className="space-y-2">
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <CheckCircle className="size-4 text-emerald-500" />
                 <span>Handles any split scenario</span>
               </div>
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <CheckCircle className="size-4 text-emerald-500" />
                 <span>Precise to the penny</span>
               </div>
             </div>
@@ -60,11 +60,11 @@ export default function Features() {
             </p>
             <div className="space-y-2">
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <CheckCircle className="size-4 text-emerald-500" />
                 <span>Optimized settlement plans</span>
               </div>
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <CheckCircle className="size-4 text-emerald-500" />
                 <span>Visualize your expenses easily</span>
               </div>
             </div>
@@ -84,11 +84,11 @@ export default function Features() {
             </p>
             <div className="space-y-2">
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <CheckCircle className="size-4 text-emerald-500" />
                 <span>Sync across all devices</span>
               </div>
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                <CheckCircle className="size-4 text-emerald-500" />
                 <span>Set your own privacy levels</span>
               </div>
             </div>

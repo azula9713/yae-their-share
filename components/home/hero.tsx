@@ -30,7 +30,7 @@ export default function Hero() {
             size="lg"
             className="h-11 px-6 bg-emerald-600 hover:bg-emerald-700"
           >
-            <PlusCircle className="h-4 w-4 mr-2" />
+            <PlusCircle className="size-4 mr-2" />
             Start Splitting
           </Button>
         </Link>
@@ -41,7 +41,7 @@ export default function Hero() {
               size="lg"
               className="h-11 px-6 border-emerald-200 text-emerald-600 hover:bg-emerald-500 dark:border-emerald-800 dark:text-emerald-50"
             >
-              <LayoutDashboard className="h-4 w-4 mr-2" />
+              <LayoutDashboard className="size-4 mr-2" />
               View Dashboard
             </Button>
           </Link>
