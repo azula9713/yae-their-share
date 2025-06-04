@@ -1,12 +1,4 @@
-import {
-  Copy,
-  Lock,
-  Mail,
-  MessageCircle,
-  Share2,
-  Smartphone,
-  Unlock,
-} from "lucide-react";
+import { Copy, Mail, MessageCircle, Share2, Smartphone } from "lucide-react";
 
 import useSplit from "@/hooks/split/use-split";
 import { ISplit } from "@/types/split.types";
@@ -125,18 +117,6 @@ export default function ShareMenu({ splitId, setShowCopyAlert }: Props) {
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
-
-        {split.isPrivate ? (
-          <DropdownMenuItem className="gap-2" disabled>
-            <Unlock className="size-4" />
-            Make Split Public
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem className="gap-2" disabled>
-            <Lock className="size-4" />
-            Make Split Private
-          </DropdownMenuItem>
-        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

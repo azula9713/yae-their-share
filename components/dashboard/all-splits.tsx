@@ -5,6 +5,7 @@ import {
   Clock,
   Copy,
   DollarSign,
+  Eye,
   Lock,
   MoreVertical,
   Receipt,
@@ -27,6 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import ShareMenu from "../common/share-menu";
 
 type Props = {
   splits: ISplit[];
@@ -153,58 +155,36 @@ export default function AllSplits({ splits, setShowCopyAlert }: Props) {
                       <ChevronRight className="h-5 w-5 text-slate-400" />
                     </Link>
 
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 w-8 p-0 ml-2"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <MoreVertical className="h-4 w-4" />
-                          <span className="sr-only">Open menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48">
-                        <DropdownMenuItem
-                          onClick={() => router.push(`/split/${split.splitId}`)}
-                        >
-                          <Lock className="h-4 w-4 mr-2" />
-                          Make Split Private
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleCopyGroupUrl(split.splitId)}
-                        >
-                          <Copy className="h-4 w-4 mr-2" />
-                          Copy Share Link
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => {
-                            const url = `${window.location.origin}/split/${split.splitId}`;
-                            if (navigator.share) {
-                              navigator.share({
-                                title: `Their Share - ${split.name}`,
-                                text: `Check out our expense split for "${split.name}"`,
-                                url: url,
-                              });
-                            } else {
-                              handleCopyGroupUrl(split.splitId);
-                            }
-                          }}
-                        >
-                          <Share2 className="h-4 w-4 mr-2" />
-                          Share Split
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          // onClick={() => handleDeleteGroup(split.splitId)}
-                          className="text-red-600 dark:text-red-400"
-                        >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Delete Split
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="size-8 p-0 ml-2"
+                      // onClick={(e) => e.stopPropagation()}
+                    >
+                      <Lock className="size-4" />
+                      <span className="sr-only">Lock Split</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="size-8 p-0 ml-2"
+                      // onClick={(e) => e.stopPropagation()}
+                    >
+                      <Eye className="size-4" />
+                      <span className="sr-only">Make Private</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="size-8 p-0 mx-2"
+                      // onClick={(e) => e.stopPropagation()}
+                    >
+                      <Trash2 className="size-4" />
+                      <span className="sr-only">Delete Split</span>
+                    </Button>
+                    <ShareMenu
+                      {...{ splitId: split.splitId, setShowCopyAlert }}
+                    />
                   </div>
                 </div>
               );

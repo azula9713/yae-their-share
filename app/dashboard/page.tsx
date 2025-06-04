@@ -25,7 +25,6 @@ export default function DashboardPage() {
 
   const [showCopyAlert, setShowCopyAlert] = useState(false);
 
-  // Calculate simple stats
   const totalExpenses = getTotalExpenses(splits);
   const totalAmount = splits.length;
   const uniqueParticipants = getUniqueParticipants(splits);
@@ -47,7 +46,6 @@ export default function DashboardPage() {
         <QuickStats {...{ totalAmount, totalExpenses, uniqueParticipants }} />
       )}
 
-      {/* Groups List */}
       <AllSplits {...{ splits, setShowCopyAlert }} />
     </>
   );
