@@ -2,7 +2,13 @@
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Authenticated, Unauthenticated } from "convex/react";
-import { LogOut, Settings, Sparkles, User } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOut,
+  Settings,
+  Sparkles,
+  User,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -58,6 +64,10 @@ export function UserMenu() {
               </div>
             </div>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+              <LayoutDashboard className="mr-2 size-4" />
+              <span>Dashboard</span>
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => router.push("/settings")}>
               <Settings className="mr-2 size-4" />
               <span>Settings</span>

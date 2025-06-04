@@ -20,7 +20,7 @@ export default function QuickStats({
           icon: (
             <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
           ),
-          title: "Total Tracked",
+          title: "Total Splits",
           value: totalAmount.toFixed(0),
         }}
       />
