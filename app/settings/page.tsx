@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 
+import SubHeader from "@/components/common/sub-header";
 import CurrencySettings from "@/components/settings/currency-settings";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,6 @@ import {
   useGetUserSettings,
   useUpdateUserSettings,
 } from "@/hooks/user/use-user";
-import SubHeader from "@/components/common/sub-header";
 
 export default function SettingsPage() {
   const { data: user } = useGetCurrentUser();

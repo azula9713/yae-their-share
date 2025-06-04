@@ -3,10 +3,10 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useEffect } from "react";
 
+import SubHeader from "@/components/common/sub-header";
 import CreateForm from "@/components/create-split/create-form";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetCurrentUser } from "@/hooks/user/use-user";
-import SubHeader from "@/components/common/sub-header";
 
 export default function CreateEventPage() {
   const { signIn } = useAuthActions();

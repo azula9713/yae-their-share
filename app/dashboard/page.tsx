@@ -1,12 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import {
+  Calendar,
+  CheckCircle,
+  ChevronRight,
+  Clock,
+  Copy,
+  DollarSign,
+  Edit,
+  MoreVertical,
+  Receipt,
+  Share2,
+  Trash2,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import DashHeader from "@/components/common/dash-header";
+import QuickStats from "@/components/dashboard/quick-stats";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,24 +32,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Plus,
-  DollarSign,
-  Users,
-  Calendar,
-  CheckCircle,
-  MoreVertical,
-  Share2,
-  Edit,
-  Trash2,
-  Copy,
-  ChevronRight,
-  Clock,
-  Receipt,
-} from "lucide-react";
-import { format } from "date-fns";
-import { useGetCurrentUser } from "@/hooks/user/use-user";
 import { useFetchAllSplits } from "@/hooks/split/use-split-query";
+import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 interface UserData {
   id: string;
@@ -116,7 +118,7 @@ export default function DashboardPage() {
       ),
     0
   );
-  const uniqueParticipants = new Set();
+  const uniqueParticipants = new Set<string>();
   splits.forEach((split) => {
     split.participants.forEach((p) => uniqueParticipants.add(p.name));
   });
@@ -146,90 +148,11 @@ export default function DashboardPage() {
             </AlertDescription>
           </Alert>
         )}
-
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-          <div className="flex items-center gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                Your Splits
-              </h1>
-              <p className="text-slate-600 dark:text-slate-400">
-                {splits.length > 0
-                  ? `Managing ${splits.length} group${splits.length !== 1 ? "s" : ""} with ${
-                      uniqueParticipants.size
-                    } people`
-                  : "Create your first expense group to get started"}
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <Link href="/create-split">
-              <Button className="bg-emerald-600 hover:bg-emerald-700">
-                <Plus className="h-4 w-4 mr-2" />
-                New Split
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <DashHeader {...{ splitsLength: splits.length, uniqueParticipants }} />
 
         {/* Quick Stats */}
         {splits.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <Card className="border border-slate-200 dark:border-slate-800">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                    <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      Total Tracked
-                    </p>
-                    <p className="text-xl font-bold text-slate-900 dark:text-white">
-                      ${totalAmount.toFixed(0)}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border border-slate-200 dark:border-slate-800">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                    <Receipt className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      Total Expenses
-                    </p>
-                    <p className="text-xl font-bold text-slate-900 dark:text-white">
-                      {totalExpenses}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border border-slate-200 dark:border-slate-800">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                    <Users className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      People Involved
-                    </p>
-                    <p className="text-xl font-bold text-slate-900 dark:text-white">
-                      {uniqueParticipants.size}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <QuickStats {...{totalAmount, totalExpenses, uniqueParticipants}}/>
         )}
 
         {/* Groups List */}
@@ -237,7 +160,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2">
               <Clock className="h-5 w-5 text-emerald-600" />
-              Your Groups
+              Recent Splits
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
@@ -247,28 +170,12 @@ export default function DashboardPage() {
                   <DollarSign className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
-                  No expense groups yet
+                  No splits yet
                 </h3>
                 <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
-                  Create your first group to start tracking shared expenses with
+                  Create your first split to start tracking shared expenses with
                   friends, family, or colleagues.
                 </p>
-                <div className="flex gap-3 justify-center">
-                  <Link href="/create-split">
-                    <Button className="bg-emerald-600 hover:bg-emerald-700">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Create Split
-                    </Button>
-                  </Link>
-                  <Link href="/demo">
-                    <Button
-                      variant="outline"
-                      className="border-slate-200 dark:border-slate-800"
-                    >
-                      Try Demo
-                    </Button>
-                  </Link>
-                </div>
               </div>
             ) : (
               <div className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -286,9 +193,9 @@ export default function DashboardPage() {
                       className="p-4 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors"
                     >
                       <div className="flex items-center justify-between">
-                        <div
+                        <Link
+                          href={`/split/${split.splitId}`}
                           className="flex items-center gap-4 flex-1 cursor-pointer"
-                          onClick={() => router.push(`/split/${split.splitId}`)}
                         >
                           <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
                             <DollarSign className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
@@ -343,7 +250,7 @@ export default function DashboardPage() {
                             </div>
                           </div>
                           <ChevronRight className="h-5 w-5 text-slate-400" />
-                        </div>
+                        </Link>
 
                         {/* Split Actions */}
                         <DropdownMenu>
