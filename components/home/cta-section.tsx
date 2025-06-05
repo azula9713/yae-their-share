@@ -17,7 +17,7 @@ export default function CTASection() {
           </p>
           <Link href="/create-split">
             <Button className="bg-emerald-600 hover:bg-emerald-700">
-              Create Your First Group
+              Create Your First Split
             </Button>
           </Link>
         </CardContent>

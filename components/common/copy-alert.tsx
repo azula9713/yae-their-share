@@ -1,11 +1,9 @@
 import { CheckCircle } from "lucide-react";
-import React from "react";
 
 import { Alert, AlertDescription } from "../ui/alert";
 
-type Props = {};
 
-export default function CopyAlert({}: Props) {
+export default function CopyAlert() {
   return (
     <Alert className="mb-6 border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-900/20">
       <CheckCircle className="h-4 w-4 text-emerald-600" />

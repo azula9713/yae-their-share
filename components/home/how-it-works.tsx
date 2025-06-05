@@ -20,7 +20,7 @@ export default function HowItWorks() {
                 <span className="font-medium">1</span>
               </div>
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
-                Create a Group
+                Create a Split
               </h3>
               <p className="text-slate-600 dark:text-slate-400 text-center">
                 Start by naming your expense group and adding participants.
