@@ -24,8 +24,8 @@ export default function Features() {
         <div className="grid gap-12 lg:grid-cols-3">
           {/* Perk 1 */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 mb-6">
-              <Calculator className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+            <div className="inline-flex items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 mb-6 size-16">
+              <Calculator className="text-emerald-600 dark:text-emerald-400 size-8" />
             </div>
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Perfect calculations
@@ -48,8 +48,8 @@ export default function Features() {
 
           {/* Perk 2 */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-blue-100 dark:bg-blue-900/30 mb-6">
-              <Zap className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+            <div className="inline-flex items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-900/30 mb-6 size-16">
+              <Zap className="text-blue-600 dark:text-blue-400 size-8" />
             </div>
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Instant clarity
@@ -72,8 +72,8 @@ export default function Features() {
 
           {/* Perk 3 */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-purple-100 dark:bg-purple-900/30 mb-6">
-              <Shield className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+            <div className="inline-flex items-center justify-center rounded-2xl bg-purple-100 dark:bg-purple-900/30 mb-6 size-16">
+              <Shield className="text-purple-600 dark:text-purple-400 size-8" />
             </div>
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Built for groups

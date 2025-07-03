@@ -25,7 +25,7 @@ export default function SplitItem({ split }: Readonly<Props>) {
     >
       <div className="border border-emerald-200 dark:border-emerald-800 rounded-lg p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
         <div className="flex items-center gap-4">
-          <div className="h-10 w-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+          <div className="rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center size-10">
             <DollarSign className="size-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
@@ -34,12 +34,12 @@ export default function SplitItem({ split }: Readonly<Props>) {
             </h3>
             <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
               <div className="flex items-center">
-                <Users className="h-3.5 w-3.5 mr-1" />
+                <Users className="mr-1 size-3.5" />
                 <span>{split.participants.length}</span>
               </div>
               {split.date && (
                 <div className="flex items-center">
-                  <Calendar className="h-3.5 w-3.5 mr-1" />
+                  <Calendar className="mr-1 size-3.5" />
                   <span>{format(new Date(split.date), "MMM d")}</span>
                 </div>
               )}

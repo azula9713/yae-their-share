@@ -16,7 +16,7 @@ export default function HowItWorks() {
         <div className="grid gap-8 md:grid-cols-3">
           <div className="relative">
             <div className="flex flex-col items-center">
-              <div className="h-10 w-10 rounded-full bg-emerald-600 text-white flex items-center justify-center mb-4 z-10">
+              <div className="rounded-full bg-emerald-600 text-white flex items-center justify-center mb-4 z-10 size-10">
                 <span className="font-medium">1</span>
               </div>
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
@@ -30,7 +30,7 @@ export default function HowItWorks() {
 
           <div className="relative">
             <div className="flex flex-col items-center">
-              <div className="h-10 w-10 rounded-full bg-emerald-600 text-white flex items-center justify-center mb-4 z-10">
+              <div className="rounded-full bg-emerald-600 text-white flex items-center justify-center mb-4 z-10 size-10">
                 <span className="font-medium">2</span>
               </div>
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
@@ -44,7 +44,7 @@ export default function HowItWorks() {
 
           <div className="relative">
             <div className="flex flex-col items-center">
-              <div className="h-10 w-10 rounded-full bg-emerald-600 text-white flex items-center justify-center mb-4 z-10">
+              <div className="rounded-full bg-emerald-600 text-white flex items-center justify-center mb-4 z-10 size-10">
                 <span className="font-medium">3</span>
               </div>
               <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">

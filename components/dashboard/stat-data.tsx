@@ -12,8 +12,8 @@ export default function StatData({ icon, title, value }: Readonly<Props>) {
     <Card className="border border-slate-200 dark:border-slate-800">
       <CardContent className="p-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-            {/* <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /> */}
+          <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center size-10">
+            {/* <DollarSign className="text-emerald-600 dark:text-emerald-400 size-5" /> */}
             {icon}
           </div>
           <div>

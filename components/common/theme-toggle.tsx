@@ -22,8 +22,8 @@ export function ThemeToggle() {
           size="icon"
           className="hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
         >
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-emerald-600" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-emerald-400" />
+          <Sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-emerald-600 size-[1.2rem]" />
+          <Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-emerald-400 size-[1.2rem]" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

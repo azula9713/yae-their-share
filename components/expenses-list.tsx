@@ -71,7 +71,7 @@ export default function ExpensesList({
                 variant="ghost"
                 size="sm"
                 onClick={() => onRemove(expense.expenseId)}
-                className="h-8 w-8 p-0"
+                className="p-0 size-8"
               >
                 <Trash2 className="size-4 text-muted-foreground" />
                 <span className="sr-only">Remove</span>

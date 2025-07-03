@@ -174,7 +174,7 @@ export default function Participant({
             onClick={() => handleAddExpense(participant.participantId)}
             className="h-8 gap-1"
           >
-            <Receipt className="h-3.5 w-3.5" />
+            <Receipt className="size-3.5" />
             <span>Add Expense</span>
           </Button>
         )}

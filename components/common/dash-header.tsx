@@ -32,7 +32,7 @@ export default function DashHeader({
       <div className="flex gap-3">
         <Link href="/create-split">
           <Button className="bg-emerald-600 hover:bg-emerald-700">
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="mr-2 size-4" />
             New Split
           </Button>
         </Link>

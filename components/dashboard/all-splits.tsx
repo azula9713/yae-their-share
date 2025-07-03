@@ -65,15 +65,15 @@ export default function AllSplits({ splits, setShowCopyAlert }: Props) {
     <Card className="border border-slate-200 dark:border-slate-800">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg flex items-center gap-2">
-          <Clock className="h-5 w-5 text-emerald-600" />
+          <Clock className="text-emerald-600 size-5" />
           Recent Splits
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         {splits.length === 0 ? (
           <div className="text-center py-12">
-            <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
-              <DollarSign className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+            <div className="inline-flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4 size-16">
+              <DollarSign className="text-emerald-600 dark:text-emerald-400 size-8" />
             </div>
             <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
               No splits yet
@@ -103,8 +103,8 @@ export default function AllSplits({ splits, setShowCopyAlert }: Props) {
                       href={`/split/${split.splitId}`}
                       className="flex items-center gap-4 flex-1 cursor-pointer"
                     >
-                      <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                        <DollarSign className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                      <div className="rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center size-12">
+                        <DollarSign className="text-emerald-600 dark:text-emerald-400 size-6" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1">
@@ -129,22 +129,22 @@ export default function AllSplits({ splits, setShowCopyAlert }: Props) {
                         </div>
                         <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
                           <div className="flex items-center gap-1">
-                            <Users className="h-3.5 w-3.5" />
+                            <Users className="size-3.5" />
                             <span>{split.participants.length} people</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <Receipt className="h-3.5 w-3.5" />
+                            <Receipt className="size-3.5" />
                             <span>{split.expenses.length} expenses</span>
                           </div>
                           {hasExpenses && (
                             <div className="flex items-center gap-1">
-                              <DollarSign className="h-3.5 w-3.5" />
+                              <DollarSign className="size-3.5" />
                               <span>${totalAmount.toFixed(0)} total</span>
                             </div>
                           )}
                           {split.date && (
                             <div className="flex items-center gap-1">
-                              <Calendar className="h-3.5 w-3.5" />
+                              <Calendar className="size-3.5" />
                               <span>
                                 {format(new Date(split.date), "MMM d, yyyy")}
                               </span>
@@ -152,7 +152,7 @@ export default function AllSplits({ splits, setShowCopyAlert }: Props) {
                           )}
                         </div>
                       </div>
-                      <ChevronRight className="h-5 w-5 text-slate-400" />
+                      <ChevronRight className="text-slate-400 size-5" />
                     </Link>
 
                     <Button
