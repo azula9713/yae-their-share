@@ -1,8 +1,9 @@
-import { api } from "@/convex/_generated/api";
-import { IAppSettings } from "@/types/settings.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useConvex } from "convex/react";
 import { useTheme } from "next-themes";
+
+import { api } from "@/convex/_generated/api";
+import { IAppSettings } from "@/types/settings.types";
 
 export function useGetCurrentUser() {
   const convex = useConvex();

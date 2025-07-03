@@ -1,6 +1,7 @@
 import React from "react";
-import { TanStackProviders } from "./tanstack-client-provider";
+
 import { ConvexClientProvider } from "./convex-client-provider";
+import { TanStackProviders } from "./tanstack-client-provider";
 import { ThemeProvider } from "./theme-provider";
 
 export default function Providers({

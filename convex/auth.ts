@@ -1,10 +1,12 @@
-import { convexAuth } from "@convex-dev/auth/server";
-import { MutationCtx } from "./_generated/server";
 import Google from "@auth/core/providers/google";
 import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
+import { convexAuth } from "@convex-dev/auth/server";
 import { v4 as uuidV4 } from "uuid";
-import { findUserByEmail } from "./users";
+
 import getRandomSciFiMythicalName from "@/utils/random-name-generator";
+
+import { MutationCtx } from "./_generated/server";
+import { findUserByEmail } from "./users";
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
   providers: [Google, Anonymous],

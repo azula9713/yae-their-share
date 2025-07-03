@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useConvex } from "convex/react";
-import { ISplit } from "@/types/split.types";
+
 import { api } from "@/convex/_generated/api";
+import { ISplit } from "@/types/split.types";
 
 export function useFetchAllSplits({ userId }: { userId: string }) {
   const convex = useConvex();

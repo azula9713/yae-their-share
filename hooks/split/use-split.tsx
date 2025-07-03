@@ -1,9 +1,12 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 import { IExpense, IParticipant, ISplit } from "@/types/split.types";
+
+import { useGetCurrentUser } from "../user/use-user";
+
 import { useUpdateSplit } from "./use-split-mutations";
 import { useFetchSplit } from "./use-split-query";
-import { useGetCurrentUser } from "../user/use-user";
 
 type Props = {
   splitId: string;

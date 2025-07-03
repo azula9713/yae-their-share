@@ -1,5 +1,6 @@
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
+
 import { mutation, MutationCtx } from "./_generated/server";
 
 export const users = defineTable({

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useConvex } from "convex/react";
+
 import { api } from "@/convex/_generated/api";
 import { ISplit } from "@/types/split.types";
 
@@ -42,6 +43,7 @@ export function useCreateSplit(userId: string) {
         name: variables.name,
         participants: variables.participants,
         expenses: variables.expenses,
+        isPrivate: false,
         createdBy: userId,
         createdAt: new Date().toISOString(),
       };

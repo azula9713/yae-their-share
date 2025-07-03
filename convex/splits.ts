@@ -1,6 +1,7 @@
-import { mutation, query } from "./_generated/server";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
+
+import { mutation, query } from "./_generated/server";
 
 const splitSchema = {
   date: v.string(),
@@ -98,6 +99,7 @@ export const updateSplit = mutation({
     }
 
     // Prepare updates, overriding updatedAt and deletedAt if isDeleted is set
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const patchData: Record<string, any> = {
       ...updates,
       updatedAt: new Date().toISOString(), // Always update updatedAt
