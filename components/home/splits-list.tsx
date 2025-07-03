@@ -41,7 +41,7 @@ export default function SplitsList() {
     return (
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Your Splits</h2>
-        <p className="text-red-500">
+        <p className="text-destructive">
           Error loading your adventures. Please try again later.
         </p>
         <Button
@@ -58,22 +58,22 @@ export default function SplitsList() {
 
   return (
     <div className="mb-16">
-      <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-emerald-50 dark:from-slate-800 dark:to-emerald-900/20">
+      <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div className="flex-1 min-w-0 space-y-1">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+              <CardTitle className="text-2xl font-bold flex items-center gap-2">
                 Recent Splits
               </CardTitle>
               <Badge
                 variant="outline"
-                className="text-sm bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-900/30 dark:border-emerald-800 dark:text-emerald-300"
+                className="text-sm"
               >
                 {splits.length} split
                 {splits.length !== 1 ? "s" : ""}
               </Badge>
             </div>
-            <CardDescription className="text-slate-600 dark:text-slate-300">
+            <CardDescription>
               Access your latest adventures and see how you shared the costs
               with friends.
             </CardDescription>
@@ -92,7 +92,6 @@ export default function SplitsList() {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300"
               >
                 View All Adventures ({splits.length})
               </Button>

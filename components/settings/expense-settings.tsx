@@ -21,10 +21,10 @@ import { Switch } from "../ui/switch";
 
 export default function ExpenseSettings() {
   return (
-    <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-green-50 dark:from-slate-800 dark:to-green-900/20">
+    <Card className="border shadow-sm bg-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Globe className="size-5 text-green-600" />
+          <Globe className="size-5 text-primary" />
           Expense Defaults
         </CardTitle>
         <CardDescription>

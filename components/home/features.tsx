@@ -11,10 +11,10 @@ export default function Features() {
     <div className="grid gap-8 mb-16">
       <div className="mb-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+          <h2 className="text-3xl font-bold mb-4">
             Stop the money stress
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             No more awkward conversations, confusing spreadsheets, or math
             mistakes. Just fair, transparent expense splitting that everyone can
             trust.
@@ -24,23 +24,23 @@ export default function Features() {
         <div className="grid gap-12 lg:grid-cols-3">
           {/* Perk 1 */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 mb-6 size-16">
-              <Calculator className="text-emerald-600 dark:text-emerald-400 size-8" />
+            <div className="inline-flex items-center justify-center rounded-2xl bg-primary/10 mb-6 size-16">
+              <Calculator className="text-primary size-8" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+            <h3 className="text-2xl font-bold mb-4">
               Perfect calculations
             </h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               Automatic splitting that handles tips, taxes, and custom amounts.
               Never worry about math errors or unfair splits again.
             </p>
             <div className="space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="size-4 text-emerald-500" />
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="size-4 text-primary" />
                 <span>Handles any split scenario</span>
               </div>
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="size-4 text-emerald-500" />
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="size-4 text-primary" />
                 <span>Precise to the penny</span>
               </div>
             </div>
@@ -48,23 +48,23 @@ export default function Features() {
 
           {/* Perk 2 */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-900/30 mb-6 size-16">
-              <Zap className="text-blue-600 dark:text-blue-400 size-8" />
+            <div className="inline-flex items-center justify-center rounded-2xl bg-muted mb-6 size-16">
+              <Zap className="text-foreground size-8" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+            <h3 className="text-2xl font-bold mb-4">
               Instant clarity
             </h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               See who owes what at a glance. No more digging through receipts or
               spreadsheets. Everything is clear and transparent.
             </p>
             <div className="space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="size-4 text-emerald-500" />
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="size-4 text-primary" />
                 <span>Optimized settlement plans</span>
               </div>
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="size-4 text-emerald-500" />
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="size-4 text-primary" />
                 <span>Visualize your expenses easily</span>
               </div>
             </div>
@@ -72,23 +72,23 @@ export default function Features() {
 
           {/* Perk 3 */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center rounded-2xl bg-purple-100 dark:bg-purple-900/30 mb-6 size-16">
-              <Shield className="text-purple-600 dark:text-purple-400 size-8" />
+            <div className="inline-flex items-center justify-center rounded-2xl bg-muted mb-6 size-16">
+              <Shield className="text-foreground size-8" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+            <h3 className="text-2xl font-bold mb-4">
               Built for groups
             </h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               Whether it's roommates, travel buddies, or project teams -
               designed for any group size with privacy and security first.
             </p>
             <div className="space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="size-4 text-emerald-500" />
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="size-4 text-primary" />
                 <span>Sync across all devices</span>
               </div>
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <CheckCircle className="size-4 text-emerald-500" />
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="size-4 text-primary" />
                 <span>Set your own privacy levels</span>
               </div>
             </div>

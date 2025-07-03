@@ -93,15 +93,15 @@ export default function SettingsPage() {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-slate-900 dark:via-emerald-900/20 dark:to-teal-900/20">
+    <div className="min-h-screen bg-background">
       <div className="container max-w-4xl mx-auto px-4 py-8">
         <SubHeader />
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold">
               Settings
             </h1>
-            <p className="text-slate-600 dark:text-slate-300 mt-1">
+            <p className="text-muted-foreground mt-1">
               Customize your expense tracking experience
             </p>
           </div>
@@ -120,10 +120,10 @@ export default function SettingsPage() {
           <CurrencySettings {...{ updateSettings }} />
 
           {/* Privacy & Security */}
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-blue-900/20">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Shield className="size-5 text-blue-600" />
+                <Shield className="size-5 text-primary" />
                 Privacy & Security
               </CardTitle>
               <CardDescription>
@@ -166,10 +166,10 @@ export default function SettingsPage() {
           </Card>
 
           {/* Data Management */}
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-yellow-50 dark:from-slate-800 dark:to-yellow-900/20">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Download className="size-5 text-yellow-600" />
+                <Download className="size-5 text-primary" />
                 Data Management
               </CardTitle>
               <CardDescription>Export or clear your data</CardDescription>
@@ -185,7 +185,7 @@ export default function SettingsPage() {
                 <Button
                   variant="outline"
                   onClick={exportData}
-                  className="border-emerald-200 text-emerald-700"
+                  className="border-primary text-primary"
                 >
                   <Download className="size-4 mr-2" />
                   Export
@@ -196,7 +196,7 @@ export default function SettingsPage() {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label className="text-red-600">Clear All Data</Label>
+                  <Label className="text-destructive">Clear All Data</Label>
                   <p className="text-sm text-muted-foreground">
                     Permanently delete all events and settings
                   </p>

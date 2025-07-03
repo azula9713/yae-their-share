@@ -62,10 +62,10 @@ export default function CurrencySettings({ updateSettings }: Readonly<Props>) {
   };
 
   return (
-    <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-emerald-50 dark:from-slate-800 dark:to-emerald-900/20">
+    <Card className="border shadow-sm bg-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <DollarSign className="size-5 text-emerald-600" />
+          <DollarSign className="size-5 text-primary" />
           Currency & Formatting
         </CardTitle>
         <CardDescription>
@@ -188,8 +188,8 @@ export default function CurrencySettings({ updateSettings }: Readonly<Props>) {
           </div>
         </div>
 
-        <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-          <p className="text-sm font-medium text-emerald-800 dark:text-emerald-200 mb-2">
+        <div className="p-4 bg-muted/50 rounded-lg border">
+          <p className="text-sm font-medium text-foreground mb-2">
             Preview:
           </p>
           <div className="space-y-1 text-sm">

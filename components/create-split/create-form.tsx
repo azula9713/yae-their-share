@@ -121,7 +121,7 @@ export default function CreateForm() {
         >
           {creatingSplit ? "Creating..." : "Create Split"}
           {createSplitError && (
-            <span className="text-red-500 ml-2">
+            <span className="text-destructive ml-2">
               {createSplitError.message}
             </span>
           )}

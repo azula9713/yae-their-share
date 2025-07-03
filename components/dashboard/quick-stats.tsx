@@ -18,7 +18,7 @@ export default function QuickStats({
       <StatData
         {...{
           icon: (
-            <DollarSign className="text-emerald-600 dark:text-emerald-400 size-5" />
+            <DollarSign className="text-primary size-5" />
           ),
           title: "Total Splits",
           value: totalAmount.toFixed(0),
@@ -28,7 +28,7 @@ export default function QuickStats({
       <StatData
         {...{
           icon: (
-            <Receipt className="text-blue-600 dark:text-blue-400 size-5" />
+            <Receipt className="text-primary size-5" />
           ),
           title: "Total Expenses",
           value: totalExpenses,
@@ -38,7 +38,7 @@ export default function QuickStats({
       <StatData
         {...{
           icon: (
-            <Users className="text-purple-600 dark:text-purple-400 size-5" />
+            <Users className="text-primary size-5" />
           ),
           title: "People Involved",
           value: uniqueParticipants.size,

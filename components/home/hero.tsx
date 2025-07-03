@@ -13,13 +13,13 @@ export default function Hero() {
       <div className="inline-flex items-center justify-center mb-6">
         <Image src={Logo} alt="Split Expenses Logo" />
       </div>
-      <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
+      <h1 className="text-4xl font-bold mb-4">
         Split expenses{" "}
-        <span className="text-emerald-600 dark:text-emerald-400">
+        <span className="text-primary">
           effortlessly
         </span>
       </h1>
-      <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
+      <p className="text-lg text-muted-foreground mb-8">
         Track shared expenses, calculate who owes what, and settle up with
         clarity and confidence.
       </p>
@@ -28,7 +28,7 @@ export default function Hero() {
         <Link href="/create-split">
           <Button
             size="lg"
-            className="h-11 px-6 bg-emerald-600 hover:bg-emerald-700"
+            className="h-11 px-6"
           >
             <PlusCircle className="size-4 mr-2" />
             Start Splitting
@@ -39,7 +39,7 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="h-11 px-6 border-emerald-200 text-emerald-600 hover:bg-emerald-500 dark:border-emerald-800 dark:text-emerald-50"
+              className="h-11 px-6"
             >
               <LayoutDashboard className="size-4 mr-2" />
               View Dashboard

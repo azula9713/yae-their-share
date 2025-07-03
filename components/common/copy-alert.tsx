@@ -5,9 +5,9 @@ import { Alert, AlertDescription } from "../ui/alert";
 
 export default function CopyAlert() {
   return (
-    <Alert className="mb-6 border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-900/20">
-      <CheckCircle className="text-emerald-600 size-4" />
-      <AlertDescription className="text-emerald-700 dark:text-emerald-300">
+    <Alert className="mb-6 border-primary/20 bg-primary/5">
+      <CheckCircle className="text-primary size-4" />
+      <AlertDescription className="text-primary">
         Split URL copied to clipboard! Share it with your group members.
       </AlertDescription>
     </Alert>
