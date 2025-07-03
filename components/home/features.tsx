@@ -79,7 +79,7 @@ export default function Features() {
               Built for groups
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Whether it's roommates, travel buddies, or project teams -
+              Whether it&apos;s roommates, travel buddies, or project teams -
               designed for any group size with privacy and security first.
             </p>
             <div className="space-y-2">

@@ -3,13 +3,10 @@ import {
   Calendar,
   ChevronRight,
   Clock,
-  Copy,
   DollarSign,
   Eye,
   Lock,
-  MoreVertical,
   Receipt,
-  Share2,
   Trash2,
   Users,
 } from "lucide-react";
@@ -18,17 +15,12 @@ import { useRouter } from "next/navigation";
 
 import { ISplit } from "@/types/split.types";
 
+import ShareMenu from "../common/share-menu";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import ShareMenu from "../common/share-menu";
+
+
 
 type Props = {
   splits: ISplit[];
