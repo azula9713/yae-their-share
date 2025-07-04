@@ -4,12 +4,16 @@ import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { ISplit } from "@/types/split.types";
 
-export function useFetchAllSplits({ userId }: { userId: string }) {
+export function useFetchAllSplits({ userId }: { userId?: string }) {
   const convex = useConvex();
 
   return useQuery({
     queryKey: ["splits", userId],
     queryFn: async () => {
+      if (!userId) {
+        return [];
+      }
+      
       try {
         const splits = await convex.query(api.splits.getSplitsByUserId, {
           userId,
@@ -20,7 +24,7 @@ export function useFetchAllSplits({ userId }: { userId: string }) {
         return [];
       }
     },
-
+    enabled: !!userId, // Only run the query when userId is available
     gcTime: 24 * 60 * 60 * 1000,
   });
 }

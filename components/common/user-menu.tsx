@@ -74,10 +74,16 @@ export function UserMenu() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {user?.isAnonymous ? (
-              <DropdownMenuItem onClick={handleLogout}>
-                <Sparkles className="mr-2 size-4" />
-                <span>Start a new session</span>
-              </DropdownMenuItem>
+              <>
+                <DropdownMenuItem onClick={() => router.push("/login")}>
+                  <Sparkles className="mr-2 size-4" />
+                  <span>Save Data Permanently</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <Sparkles className="mr-2 size-4" />
+                  <span>Start a new session</span>
+                </DropdownMenuItem>
+              </>
             ) : (
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 size-4" />

@@ -4,7 +4,7 @@ import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { ISplit } from "@/types/split.types";
 
-export function useCreateSplit(userId: string) {
+export function useCreateSplit(userId?: string) {
   const convex = useConvex();
   const queryClient = useQueryClient();
 
@@ -22,6 +22,9 @@ export function useCreateSplit(userId: string) {
         splitBetween: string[];
       }>;
     }) => {
+      if (!userId) {
+        throw new Error("User ID is required to create a split");
+      }
       return await convex.mutation(api.splits.createSplit, {
         ...splitData,
         createdBy: userId,
@@ -29,6 +32,8 @@ export function useCreateSplit(userId: string) {
     },
 
     onMutate: async (variables) => {
+      if (!userId) return;
+      
       // Cancel outgoing refetches
       await queryClient.cancelQueries({ queryKey: ["splits", userId] });
 
@@ -73,7 +78,7 @@ export function useCreateSplit(userId: string) {
   });
 }
 
-export function useUpdateSplit(userId: string) {
+export function useUpdateSplit(userId?: string) {
   const convex = useConvex();
   const queryClient = useQueryClient();
 
@@ -91,14 +96,20 @@ export function useUpdateSplit(userId: string) {
         splitBetween: string[];
       }>;
     }) => {
+      if (!userId) {
+        throw new Error("User ID is required to update a split");
+      }
       await convex.mutation(api.splits.updateSplit, {
         ...variables,
         splitId: variables.splitId,
         updatedBy: userId,
+        isPrivate: false, // Add missing required field
       });
       return variables.splitId;
     },
     onMutate: async (variables) => {
+      if (!userId) return;
+      
       await queryClient.cancelQueries({ queryKey: ["splits", userId] });
 
       const previousSplits = queryClient.getQueryData([
@@ -137,7 +148,7 @@ export function useUpdateSplit(userId: string) {
   });
 }
 
-export function useDeleteSplit(userId: string) {
+export function useDeleteSplit(userId?: string) {
   const convex = useConvex();
   const queryClient = useQueryClient();
 
@@ -148,6 +159,8 @@ export function useDeleteSplit(userId: string) {
     },
 
     onMutate: async (splitId) => {
+      if (!userId) return;
+      
       await queryClient.cancelQueries({ queryKey: ["splits", userId] });
 
       const previousSplits = queryClient.getQueryData([

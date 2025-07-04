@@ -14,7 +14,7 @@ type Props = {
 
 export default function useSplit({ splitId }: Readonly<Props>) {
   const { data: user } = useGetCurrentUser();
-  const updateSplitMutation = useUpdateSplit(user?.id!);
+  const updateSplitMutation = useUpdateSplit(user?.id);
   const { isPending: updatePending, isError: updateError } =
     updateSplitMutation;
   const { data: split, isLoading, error, refetch } = useFetchSplit(splitId);
@@ -24,30 +24,30 @@ export default function useSplit({ splitId }: Readonly<Props>) {
 
   const router = useRouter();
 
-  const getCurrentSplit = async () => {
-    try {
-      const currentSplit = await refetch();
-      if (!currentSplit.data) {
-        console.error("ISplit not found:", splitId);
-        router.push("/?error=split-not-found");
-        return;
-      }
-    } catch (error) {
-      console.error("Error loading split:", error);
-      router.push("/?error=loading-error");
-    }
-  };
-
   useEffect(() => {
+    const getCurrentSplit = async () => {
+      try {
+        const currentSplit = await refetch();
+        if (!currentSplit.data) {
+          console.error("ISplit not found:", splitId);
+          router.push("/?error=split-not-found");
+          return;
+        }
+      } catch (error) {
+        console.error("Error loading split:", error);
+        router.push("/?error=loading-error");
+      }
+    };
+
     if (splitId && user) getCurrentSplit();
-  }, [splitId, router, user]);
+  }, [splitId, user, refetch, router]);
 
   const saveSplit = (updatedSplit: ISplit) => {
     const {
       _creationTime,
       _id,
-      createdBy,
-      createdAt,
+      createdBy: _createdBy,
+      createdAt: _createdAt,
       ...sanitizedUpdatedSplit
     } = updatedSplit;
     updateSplitMutation.mutate(

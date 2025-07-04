@@ -27,7 +27,7 @@ export default function CreateForm() {
     mutate: createSplit,
     isPending: creatingSplit,
     error: createSplitError,
-  } = useCreateSplit(user?.id!);
+  } = useCreateSplit(user?.id);
 
   const submitButtonDisabled =
     !eventName || !noOfMembers || creatingSplit || !user?.id;

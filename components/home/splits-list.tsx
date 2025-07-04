@@ -26,7 +26,7 @@ export default function SplitsList() {
     error,
     refetch,
   } = useFetchAllSplits({
-    userId: userId!,
+    userId: userId,
   });
 
   if (isLoading) {

@@ -2,7 +2,7 @@
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery } from "convex/react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/convex/_generated/api";
+import { useAnonymousDataMigration } from "@/hooks/user/use-anonymous-data-migration";
 import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function LoginPage() {
@@ -25,6 +26,7 @@ export default function LoginPage() {
   const { signIn } = useAuthActions();
   const isAuthenticated = useQuery(api.auth.isAuthenticated);
   const { data: user } = useGetCurrentUser();
+  const { storeAnonymousDataForMigration } = useAnonymousDataMigration();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,7 +36,16 @@ export default function LoginPage() {
     setError("");
 
     try {
-      await signIn("google")
+      // Store anonymous user info before signing in, if exists
+      if (user?.isAnonymous) {
+        storeAnonymousDataForMigration(user);
+      }
+      
+      console.log("Starting Google login for user:", user?.isAnonymous ? "anonymous" : "existing");
+      
+      // Sign in with Google
+      await signIn("google");
+      
     } catch (err) {
       setError("Login failed. Please try again.");
       console.error("Login error:", err);
@@ -43,8 +54,18 @@ export default function LoginPage() {
     }
   };
 
-  const handleContinueWithoutLogin = () => {
-    router.push("/");
+  const handleContinueWithoutLogin = async () => {
+    setIsLoading(true);
+    try {
+      await signIn("anonymous");
+      router.push("/");
+    } catch (err) {
+      console.error("Anonymous login error:", err);
+      // Fallback: just redirect to home
+      router.push("/");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -63,9 +84,22 @@ export default function LoginPage() {
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold">Welcome to Their Share</h1>
         <p className="text-muted-foreground mt-2">
-          Login to sync your data across devices
+          {user?.isAnonymous 
+            ? "Upgrade your temporary session to save your data permanently"
+            : "Login to sync your data across devices"
+          }
         </p>
       </div>
+
+      {user?.isAnonymous && (
+        <Alert className="mb-4">
+          <Sparkles className="size-4" />
+          <AlertDescription>
+            You currently have a temporary session with saved data. 
+            <strong> Sign in now to save it permanently!</strong>
+          </AlertDescription>
+        </Alert>
+      )}
 
       {error && (
         <Alert variant="destructive" className="mb-4">
@@ -75,8 +109,15 @@ export default function LoginPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Choose how you want to continue</CardDescription>
+          <CardTitle>
+            {user?.isAnonymous ? "Upgrade Account" : "Login"}
+          </CardTitle>
+          <CardDescription>
+            {user?.isAnonymous 
+              ? "Convert your temporary session to a permanent account"
+              : "Choose how you want to continue"
+            }
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Button
@@ -87,35 +128,54 @@ export default function LoginPage() {
             {isLoading ? (
               <div className="flex items-center gap-2">
                 <div className="size-4 border-2 border-current border-t-transparent animate-spin rounded-full"></div>
-                <span>Logging in...</span>
+                <span>
+                  {user?.isAnonymous ? "Upgrading..." : "Logging in..."}
+                </span>
               </div>
             ) : (
               <>
                 <GoogleIcon className="size-5" />
-                <span>Continue with Google</span>
+                <span>
+                  {user?.isAnonymous ? "Upgrade with Google" : "Continue with Google"}
+                </span>
               </>
             )}
           </Button>
         </CardContent>
         <CardFooter className="flex flex-col">
-          <div className="relative w-full mb-4">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">Or</span>
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={handleContinueWithoutLogin}
-          >
-            Continue without login
-          </Button>
+          {!user?.isAnonymous && (
+            <>
+              <div className="relative w-full mb-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={handleContinueWithoutLogin}
+                disabled={isLoading}
+              >
+                {isLoading ? "Creating session..." : "Continue without login"}
+              </Button>
+            </>
+          )}
           <p className="text-xs text-center text-muted-foreground mt-4">
-            If you continue without logging in, we will provide a temporary
-            session. You can log in later to save your data permanently.
+            {user?.isAnonymous ? (
+              <>
+                ✅ Your existing splits and settings will be automatically saved to your Google account.
+                <br />
+                💾 Get automatic backup and sync across all your devices.
+              </>
+            ) : (
+              <>
+                If you continue without logging in, we will provide a temporary
+                session. You can log in later to save your data permanently.
+              </>
+            )}
           </p>
         </CardFooter>
       </Card>
