@@ -83,6 +83,7 @@ export const updateSplit = mutation({
     expenses: splitSchema.expenses,
     updatedBy: splitSchema.updatedBy,
     updatedAt: splitSchema.updatedAt,
+    isPrivate: splitSchema.isPrivate,
     isDeleted: v.optional(splitSchema.isDeleted),
     deletedAt: v.optional(splitSchema.deletedAt),
   },

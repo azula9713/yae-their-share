@@ -127,7 +127,7 @@ export default function Participant({
               onClick={() => {
                 setIsEditParticipantOpen(true);
               }}
-              className="size-8 p-0"
+              className="size-8 p-0 mx-1"
             >
               <PencilIcon className="size-4 text-muted-foreground" />
               <span className="sr-only">Edit</span>
@@ -136,7 +136,7 @@ export default function Participant({
               variant="ghost"
               size="sm"
               onClick={() => removeParticipant(participant.participantId)}
-              className="size-8 p-0"
+              className="size-8 p-0 mx-1"
             >
               <Trash2 className="size-4 text-red-700" />
               <span className="sr-only">Remove</span>

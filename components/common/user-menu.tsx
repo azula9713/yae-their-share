@@ -64,7 +64,7 @@ export function UserMenu() {
               </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+            <DropdownMenuItem disabled={user?.isAnonymous} onClick={() => router.push("/dashboard")}>
               <LayoutDashboard className="mr-2 size-4" />
               <span>Dashboard</span>
             </DropdownMenuItem>
@@ -94,7 +94,7 @@ export function UserMenu() {
           className="flex items-center gap-2"
         >
           <User className="size-4" />
-          <span>Login</span>
+          <span className="">Login</span>
         </Button>
       </Unauthenticated>
     </>

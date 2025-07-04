@@ -24,12 +24,9 @@ export default function CreateEventPage() {
     };
 
     if (user !== undefined && !isAnonymous && !userEmail && !error) {
-      console.log(
-        "User is not anonymous and has no email, signing in anonymously."
-      );
       anonymousSignIn();
     }
-  }, [user]);
+  }, [error, isAnonymous, refetch, signIn, user, userEmail]);
 
   return (
     <div className="container max-w-md mx-auto px-4 py-8">
