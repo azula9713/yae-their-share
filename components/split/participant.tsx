@@ -95,7 +95,7 @@ export default function Participant({
   return (
     <Card
       key={participant.participantId}
-      className="overflow-hidden outline-primary outline-[1.5px]"
+      className="overflow-hidden bg-gray-100/10 dark:bg-black/10"
     >
       <div className="p-2 md:p-4 border-b">
         <div className="flex items-center justify-between gap-2 w-full">

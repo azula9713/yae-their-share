@@ -28,7 +28,6 @@ export default function Hero() {
         <Link href="/create-split">
           <Button
             size="lg"
-            className="h-11 px-6"
           >
             <PlusCircle className="size-4 mr-2" />
             Start Splitting
@@ -39,7 +38,6 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="h-11 px-6"
             >
               <LayoutDashboard className="size-4 mr-2" />
               View Dashboard

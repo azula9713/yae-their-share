@@ -97,7 +97,7 @@
     --secondary-foreground: 0 0% 15%;
 
     /* Subtle gray variations */
-    --muted: 0 0% 96%;
+    --muted: 0 0% 92%;
     --muted-foreground: 0 0% 45%;
 
     /* Green accent */
@@ -112,7 +112,7 @@
     --input: 0 0% 96%;
     --ring: 142 76% 36%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
   }
 
   .dark {
@@ -133,7 +133,7 @@
     --secondary-foreground: 0 0% 85%;
 
     /* Subtle gray variations for dark mode */
-    --muted: 0 0% 10%;
+    --muted: 0 0% 14%;
     --muted-foreground: 0 0% 55%;
 
     /* Green accent */
