@@ -1,19 +1,13 @@
-import {
-  Calculator,
-  CheckCircle,
-  Shield,
-  Zap,
-} from "lucide-react";
+import { Calculator, Users, Zap } from "lucide-react";
 
+import Feature from "./feature";
 
 export default function Features() {
   return (
     <div className="grid gap-8 mb-16">
       <div className="mb-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">
-            Stop the money stress
-          </h2>
+          <h2 className="text-3xl font-bold mb-4">Stop the money stress</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             No more awkward conversations, confusing spreadsheets, or math
             mistakes. Just fair, transparent expense splitting that everyone can
@@ -23,76 +17,34 @@ export default function Features() {
 
         <div className="grid gap-12 lg:grid-cols-3">
           {/* Perk 1 */}
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center rounded-2xl bg-primary/10 mb-6 size-16">
-              <Calculator className="text-primary size-8" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">
-              Perfect calculations
-            </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Automatic splitting that handles tips, taxes, and custom amounts.
-              Never worry about math errors or unfair splits again.
-            </p>
-            <div className="space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="size-4 text-primary" />
-                <span>Handles any split scenario</span>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="size-4 text-primary" />
-                <span>Precise to the penny</span>
-              </div>
-            </div>
-          </div>
+          <Feature
+            icon={<Calculator className="text-foreground size-8" />}
+            title="Perfect calculations"
+            description="Automatic splitting that handles tips, taxes, and custom amounts. Never worry about math errors or unfair splits again."
+            features={["Handles any split scenario", "Precise to the penny"]}
+          />
 
           {/* Perk 2 */}
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center rounded-2xl bg-muted mb-6 size-16">
-              <Zap className="text-foreground size-8" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">
-              Instant clarity
-            </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              See who owes what at a glance. No more digging through receipts or
-              spreadsheets. Everything is clear and transparent.
-            </p>
-            <div className="space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="size-4 text-primary" />
-                <span>Optimized settlement plans</span>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="size-4 text-primary" />
-                <span>Visualize your expenses easily</span>
-              </div>
-            </div>
-          </div>
+          <Feature
+            icon={<Zap className="text-foreground size-8" />}
+            title="Instant clarity"
+            description="See who owes what at a glance. No more digging through receipts or spreadsheets. Everything is clear and transparent."
+            features={[
+              "Optimized settlement plans",
+              "Visualize your expenses easily",
+            ]}
+          />
 
           {/* Perk 3 */}
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center rounded-2xl bg-muted mb-6 size-16">
-              <Shield className="text-foreground size-8" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">
-              Built for groups
-            </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Whether it&apos;s roommates, travel buddies, or project teams -
-              designed for any group size with privacy and security first.
-            </p>
-            <div className="space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="size-4 text-primary" />
-                <span>Sync across all devices</span>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="size-4 text-primary" />
-                <span>Set your own privacy levels</span>
-              </div>
-            </div>
-          </div>
+          <Feature
+            icon={<Users className="text-foreground size-8" />}
+            title="Built for groups"
+            description="Whether it's roommates, travel buddies, or project teams - designed for any group size with privacy and security first."
+            features={[
+              "Sync across all devices",
+              "Set your own privacy levels",
+            ]}
+          />
         </div>
 
         {/* Social Proof */}
