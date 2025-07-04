@@ -1,7 +1,11 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+"use client"
 
-import { useMigrateAnonymousUserData } from "@/hooks/user/use-anonymous-upgrade";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useConvex } from "convex/react";
+import { useEffect, useState } from "react";
+
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 interface AnonymousUser {
@@ -10,82 +14,111 @@ interface AnonymousUser {
   isAnonymous: boolean;
 }
 
-// This hook manages the migration of anonymous user data when a user upgrades to authenticated
-export function useAnonymousDataMigration() {
+interface MigrationData {
+  anonymousUserId: string;
+  anonymousUserCustomId: string;
+  timestamp: number;
+}
+
+const MIGRATION_STORAGE_KEY = 'anonymousUserMigration';
+
+// Storage utilities
+const migrationStorage = {
+  store: (data: MigrationData) => {
+    try {
+      sessionStorage.setItem(MIGRATION_STORAGE_KEY, JSON.stringify(data));
+    } catch (error) {
+      console.warn('Failed to store migration data:', error);
+    }
+  },
+  
+  retrieve: (): MigrationData | null => {
+    try {
+      const data = sessionStorage.getItem(MIGRATION_STORAGE_KEY);
+      return data ? JSON.parse(data) : null;
+    } catch (error) {
+      console.warn('Failed to retrieve migration data:', error);
+      return null;
+    }
+  },
+  
+  clear: () => {
+    try {
+      sessionStorage.removeItem(MIGRATION_STORAGE_KEY);
+    } catch (error) {
+      console.warn('Failed to clear migration data:', error);
+    }
+  }
+};
+
+// Combined anonymous user management hook
+export function useAnonymousUserManager() {
   const { data: user } = useGetCurrentUser();
-  const { mutate: migrateData } = useMigrateAnonymousUserData();
+  const convex = useConvex();
   const queryClient = useQueryClient();
+  const [migrationStatus, setMigrationStatus] = useState<'idle' | 'migrating' | 'success' | 'error'>('idle');
 
-  useEffect(() => {
-    // Check if we need to migrate data after authentication
-    const handlePostAuthMigration = async () => {
-      // Look for stored anonymous user data in session storage
-      const storedAnonymousData = sessionStorage.getItem('anonymousUserMigration');
+  // Migration mutation
+  const migrationMutation = useMutation({
+    mutationFn: async ({
+      anonymousUserId,
+      authenticatedUserId,
+    }: {
+      anonymousUserId: Id<"users">;
+      authenticatedUserId: Id<"users">;
+    }) => {
+      return await convex.mutation(api.authFunctions.migrateAnonymousUserData, {
+        anonymousUserId,
+        authenticatedUserId,
+      });
+    },
+    onSuccess: (result) => {
+      setMigrationStatus('success');
+      migrationStorage.clear();
+      queryClient.invalidateQueries();
       
-      console.log("Checking for stored anonymous data:", storedAnonymousData);
-      console.log("Current user:", user);
-      
-      if (storedAnonymousData && user && !user.isAnonymous) {
-        try {
-          const { anonymousUserId, anonymousUserCustomId: _anonymousUserCustomId } = JSON.parse(storedAnonymousData);
-          
-          console.log("Found stored anonymous data, triggering migration:", {
-            anonymousUserId,
-            authenticatedUserId: user._id,
-            userInfo: user
-          });
-
-          // Trigger the migration
-          migrateData(
-            {
-              anonymousUserId: anonymousUserId,
-              authenticatedUserId: user._id,
-            },
-            {
-              onSuccess: (result) => {
-                console.log("Data migration completed successfully:", result);
-                // Clear the stored data
-                sessionStorage.removeItem('anonymousUserMigration');
-                // Invalidate all queries to refresh data
-                queryClient.invalidateQueries();
-                
-                // Show success message
-                alert(`Migration completed! ${result.migratedSplitsCount} splits migrated.`);
-              },
-              onError: (error) => {
-                console.error("Data migration failed:", error);
-                sessionStorage.removeItem('anonymousUserMigration');
-                alert("Data migration failed. Please contact support if this issue persists.");
-              }
-            }
-          );
-        } catch (error) {
-          console.error("Error parsing stored anonymous data:", error);
-          sessionStorage.removeItem('anonymousUserMigration');
-        }
+      // Optional: Show success notification (remove alert for better UX)
+      if (result.migratedSplitsCount > 0) {
+        console.log(`Migration completed: ${result.migratedSplitsCount} splits migrated`);
       }
+    },
+    onError: (error) => {
+      setMigrationStatus('error');
+      migrationStorage.clear();
+      console.error('Migration failed:', error);
+    },
+  });
+
+  // Auto-migration effect
+  useEffect(() => {
+    if (!user || user.isAnonymous) return;
+
+    const migrationData = migrationStorage.retrieve();
+    if (!migrationData) return;
+
+    setMigrationStatus('migrating');
+    migrationMutation.mutate({
+      anonymousUserId: migrationData.anonymousUserId as Id<"users">,
+      authenticatedUserId: user._id,
+    });
+  }, [user, migrationMutation]);
+
+  // Store anonymous data for migration
+  const prepareForMigration = (anonymousUser: AnonymousUser) => {
+    if (!anonymousUser?.isAnonymous) return;
+
+    const migrationData: MigrationData = {
+      anonymousUserId: anonymousUser._id,
+      anonymousUserCustomId: anonymousUser.id,
+      timestamp: Date.now()
     };
-
-    if (user) {
-      handlePostAuthMigration();
-    }
-  }, [user, migrateData, queryClient]);
-
-  // Function to store anonymous user data before authentication
-  const storeAnonymousDataForMigration = (anonymousUser: AnonymousUser) => {
-    if (anonymousUser?.isAnonymous) {
-      const migrationData = {
-        anonymousUserId: anonymousUser._id,
-        anonymousUserCustomId: anonymousUser.id,
-        timestamp: Date.now()
-      };
-      
-      sessionStorage.setItem('anonymousUserMigration', JSON.stringify(migrationData));
-      console.log("Stored anonymous user data for migration:", migrationData);
-    }
+    
+    migrationStorage.store(migrationData);
   };
 
   return {
-    storeAnonymousDataForMigration
+    prepareForMigration,
+    migrationStatus,
+    isAnonymous: user?.isAnonymous || false,
   };
 }

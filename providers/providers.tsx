@@ -1,10 +1,18 @@
+"use client";
+
 import React from "react";
 
-import { AnonymousDataMigrationProvider } from "@/components/providers/anonymous-data-migration-provider";
+import { useAnonymousUserManager } from "@/hooks/user/use-anonymous-data-migration";
 
 import { ConvexClientProvider } from "./convex-client-provider";
 import { TanStackProviders } from "./tanstack-client-provider";
 import { ThemeProvider } from "./theme-provider";
+
+// Internal component to run the anonymous user migration logic
+function AnonymousUserManager() {
+  useAnonymousUserManager();
+  return null;
+}
 
 export default function Providers({
   children,
@@ -18,7 +26,7 @@ export default function Providers({
           enableSystem
           disableTransitionOnChange
         >
-          <AnonymousDataMigrationProvider />
+          <AnonymousUserManager />
           {children}
         </ThemeProvider>
       </TanStackProviders>

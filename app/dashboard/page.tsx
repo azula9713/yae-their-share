@@ -38,7 +38,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (isAnonymous && splits.length > 0) {
       const timer = setTimeout(() => {
-        showPrompt("Dashboard Access");
+        showPrompt();
       }, 3000);
 
       return () => clearTimeout(timer);

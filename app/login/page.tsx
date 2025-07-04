@@ -18,7 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/convex/_generated/api";
-import { useAnonymousDataMigration } from "@/hooks/user/use-anonymous-data-migration";
+import { useAnonymousUserManager } from "@/hooks/user/use-anonymous-data-migration";
 import { useGetCurrentUser } from "@/hooks/user/use-user";
 
 export default function LoginPage() {
@@ -26,7 +26,7 @@ export default function LoginPage() {
   const { signIn } = useAuthActions();
   const isAuthenticated = useQuery(api.auth.isAuthenticated);
   const { data: user } = useGetCurrentUser();
-  const { storeAnonymousDataForMigration } = useAnonymousDataMigration();
+  const { prepareForMigration } = useAnonymousUserManager();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -38,10 +38,8 @@ export default function LoginPage() {
     try {
       // Store anonymous user info before signing in, if exists
       if (user?.isAnonymous) {
-        storeAnonymousDataForMigration(user);
+        prepareForMigration(user);
       }
-      
-      console.log("Starting Google login for user:", user?.isAnonymous ? "anonymous" : "existing");
       
       // Sign in with Google
       await signIn("google");

@@ -26,9 +26,10 @@ The system allows users to:
 - `migrateAnonymousUserData`: Transfers all data from anonymous to authenticated user
 - `findAnonymousUserForUpgrade`: Helper to identify upgradeable anonymous users
 
-### 4. Frontend Hooks (`hooks/user/use-anonymous-upgrade.tsx`)
-- React hooks for managing the upgrade process
+### 4. Frontend Hooks (`hooks/user/use-anonymous-data-migration.tsx`)
+- Consolidated hook for managing anonymous user lifecycle
 - Type-safe integration with Convex mutations
+- Automatic migration handling
 
 ### 5. UI Components (`components/common/anonymous-upgrade-prompt.tsx`)
 - User-friendly upgrade prompt dialog
