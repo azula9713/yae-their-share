@@ -3,7 +3,7 @@ import { LayoutDashboard, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import Logo from "@/assets/noBgColor.png";
+import Logo from "@/assets/TheirShareFullLogo.png";
 
 import { Button } from "../ui/button";
 

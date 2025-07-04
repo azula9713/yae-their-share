@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Logo from "@/assets/noBgColor.png";
+import Logo from "@/assets/TheirShareFullLogo.png";
 
 import { ThemeToggle } from "./theme-toggle";
 import { UserMenu } from "./user-menu";
