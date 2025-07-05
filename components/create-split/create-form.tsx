@@ -35,7 +35,6 @@ export default function CreateForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Create a unique ID
     const newId = uuidv4();
 
     createSplit({
@@ -52,7 +51,6 @@ export default function CreateForm() {
       ),
     });
 
-    // Navigate to the split page
     router.push(`/split/${newId}`);
   };
 

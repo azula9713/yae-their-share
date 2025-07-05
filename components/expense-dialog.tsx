@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -64,7 +64,6 @@ export default function ExpenseDialog({
     }
   }, [open, defaultPaidBy, splitBetween]);
 
-  // Reset form when dialog closes
   useEffect(() => {
     if (!open) {
       setDescription("");
@@ -164,7 +163,10 @@ export default function ExpenseDialog({
                 </SelectTrigger>
                 <SelectContent>
                   {participants.map((participant) => (
-                    <SelectItem key={participant.participantId} value={participant.participantId}>
+                    <SelectItem
+                      key={participant.participantId}
+                      value={participant.participantId}
+                    >
                       {participant.name}
                     </SelectItem>
                   ))}
@@ -206,7 +208,9 @@ export default function ExpenseDialog({
                       onCheckedChange={(checked) =>
                         checked
                           ? addParticipantToSplit(participant.participantId)
-                          : removeParticipantFromSplit(participant.participantId)
+                          : removeParticipantFromSplit(
+                              participant.participantId
+                            )
                       }
                     />
                     <Label

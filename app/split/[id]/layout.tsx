@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type React from "react";
 
 import SubHeader from "@/components/common/sub-header";
 
@@ -13,7 +12,6 @@ export default function EventLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // return <>{children}</>
   return (
     <div className="container max-w-4xl mx-auto px-4 py-8">
       <SubHeader />

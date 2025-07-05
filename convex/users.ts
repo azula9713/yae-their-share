@@ -67,7 +67,6 @@ export const updateUserSettings = mutation({
   handler: async (ctx, args) => {
     const { userId, settings } = args;
 
-    // Find the user by ID
     const user = await ctx.db
       .query("users")
       .withIndex("by_userId", (q) => q.eq("id", userId))
@@ -76,7 +75,6 @@ export const updateUserSettings = mutation({
       throw new Error(`User with ID ${userId} not found`);
     }
 
-    // Update the user's settings
     await ctx.db.patch(user._id, {
       settings: {
         ...user.settings,

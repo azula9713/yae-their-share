@@ -14,10 +14,8 @@ import {
   Wifi,
   WifiOff,
   RefreshCw,
-  CheckCircle,
   AlertCircle,
   Clock,
-  Loader2,
   CloudCheck,
   CloudAlert,
   CloudUpload,
@@ -167,12 +165,10 @@ export function SyncStatus({
   );
 }
 
-// Mini sync indicator for headers/navbars
 export function SyncIndicator({ className }: { className?: string }) {
   return <SyncStatus compact className={className} />;
 }
 
-// Full sync status panel for settings/debug
 export function SyncStatusPanel({ className }: { className?: string }) {
   return <SyncStatus showDetails className={className} />;
 }

@@ -14,7 +14,6 @@ export default function SplitItem({ split }: Readonly<Props>) {
     0
   );
 
-  // Get split status
   const hasExpenses = split.expenses.length > 0;
 
   return (
@@ -29,9 +28,7 @@ export default function SplitItem({ split }: Readonly<Props>) {
             <DollarSign className="size-5 text-primary" />
           </div>
           <div>
-            <h3 className="font-medium">
-              {split.name}
-            </h3>
+            <h3 className="font-medium">{split.name}</h3>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <div className="flex items-center">
                 <Users className="mr-1 size-3.5" />
@@ -50,9 +47,7 @@ export default function SplitItem({ split }: Readonly<Props>) {
         <div className="flex items-center gap-3">
           {hasExpenses && (
             <div className="text-right hidden sm:block">
-              <div className="font-medium">
-                ${totalAmount.toFixed(2)}
-              </div>
+              <div className="font-medium">${totalAmount.toFixed(2)}</div>
               <div className="text-xs text-muted-foreground">
                 {split.expenses.length} expense
                 {split.expenses.length !== 1 ? "s" : ""}

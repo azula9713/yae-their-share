@@ -23,13 +23,13 @@ const splitSchema = {
       splitBetween: v.array(v.string()), // array of participant ids
     })
   ),
-  isPrivate: v.boolean(), // Optional field to indicate if the split is private
+  isPrivate: v.boolean(),
   createdBy: v.string(), // User ID of the creator
-  isDeleted: v.optional(v.boolean()), // Optional field to mark as deleted
-  deletedAt: v.optional(v.string()), // Optional field to store deletion timestamp
-  updatedAt: v.optional(v.string()), // Optional field to store last update timestamp
-  createdAt: v.optional(v.string()), // Optional field to store creation timestamp
-  updatedBy: v.optional(v.string()), // Optional field to store the user who last updated the split
+  isDeleted: v.optional(v.boolean()),
+  deletedAt: v.optional(v.string()),
+  updatedAt: v.optional(v.string()),
+  createdAt: v.optional(v.string()),
+  updatedBy: v.optional(v.string()),
 };
 
 export const splits = defineTable(splitSchema)
@@ -60,7 +60,6 @@ export const createSplit = mutation({
       throw new Error("User not found");
     }
 
-    // Ensure the createdBy matches the authenticated user
     if (args.createdBy !== user.id) {
       throw new Error("You can only create splits for yourself");
     }
@@ -118,7 +117,6 @@ export const updateSplit = mutation({
       throw new Error("Split not found");
     }
 
-    // Ensure only the creator can update their split
     if (split.createdBy !== user.id) {
       throw new Error("You can only update splits you created");
     }
@@ -166,7 +164,6 @@ export const deleteSplit = mutation({
       throw new Error("Split not found");
     }
 
-    // Ensure only the creator can delete their split
     if (split.createdBy !== user.id) {
       throw new Error("You can only delete splits you created");
     }
@@ -203,7 +200,6 @@ export const getSplitById = query({
       throw new Error(`Split not found`);
     }
 
-    // If split is private, check if user is the creator
     if (split.isPrivate) {
       const userId = await getAuthUserId(ctx);
       if (!userId) {
@@ -218,14 +214,13 @@ export const getSplitById = query({
       }
     }
 
-    // Return split if it's public or user is the creator of private split
     return split;
   },
 });
 
 export const getSplitsByUserId = query({
   args: {
-    userId: splitSchema.createdBy, // Use createdBy as userId
+    userId: splitSchema.createdBy,
   },
   handler: async (ctx, args) => {
     const { userId } = args;
@@ -243,7 +238,7 @@ export const getSplitsByUserId = query({
 
 export const getDeletedSplits = query({
   args: {
-    userId: splitSchema.createdBy, // Use createdBy as userId
+    userId: splitSchema.createdBy,
   },
   handler: async (ctx, args) => {
     const { userId } = args;

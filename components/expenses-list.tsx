@@ -33,7 +33,6 @@ export default function ExpensesList({
     );
   }
 
-  // Helper function to get participant name by id
   const getParticipantName = (id: string) => {
     const participant = participants.find((p) => p.participantId === id);
     return participant ? participant.name : "Unknown";

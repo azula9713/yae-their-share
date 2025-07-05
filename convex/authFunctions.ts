@@ -19,7 +19,6 @@ export const upgradeAnonymousUser = mutation({
     anonymousUserId: v.string(),
   },
   handler: async (ctx, args) => {
-    // Find the anonymous user
     const anonymousUser = await ctx.db
       .query("users")
       .withIndex("by_userId", (q) => q.eq("id", args.anonymousUserId))
@@ -43,8 +42,6 @@ export const upgradeAnonymousUser = mutation({
       throw new Error("No anonymous auth account found for this user");
     }
 
-    // This function will be called during SSO login to handle the upgrade
-    // The actual auth provider integration happens in the createOrUpdateUser callback
     return {
       anonymousUserId: anonymousUser._id,
       anonymousUserData: {
@@ -81,7 +78,7 @@ export const migrateAnonymousUserData = mutation({
         anonymousUserId,
         authenticatedUserId,
         anonymousUser: anonymousUser.id,
-        authenticatedUser: authenticatedUser.id
+        authenticatedUser: authenticatedUser.id,
       });
 
       // 1. Migrate user settings and preserve the custom ID
@@ -105,7 +102,9 @@ export const migrateAnonymousUserData = mutation({
 
       // Update all splits to point to the authenticated user
       for (const split of anonymousSplits) {
-        console.log(`Migrating split: ${split.splitId} from ${split.createdBy} to ${authenticatedUser.id}`);
+        console.log(
+          `Migrating split: ${split.splitId} from ${split.createdBy} to ${authenticatedUser.id}`
+        );
         await ctx.db.patch(split._id, {
           createdBy: authenticatedUser.id,
           updatedBy: authenticatedUser.id,

@@ -40,10 +40,8 @@ export default function LoginPage() {
       if (user?.isAnonymous) {
         prepareForMigration(user);
       }
-      
-      // Sign in with Google
+
       await signIn("google");
-      
     } catch (err) {
       setError("Login failed. Please try again.");
       console.error("Login error:", err);
@@ -59,7 +57,7 @@ export default function LoginPage() {
       router.push("/");
     } catch (err) {
       console.error("Anonymous login error:", err);
-      // Fallback: just redirect to home
+      // Fallback Scenario
       router.push("/");
     } finally {
       setIsLoading(false);
@@ -82,10 +80,9 @@ export default function LoginPage() {
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold">Welcome to Their Share</h1>
         <p className="text-muted-foreground mt-2">
-          {user?.isAnonymous 
+          {user?.isAnonymous
             ? "Upgrade your temporary session to save your data permanently"
-            : "Login to sync your data across devices"
-          }
+            : "Login to sync your data across devices"}
         </p>
       </div>
 
@@ -93,7 +90,7 @@ export default function LoginPage() {
         <Alert className="mb-4">
           <Sparkles className="size-4" />
           <AlertDescription>
-            You currently have a temporary session with saved data. 
+            You currently have a temporary session with saved data.
             <strong> Sign in now to save it permanently!</strong>
           </AlertDescription>
         </Alert>
@@ -111,10 +108,9 @@ export default function LoginPage() {
             {user?.isAnonymous ? "Upgrade Account" : "Login"}
           </CardTitle>
           <CardDescription>
-            {user?.isAnonymous 
+            {user?.isAnonymous
               ? "Convert your temporary session to a permanent account"
-              : "Choose how you want to continue"
-            }
+              : "Choose how you want to continue"}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -134,7 +130,9 @@ export default function LoginPage() {
               <>
                 <GoogleIcon className="size-5" />
                 <span>
-                  {user?.isAnonymous ? "Upgrade with Google" : "Continue with Google"}
+                  {user?.isAnonymous
+                    ? "Upgrade with Google"
+                    : "Continue with Google"}
                 </span>
               </>
             )}
@@ -164,7 +162,8 @@ export default function LoginPage() {
           <p className="text-xs text-center text-muted-foreground mt-4">
             {user?.isAnonymous ? (
               <>
-                ✅ Your existing splits and settings will be automatically saved to your Google account.
+                ✅ Your existing splits and settings will be automatically saved
+                to your Google account.
                 <br />
                 💾 Get automatic backup and sync across all your devices.
               </>

@@ -2,10 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import {
-  AnonymousUpgradePrompt,
-  useAnonymousUpgradePrompt,
-} from "@/components/common/anonymous-upgrade-prompt";
+import AnonymousUpgradePrompt from "@/components/common/anonymous-upgrade-prompt";
 import CopyAlert from "@/components/common/copy-alert";
 import DashHeader from "@/components/common/dash-header";
 import AllSplits from "@/components/dashboard/all-splits";
@@ -18,6 +15,7 @@ import {
   getTotalExpenses,
   getUniqueParticipants,
 } from "@/utils/dashboard/dashboard-stats";
+import useAnonymousUpgradePrompt from "@/hooks/user/use-anonymous-upgrade-prompt";
 
 export default function DashboardPage() {
   const { data: user } = useGetCurrentUser();
@@ -28,18 +26,19 @@ export default function DashboardPage() {
   } = useFetchAllSplits({ userId: user?.id });
 
   const [showCopyAlert, setShowCopyAlert] = useState(false);
-  const { isOpen, showPrompt, hidePrompt, isAnonymous } = useAnonymousUpgradePrompt();
+  const { isOpen, showPrompt, hidePrompt, isAnonymous } =
+    useAnonymousUpgradePrompt();
 
   const totalExpenses = getTotalExpenses(splits);
   const totalAmount = splits.length;
   const uniqueParticipants = getUniqueParticipants(splits);
 
-  // Show upgrade prompt for anonymous users with data after 3 seconds
+  // Show upgrade prompt for anonymous users with data after 10 seconds
   useEffect(() => {
     if (isAnonymous && splits.length > 0) {
       const timer = setTimeout(() => {
         showPrompt();
-      }, 3000);
+      }, 10000);
 
       return () => clearTimeout(timer);
     }
@@ -56,7 +55,7 @@ export default function DashboardPage() {
   return (
     <>
       {showCopyAlert && <CopyAlert />}
-      
+
       <AnonymousUpgradePrompt
         isOpen={isOpen}
         onClose={hidePrompt}

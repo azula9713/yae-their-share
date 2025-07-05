@@ -22,7 +22,6 @@ import {
   useGetUserSettings,
   useUpdateUserSettings,
 } from "@/hooks/user/use-user";
-import { SyncIndicator } from "@/components/sync/sync-status";
 import { SyncSettings } from "@/components/settings/sync-settings";
 
 export default function SettingsPage() {
@@ -160,42 +159,6 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
 
-          {/* Sync Settings */}
-          {/* <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <SyncIndicator className="size-5 text-primary" />
-                Sync Settings
-              </CardTitle>
-              <CardDescription>Manage your sync preferences</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Enable Sync</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Keep your data synced across devices
-                  </p>
-                </div>
-                <Switch
-                  checked={privacySettings.enableSync}
-                  onCheckedChange={
-                    (checked) => {}
-                    // updateSetting("privacy.enableSync", checked)
-                  }
-                />
-              </div>
-
-              <Separator />
-
-              <div className="text-sm text-muted-foreground">
-                Syncing requires an account.{" "}
-                <a href="/login" className="text-primary hover:underline">
-                  Log in to enable sync
-                </a>
-              </div>
-            </CardContent>
-          </Card> */}
           <SyncSettings />
 
           {/* Data Management */}

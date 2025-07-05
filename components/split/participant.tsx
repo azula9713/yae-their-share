@@ -118,7 +118,6 @@ export default function Participant({
             )}
 
             {updatePending && (
-              // animated sync icon
               <RefreshCcw className="size-4 animate-spin text-green-500 ml-2" />
             )}
             <Button
