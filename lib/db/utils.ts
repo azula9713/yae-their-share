@@ -29,8 +29,7 @@ export const dbManagement = {
         .count();
 
       const locallyModifiedSplits = await db.splits
-        .where("locallyModified")
-        .equals(1)
+        .filter((split) => split.locallyModified === true)
         .count();
 
       return {

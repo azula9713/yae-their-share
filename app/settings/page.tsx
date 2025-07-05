@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  AlertTriangle,
-  Download,
-  Shield,
-  Trash2,
-} from "lucide-react";
+import { AlertTriangle, Download, Shield, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 
 import SubHeader from "@/components/common/sub-header";
@@ -27,6 +22,8 @@ import {
   useGetUserSettings,
   useUpdateUserSettings,
 } from "@/hooks/user/use-user";
+import { SyncIndicator } from "@/components/sync/sync-status";
+import { SyncSettings } from "@/components/settings/sync-settings";
 
 export default function SettingsPage() {
   const { data: user } = useGetCurrentUser();
@@ -98,9 +95,7 @@ export default function SettingsPage() {
         <SubHeader />
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold">
-              Settings
-            </h1>
+            <h1 className="text-3xl font-bold">Settings</h1>
             <p className="text-muted-foreground mt-1">
               Customize your expense tracking experience
             </p>
@@ -164,6 +159,44 @@ export default function SettingsPage() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Sync Settings */}
+          {/* <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <SyncIndicator className="size-5 text-primary" />
+                Sync Settings
+              </CardTitle>
+              <CardDescription>Manage your sync preferences</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Enable Sync</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Keep your data synced across devices
+                  </p>
+                </div>
+                <Switch
+                  checked={privacySettings.enableSync}
+                  onCheckedChange={
+                    (checked) => {}
+                    // updateSetting("privacy.enableSync", checked)
+                  }
+                />
+              </div>
+
+              <Separator />
+
+              <div className="text-sm text-muted-foreground">
+                Syncing requires an account.{" "}
+                <a href="/login" className="text-primary hover:underline">
+                  Log in to enable sync
+                </a>
+              </div>
+            </CardContent>
+          </Card> */}
+          <SyncSettings />
 
           {/* Data Management */}
           <Card>

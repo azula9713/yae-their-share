@@ -39,7 +39,8 @@ export class TheirShareDB extends Dexie {
     super("TheirShareDB");
 
     this.version(1).stores({
-      splits: "++_id, splitId, createdBy, isDeleted, lastSyncedAt, pendingSync",
+      splits:
+        "++_id, splitId, createdBy, isDeleted, lastSyncedAt, pendingSync, locallyModified",
       syncOperations: "++id, entityId, operationType, timestamp, completed",
       syncMetadata: "++id, key",
     });

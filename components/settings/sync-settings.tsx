@@ -22,7 +22,7 @@ import {
   CheckCircle,
   Info,
 } from "lucide-react";
-import { SyncStatusPanel } from "@/components/sync/sync-status";
+import { SyncIndicator, SyncStatusPanel } from "@/components/sync/sync-status";
 import { dbManagement, devUtils } from "@/lib/db/utils";
 import { useSync } from "@/providers/sync-provider";
 
@@ -146,7 +146,7 @@ export function SyncSettings() {
   return (
     <div className="space-y-6">
       {/* Sync Status */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <RefreshCw className="h-5 w-5" />
@@ -159,12 +159,15 @@ export function SyncSettings() {
         <CardContent>
           <SyncStatusPanel />
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Sync Settings */}
       <Card>
         <CardHeader>
-          <CardTitle>Sync Settings</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <SyncIndicator className="size-5 text-primary" />
+            Sync Settings
+          </CardTitle>
           <CardDescription>Configure how data is synchronized</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -187,16 +190,12 @@ export function SyncSettings() {
               <RefreshCw className="h-4 w-4 mr-2" />
               Force Sync Now
             </Button>
-            <Button onClick={refreshStats} variant="outline" size="sm">
-              <Info className="h-4 w-4 mr-2" />
-              Refresh Stats
-            </Button>
           </div>
         </CardContent>
       </Card>
 
       {/* Database Statistics */}
-      {stats && (
+      {/* {stats && (
         <Card>
           <CardHeader>
             <CardTitle>Database Statistics</CardTitle>
@@ -241,61 +240,10 @@ export function SyncSettings() {
             </div>
           </CardContent>
         </Card>
-      )}
-
-      {/* Data Management */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Data Management</CardTitle>
-          <CardDescription>
-            Export, import, and manage your local data
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            <Button onClick={handleExportData} variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Export Data
-            </Button>
-
-            <div className="flex items-center gap-2">
-              <input
-                type="file"
-                accept=".json"
-                onChange={(e) => setImportFile(e.target.files?.[0] || null)}
-                className="hidden"
-                id="import-file"
-              />
-              <Label htmlFor="import-file" className="cursor-pointer">
-                <Button variant="outline" size="sm" asChild>
-                  <span>
-                    <Upload className="h-4 w-4 mr-2" />
-                    Choose File
-                  </span>
-                </Button>
-              </Label>
-              {importFile && (
-                <Button onClick={handleImportData} size="sm">
-                  Import {importFile.name}
-                </Button>
-              )}
-            </div>
-          </div>
-
-          {exportData && (
-            <Alert>
-              <CheckCircle className="h-4 w-4" />
-              <AlertDescription>
-                Data exported successfully! ({exportData.splits.length} splits,
-                exported at {new Date(exportData.exportedAt).toLocaleString()})
-              </AlertDescription>
-            </Alert>
-          )}
-        </CardContent>
-      </Card>
+      )} */}
 
       {/* Troubleshooting */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5" />
@@ -350,10 +298,10 @@ export function SyncSettings() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Development Tools */}
-      {process.env.NODE_ENV === "development" && (
+      {/* {process.env.NODE_ENV === "development" && (
         <Card>
           <CardHeader>
             <CardTitle>Development Tools</CardTitle>
@@ -389,7 +337,7 @@ export function SyncSettings() {
             </Alert>
           </CardContent>
         </Card>
-      )}
+      )} */}
     </div>
   );
 }
