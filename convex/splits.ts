@@ -1,5 +1,6 @@
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
+import { getAuthUserId } from "@convex-dev/auth/server";
 
 import { mutation, query } from "./_generated/server";
 
@@ -39,13 +40,6 @@ export const splits = defineTable(splitSchema)
   .index("isDeleted", ["isDeleted"])
   .index("by_createdBy_isDeleted", ["createdBy", "isDeleted"]);
 
-export const get = query({
-  args: {},
-  handler: async (ctx) => {
-    return await ctx.db.query("splits").collect();
-  },
-});
-
 export const createSplit = mutation({
   args: {
     splitId: splitSchema.splitId, // Using the schema definition directly
@@ -56,6 +50,21 @@ export const createSplit = mutation({
     createdBy: splitSchema.createdBy,
   },
   handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Authentication required to create splits");
+    }
+
+    const user = await ctx.db.get(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Ensure the createdBy matches the authenticated user
+    if (args.createdBy !== user.id) {
+      throw new Error("You can only create splits for yourself");
+    }
+
     const split = {
       date: args.date ?? new Date().toISOString(), // Use current date if not provided
       splitId: args.splitId,
@@ -90,6 +99,16 @@ export const updateSplit = mutation({
   handler: async (ctx, args) => {
     const { splitId, ...updates } = args;
 
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Authentication required to update splits");
+    }
+
+    const user = await ctx.db.get(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     const split = await ctx.db
       .query("splits")
       .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
@@ -97,6 +116,11 @@ export const updateSplit = mutation({
 
     if (!split) {
       throw new Error("Split not found");
+    }
+
+    // Ensure only the creator can update their split
+    if (split.createdBy !== user.id) {
+      throw new Error("You can only update splits you created");
     }
 
     // Prepare updates, overriding updatedAt and deletedAt if isDeleted is set
@@ -123,6 +147,16 @@ export const deleteSplit = mutation({
   handler: async (ctx, args) => {
     const { splitId } = args;
 
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Authentication required to delete splits");
+    }
+
+    const user = await ctx.db.get(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     const split = await ctx.db
       .query("splits")
       .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
@@ -130,6 +164,11 @@ export const deleteSplit = mutation({
 
     if (!split) {
       throw new Error("Split not found");
+    }
+
+    // Ensure only the creator can delete their split
+    if (split.createdBy !== user.id) {
+      throw new Error("You can only delete splits you created");
     }
 
     await ctx.db.patch(split._id, {
@@ -147,25 +186,40 @@ export const getSplitById = query({
   handler: async (ctx, args) => {
     const { splitId, convexId } = args;
 
+    let split;
+
     if (splitId) {
-      const split = await ctx.db
+      split = await ctx.db
         .query("splits")
         .withIndex("by_splitId", (q) => q.eq("splitId", splitId))
         .first();
-      if (!split) {
-        throw new Error(`Split with ID ${splitId} not found`);
-      }
-      return split;
+    } else if (convexId) {
+      split = await ctx.db.get(convexId);
+    } else {
+      throw new Error("Either splitId or convexId must be provided");
     }
 
-    if (convexId) {
-      const split = await ctx.db.get(convexId);
-      if (!split) {
-        throw new Error(`Split with convex ID ${convexId} not found`);
-      }
-      return split;
+    if (!split) {
+      throw new Error(`Split not found`);
     }
-    throw new Error("Either splitId or convexId must be provided");
+
+    // If split is private, check if user is the creator
+    if (split.isPrivate) {
+      const userId = await getAuthUserId(ctx);
+      if (!userId) {
+        throw new Error("Access denied: This split is private");
+      }
+
+      const user = await ctx.db.get(userId);
+      if (!user || split.createdBy !== user.id) {
+        throw new Error(
+          "Access denied: You can only view private splits you created"
+        );
+      }
+    }
+
+    // Return split if it's public or user is the creator of private split
+    return split;
   },
 });
 
