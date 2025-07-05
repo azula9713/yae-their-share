@@ -51,14 +51,12 @@ const migrationStorage = {
   }
 };
 
-// Combined anonymous user management hook
 export function useAnonymousUserManager() {
   const { data: user } = useGetCurrentUser();
   const convex = useConvex();
   const queryClient = useQueryClient();
   const [migrationStatus, setMigrationStatus] = useState<'idle' | 'migrating' | 'success' | 'error'>('idle');
 
-  // Migration mutation
   const migrationMutation = useMutation({
     mutationFn: async ({
       anonymousUserId,

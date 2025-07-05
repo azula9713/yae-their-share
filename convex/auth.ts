@@ -39,8 +39,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
           return existingUser._id;
         }
         
-        // For anonymous users, we'll handle the migration separately
-        // Just create the new authenticated user here
+        // For anonymous users, we handle the migration separately
       }
 
       console.log("Creating a new user in the database.");

@@ -5,6 +5,7 @@ import { Authenticated, Unauthenticated } from "convex/react";
 import {
   LayoutDashboard,
   LogOut,
+  Server,
   Settings,
   Sparkles,
   User,
@@ -64,7 +65,7 @@ export function UserMenu() {
               </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem disabled={user?.isAnonymous} onClick={() => router.push("/dashboard")}>
+            <DropdownMenuItem onClick={() => router.push("/dashboard")}>
               <LayoutDashboard className="mr-2 size-4" />
               <span>Dashboard</span>
             </DropdownMenuItem>
@@ -77,10 +78,12 @@ export function UserMenu() {
               <>
                 <DropdownMenuItem onClick={() => router.push("/login")}>
                   <Sparkles className="mr-2 size-4" />
-                  <span>Save Data Permanently</span>
+                  <span>
+                    Upgrade account
+                  </span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
-                  <Sparkles className="mr-2 size-4" />
+                  <Server className="mr-2 size-4" />
                   <span>Start a new session</span>
                 </DropdownMenuItem>
               </>
